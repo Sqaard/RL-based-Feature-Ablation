@@ -80,9 +80,8 @@ The core hypothesis was that **feature quality is paramount**. We engineered pre
 
 This repository forms the **validated core AI engine** for the financial co-pilot. The immediate next steps are:
 
-1.  **Implement Robust Validation:** Integrate a validation dataset and early stopping to automatically find the optimal training checkpoint and prevent overfitting.
-2.  **Build the Personalization Layer:** Develop the interface to map user risk profiles (e.g., "Conservative", "Balanced Growth", "Aggressive") to specific RL agent configurations (e.g., risk aversion parameter `λ`, target volatility `σ_tgt`).
-3.  **Develop API Integration:** Refactor the architecture into a modular system ready to connect to live brokerage APIs (e.g., Tinkoff Invest API) for paper and live trading.
+-  **Build the Personalization Layer:** Develop the interface to map user risk profiles (e.g., "Conservative", "Balanced Growth", "Aggressive") to specific RL agent configurations (e.g., risk aversion parameter `λ`, target volatility `σ_tgt`)
+-  **Develop API Integration:** Refactor the architecture into a modular system ready to connect to live brokerage APIs (e.g., Tinkoff Invest API) for paper and live trading.
 
 ---
 
