@@ -2,8 +2,6 @@
 
 The project investigates how **Reinforcement Learning (RL)** combined with **deep learning feature extraction (GRU)** can create dynamic, personalized trading strategies that adapt to market conditions and user-defined risk profiles.
 
-> *Investing shouldn't be a choice between a snail and a rollercoaster. This is the engine for the self-driving car.*
-
 ---
 
 ## 🎯 Project Overview & Key Findings
