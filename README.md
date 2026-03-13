@@ -87,41 +87,6 @@ Additional ablation experiments on the strongest validation model (`zhang_custom
 
 These settings were then used for the broader comparison across the remaining model configurations.
 
-## Repository Structure
-
-```text
-RL_for_financial_time_series_forecasting/
-│
-├── Data_preprocessing.ipynb
-│   Prepares the final dataset:
-│   technical indicators, WRDS features, GRU forecasts,
-│   HMM market regime variables.
-│
-├── Experiments.ipynb
-│   Main research notebook for training, validation,
-│   frozen test evaluation, ablation studies, and model comparison.
-│
-├── comparison_outputs/
-│   Final experiment tables and merged datasets for analysis and plotting.
-│   ├── mode1_summary_with_baselines.csv
-│   ├── mode1_period_summary_with_baselines.csv
-│   └── mode1_long_curves_with_baselines.csv
-│
-├── paper_figures/
-│   Figures used for analysis and paper/report writing.
-│   ├── 01_validation_vs_test_sharpe.png
-│   ├── 02_validation_vs_test_return.png
-│   ├── 03_test_risk_return_scatter.png
-│   ├── 04_validation_mean_equity_curves.png
-│   ├── 05_test_mean_equity_curves.png
-│   ├── 06_test_drawdown_curves.png
-│   ├── 07_policy_family_test_sharpe.png
-│   ├── 08_reward_family_test_sharpe.png
-│   └── aggregated_config_metrics.csv
-│
-└── README.md
-```text
-
 ## Main Outputs
 
 The repository currently contains:
@@ -160,3 +125,38 @@ Planned future extensions include:
 ---
 
 This README documents the current research baseline and will be extended as the project evolves.
+
+## Repository Structure
+
+```text
+RL_for_financial_time_series_forecasting/
+│
+├── Data_preprocessing.ipynb
+│   Prepares the final dataset:
+│   technical indicators, WRDS features, GRU forecasts,
+│   HMM market regime variables.
+│
+├── Experiments.ipynb
+│   Main research notebook for training, validation,
+│   frozen test evaluation, ablation studies, and model comparison.
+│
+├── comparison_outputs/
+│   Final experiment tables and merged datasets for analysis and plotting.
+│   ├── mode1_summary_with_baselines.csv
+│   ├── mode1_period_summary_with_baselines.csv
+│   └── mode1_long_curves_with_baselines.csv
+│
+├── paper_figures/
+│   Figures used for analysis and paper/report writing.
+│   ├── 01_validation_vs_test_sharpe.png
+│   ├── 02_validation_vs_test_return.png
+│   ├── 03_test_risk_return_scatter.png
+│   ├── 04_validation_mean_equity_curves.png
+│   ├── 05_test_mean_equity_curves.png
+│   ├── 06_test_drawdown_curves.png
+│   ├── 07_policy_family_test_sharpe.png
+│   ├── 08_reward_family_test_sharpe.png
+│   └── aggregated_config_metrics.csv
+│
+└── README.md
+
