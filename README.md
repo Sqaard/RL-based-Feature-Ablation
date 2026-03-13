@@ -1,87 +1,161 @@
-# RL For Financial Time-Series Forecasting 
+# RL for Financial Time-Series Forecasting
 
-The project investigates how **Reinforcement Learning (RL)** combined with **deep learning feature extraction (GRU)** can create dynamic, personalized trading strategies that adapt to market conditions and user-defined risk profiles.
+This repository contains a research pipeline for **reinforcement learning in portfolio trading** on **Dow 30** stocks.  
+The current version focuses on a **research-clean experimental setup**: feature engineering, market regime detection, reward design, policy architecture comparison, validation/test separation, and benchmark evaluation against **DJI** and **Buy-and-Hold**.
+
+## Project Scope
+
+The project studies whether a trading agent can be improved by combining:
+
+- **technical indicators**
+- **WRDS-based market features**
+- **GRU-based short-horizon forecasts**
+- **market regime features from HMM**
+- **custom reward functions**
+- **custom policy networks**
+
+The main RL algorithm used in the current stage is **PPO** within the **FinRL** framework.
+
+## What Is Implemented Now
+
+### Data Preprocessing
+
+The dataset is built on **Dow 30** constituents and enriched with additional features from **WRDS**.
+
+The preprocessing pipeline currently includes:
+
+- standard market and technical features
+- **GRU forecasts for 1–5 days ahead**
+- **macro and regime features**
+- **causal HMM-based market regime detection**
+- final state construction for RL training
+
+The HMM block is trained only on the training interval and applied in a **past-only** manner to avoid information leakage.
+
+### RL Environments
+
+Several trading environments are compared:
+
+- **FinRL default reward**
+- **Zhang reward**
+- **custom quadratic-utility reward**
+
+The custom reward is designed to penalize overly aggressive behavior and better reflect risk-sensitive portfolio management.
+
+### Policy Architectures
+
+Two policy families are compared:
+
+- **default FinRL policy**
+- **custom policy network** with a larger feature extractor and optional dropout
+
+The custom architecture is used because the state space is high-dimensional, and a very small default network may compress informative structure too aggressively.
+
+### Experimental Protocol
+
+The experiments use a strict time-based split:
+
+- **Train:** `2010-01-01` → `2021-10-01`
+- **Validation:** `2021-10-01` → `2022-01-03`
+- **Frozen test:** `2022-01-03` → `2023-03-01`
+
+This setup separates:
+
+- model fitting
+- model selection
+- final out-of-sample evaluation
+
+To improve training stability, the project also studies:
+
+- **early stopping**
+- **dropout**
+- **multiple random seeds**
+
+## Current Findings
+
+The current results show a clear pattern:
+
+- several RL configurations perform well on **validation**
+- however, **none of the tested RL models outperform DJI or Buy-and-Hold on the frozen test**
+- this indicates that the main challenge is **out-of-sample generalization**, not just reward design or network size
+
+Additional ablation experiments on the strongest validation model (`zhang_custom`) showed that:
+
+- the original **current early stopping** setting was too aggressive
+- a more relaxed stopping rule works better
+- **dropout = 0.1** is preferable to no dropout in the tested setup
+
+These settings were then used for the broader comparison across the remaining model configurations.
+
+## Repository Structure
+
+```text
+RL_for_financial_time_series_forecasting/
+│
+├── Data_preprocessing.ipynb
+│   Prepares the final dataset:
+│   technical indicators, WRDS features, GRU forecasts,
+│   HMM market regime variables.
+│
+├── Experiments.ipynb
+│   Main research notebook for training, validation,
+│   frozen test evaluation, ablation studies, and model comparison.
+│
+├── comparison_outputs/
+│   Final experiment tables and merged datasets for analysis and plotting.
+│   ├── mode1_summary_with_baselines.csv
+│   ├── mode1_period_summary_with_baselines.csv
+│   └── mode1_long_curves_with_baselines.csv
+│
+├── paper_figures/
+│   Figures used for analysis and paper/report writing.
+│   ├── 01_validation_vs_test_sharpe.png
+│   ├── 02_validation_vs_test_return.png
+│   ├── 03_test_risk_return_scatter.png
+│   ├── 04_validation_mean_equity_curves.png
+│   ├── 05_test_mean_equity_curves.png
+│   ├── 06_test_drawdown_curves.png
+│   ├── 07_policy_family_test_sharpe.png
+│   ├── 08_reward_family_test_sharpe.png
+│   └── aggregated_config_metrics.csv
+│
+└── README.md
+
+## Main Outputs
+
+The repository currently contains:
+
+- merged summary tables for all tested configurations
+- benchmark comparison against **DJI** and **Buy-and-Hold**
+- long-format daily portfolio curves for plotting
+- aggregated figures for validation/test comparison
+
+## Tech Stack
+
+- **Python**
+- **PyTorch**
+- **FinRL**
+- **Stable-Baselines3**
+- **pandas / NumPy**
+- **hmmlearn**
+- **yfinance**
+
+## Notes
+
+This repository is at the **research stage**, not production deployment.  
+The current focus is on building a reliable experimental framework and understanding why validation improvements do not yet transfer to frozen test performance.
+
+## Next Steps
+
+Planned future extensions include:
+
+- stronger walk-forward validation
+- more realistic trading constraints
+- improved benchmark design
+- better robustness across market regimes
+- integration with broker APIs for paper/live trading
+- continued work on feature engineering, reward shaping, and model selection
 
 ---
 
-## 🎯 Project Overview & Key Findings
-
-The core hypothesis was that **feature quality is paramount**. We engineered predictive features using a Gated Recurrent Unit (GRU) network and compared their effectiveness against traditional technical indicators within various RL environments.
-
-**The Key Result:** The **PPO agent trained on GRU features** significantly outperformed both a baseline model using standard indicators and a complex ensemble of five different RL algorithms. This validates GRU-based features as a superior signal for RL-driven trading.
-
-### 🏆 Performance Snapshot
-
-| Model / Metric | Annual Return | Sharpe Ratio | Key Comparison & Insight |
-| :--- | :--- | :--- | :--- |
-| **Best RL Agent (10k steps)**<br>*FinRL Env, FinRL Policy* | **-1.64%** | **-0.36** | • **Most stable baseline**: Loss was **7.56 p.p. less severe** than DJI's -9.20%.<br>• Demonstrates the reliability of standard components with limited training. |
-| **Best RL Agent (50k steps)**<br>*Zhang Env, Custom Policy* | **-3.53%** | **-0.15** | • **Best Sharpe Ratio** after extended training.<br>• **More resilient than the market**: Loss was **5.67 p.p. less severe** than DJI.<br>• Shows custom policies *can* converge and improve with more data. |
-| **Ensemble Model**<br>(A2C+PPO+DDPG+SAC+TD3) | **-5.11%** | *N/A* | • **Outperformed by a single PPO+GRU agent** by 6.23 p.p.<br>• Still **4.09 p.p. more resilient** than the DJI benchmark. |
-| **DJI Index (Benchmark)** | **-9.20%** | *N/A* | Market benchmark performance during the test period. |
-
-
-*Note: Results from the test period during a general market decline.*
-
----
-```
-## 📁 Repository Structure
-├── 📓 Data_Preprocessing.ipynb # Creates the dataset. Calculates technical indicators
-│ # and adds forward-looking trends using a GRU.
-├── ⚗️ Experiments.ipynb # Main experiment notebook. Trains & evaluates all
-│ # RL agent configurations (A/B).
-├── 📊 Experiment_Results/ # All outputs, visualizations, and metrics.
-│ ├── 📈 Experiment_A_10k_Steps/ # Results for the 10,000-step training phase.
-│ │ ├── ppo_all_configurations.png # Cumulative returns chart (6 configs + DJI).
-│ │ ├── ppo_metrics_comparison.png # Bar charts comparing key metrics.
-│ │ └── ppo_metrics_summary.csv # Detailed performance table (CSV).
-│ └── 📈 Experiment_B_50k_Steps/ # Results for the extended 50,000-step training.
-│ ├── ppo_50000_all_configurations.png
-│ ├── ppo_50000_metrics_comparison.png
-│ └── ppo_50000_metrics_summary.csv
-└── 📄 README.md # This file.
-```
-
----
-
-## 🔬 Detailed Experiment Log
-
-### **Experiment A: Baseline Performance (10,000 Timesteps)**
-*   **Objective:** Establish a baseline and compare the initial performance of different reward functions and policy architectures with limited training.
-*   **Core Question:** "Which components work best *out-of-the-box*?"
-*   **State Space:** 313 (Technical Indicators + GRU-derived features).
-*   **Total Timesteps:** 10,000
-*   **Best Model:** `finrl_finrl` (Standard FinRL environment & policy).
-*   **Key Insight:** Standard components showed greater initial stability. Custom components (especially policies) underperformed, suggesting a need for more training or tuning.
-
-### **Experiment B: Extended Training & Convergence (50,000 Timesteps)**
-*   **Objective:** Investigate if longer training allows complex custom components (policy networks) to converge and improve.
-*   **Core Question:** "Do custom policies need more time to learn?"
-*   **State Space:** 313
-*   **Total Timesteps:** 50,000
-*   **Best Model:** `zhang_custom` (Zhang reward function & Custom policy network).
-*   **Key Insight:** Extended training enabled the custom policy to achieve the best Sharpe Ratio (-0.15), confirming it requires more data. However, a critical finding was a **significant increase in portfolio volatility across all models**, highlighting the risk of overfitting and the necessity for **early stopping and validation mechanisms** in production.
-
----
-
-## 🛠️ Technical Implementation
-
-*   **Reinforcement Learning Framework:** [FinRL](https://github.com/AI4Finance-Foundation/FinRL)
-*   **RL Algorithms:** Proximal Policy Optimization (PPO), with comparisons to A2C, DDPG, SAC, TD3.
-*   **Deep Learning:** PyTorch for implementing Gated Recurrent Units (GRU) to generate predictive financial features.
-*   **Environments:** Custom `StockTradingEnv` classes implementing three distinct reward functions:
-    1.  Standard FinRL reward.
-    2.  Reward from *"Deep Reinforcement Learning for Trading"* (Zhang et al.).
-    3.  Our novel reward function with a quadratic utility term.
-*   **Policy Networks:** Comparison between default FinRL networks and custom architectures (`[256, 128]` units).
-
----
-
-## 🚀 Future Work & Path to Production
-
-This repository forms the **validated core AI engine** for the financial co-pilot. The immediate next steps are:
-
--  **Build the Personalization Layer:** Develop the interface to map user risk profiles (e.g., "Conservative", "Balanced Growth", "Aggressive") to specific RL agent configurations (e.g., risk aversion parameter `λ`, target volatility `σ_tgt`)
--  **Develop API Integration:** Refactor the architecture into a modular system ready to connect to live brokerage APIs (e.g., Tinkoff Invest API) for paper and live trading.
-
----
-
+This README documents the current research baseline and will be extended as the project evolves.
