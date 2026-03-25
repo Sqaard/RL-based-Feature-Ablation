@@ -91,7 +91,6 @@ In the later walk-forward baseline:
 - the corrected report had **300 raw rows**, **210 unique run-level rows**, and **90 regime-expanded rows**,
 - the central finding was that **macro/exogenous features were more robust than HMM/GRU-style learned features**,
 - HMM and GRU are therefore currently treated as **negative controls** rather than the main route to OOS improvement,
-- the legacy run did **not** include a daily test export, so exogenous regime diagnostics could not be fully rebuilt for that historical run.
 
 This means the project’s current direction is shifting away from “more complex latent features” and toward:
 - stronger walk-forward methodology,
