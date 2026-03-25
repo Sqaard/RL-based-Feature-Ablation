@@ -1,7 +1,7 @@
 # RL for Financial Time-Series Forecasting on the Dow 30
 
 This repository contains a research pipeline for **reinforcement learning in portfolio trading** on **Dow 30** stocks.  
-The project is organized as a sequence of research stages rather than a production trading system.
+The project is organized as a sequence of research stages.
 
 The current repository documents two main lines of work:
 
