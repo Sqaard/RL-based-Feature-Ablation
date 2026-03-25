@@ -140,56 +140,6 @@ RL_for_financial_time_series_forecasting/
 
 ---
 
-## Suggested Artifact Placement
-
-### `Configuration Comparison/comparison_outputs/`
-Recommended files:
-- `mode1_combined_final_results.csv`
-- `mode1_combined_grouped_summary.csv`
-- `mode1_combined_paper_ready.csv`
-- `mode1_combined_artifact_comparison.csv`
-- `mode1_summary_with_baselines.csv`
-- `mode1_period_summary_with_baselines.csv`
-- `mode1_long_curves_with_baselines.csv`
-- `final_results_table.csv`
-- `grouped_summary_table.csv`
-- `paper_ready_table.csv`
-- `seed_stability_table.csv`
-- `artifact_comparison_table.csv`
-
-### `Ablation Ladder v1/comparison_outputs/`
-Recommended files:
-- `walk_forward_results.csv`
-- `unique_run_level_results.csv`
-- `corrected_walk_forward_summary.csv`
-- `selection_rule_comparison.csv`
-- `selection_rule_summary.csv`
-- `pairwise_permutation_tests_recomputed.csv`
-- `validation_vs_test_winner_by_fold.csv`
-- `artifact_index.json`
-- `legacy_walk_forward_regime_breakdown.csv`
-
-### `Ablation Ladder v2/comparison_outputs/`
-Keep the same structure as v1, but also include:
-- `walk_forward_daily_test_returns.csv`
-- `regime_run_level_metrics.csv`
-- `regime_summary_by_feature_set.csv`
-- `regime_summary_by_fold.csv`
-
----
-
-## What This Repository Is Not
-
-This repository is **not** currently focused on:
-- broker API integration,
-- live execution,
-- production deployment,
-- “bigger model = better model” experimentation.
-
-The near-term focus is research methodology and robust evaluation.
-
----
-
 ## Current Research Direction
 
 The most important current research question is:
