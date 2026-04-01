@@ -22,15 +22,7 @@ The repository currently documents three connected lines of work:
 
 ## Research Goal
 
-The main goal is not deployment, but **scientifically credible out-of-sample evaluation** of RL-based portfolio policies.
-
-The core question is:
-
-> Can a PPO-based trading agent learn a portfolio policy that generalizes across changing market regimes, rather than only fitting a single validation window?
-
-A second, closely related question is:
-
-> Which feature families actually improve robustness out of sample, and which only add complexity?
+The main goal is **scientifically credible out-of-sample evaluation** of RL-based portfolio policies.
 
 ---
 
