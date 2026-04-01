@@ -67,57 +67,81 @@ The current feature ladder includes:
 - `base_macro_hmm` *(negative control)*
 - `base_macro_gru` *(negative control)*
 
-## Main Findings
+## Key Results
 
-### Configuration Comparison
-The early comparison stage showed that:
-- several PPO configurations achieved strong validation Sharpe,
-- none of the tested RL models beat passive benchmarks on the frozen test,
-- the main bottleneck was therefore **out-of-sample generalization**, not simply reward design or network size.
+### 1) Configuration Comparison (single frozen test split)
 
-A useful distinction is that:
-- `zhang_custom` was the strongest **validation** candidate in the earlier focused comparison,
-- `custom_custom` later became the strongest **RL configuration overall** in the broader six-configuration comparison under the fixed stable setup,
-- but even this configuration did **not** outperform passive benchmarks on the frozen test.
+**Meaning of columns**
+- **Val Sharpe**: average validation Sharpe across seeds. Higher is better.
+- **Test Sharpe**: average frozen-test Sharpe across seeds. Higher is better.
+- **Annual Return**: average test annual return. Higher is better.
+- **MDD**: average maximum drawdown on test. Closer to 0 is better.
 
-### Early Stopping and Dropout
-A dedicated stability study showed that:
-- the original early stopping mode was too aggressive,
-- **relaxed** early stopping was more reliable,
-- **dropout = 0.1** was preferred over no dropout for the custom policy in that setting.
+| Model | Val Sharpe (mean) | Test Sharpe (mean) | Test Annual Return (mean) | Test MDD (mean) |
+|---|---:|---:|---:|---:|
+| custom_custom | 2.15 | -0.82 | -12.17% | -0.183 |
+| finrl_custom | 1.86 | -0.92 | -13.38% | -0.195 |
+| zhang_custom | 1.69 | -0.98 | -14.38% | -0.200 |
+| zhang_finrl | 2.61 | -1.42 | -1.90% | -0.023 |
+| custom_finrl | 2.79 | -1.53 | -6.10% | -0.074 |
+| finrl_finrl | 1.90 | -2.06 | -5.16% | -0.060 |
+| Buy & Hold (equal-weight) | — | **-0.33** | **-7.50%** | -0.208 |
+| DJI baseline | — | -0.42 | -9.40% | -0.219 |
 
-These settings became the default stable training setup for later experiments.
+**Takeaway:** validation looked strong, but **none of the RL models beat passive baselines on the frozen test**.
 
-### Ablation Ladder v1
-The first walk-forward baseline established the main feature-level direction of the project:
-- **macro/exogenous context was more robust than HMM/GRU-style learned features**,
-- HMM and GRU did not provide convincing evidence of stable OOS improvement,
-- both are therefore currently treated as **negative controls** rather than primary solution paths.
+---
 
-### Ablation Ladder v2
-The current Horizon A result sharpened this conclusion:
-- **`base_macro` remained the strongest robust feature set**,
-- the new causal calendar/event layer did **not** improve performance beyond the macro baseline,
-- `base_macro_gru` performed better than `base_macro_hmm`, but still did not exceed `base_macro`,
-- robust selection rules performed better than Sharpe-only selection in fold-level decision quality.
+### 2) Ablation Ladder v2 (walk-forward, 42 runs per feature set)
 
-## Current Interpretation
+**Meaning of columns**
+- **Val Sharpe**: median validation Sharpe across walk-forward runs.
+- **Test Sharpe**: median test Sharpe across walk-forward runs.
+- **Test Return**: median test return across walk-forward runs.
+- This stage is more important than the single-split stage because it uses repeated walk-forward evaluation.
 
-At this stage, the project does **not** claim that RL has already achieved reliable superiority over passive benchmarks.
+| Feature Set | Runs | Val Sharpe (median) | Test Sharpe (median) | Test Return % (median) |
+|---|---:|---:|---:|---:|
+| **base_macro** | 42 | 2.585 | **1.338** | **3.26%** |
+| base_macro_gru | 42 | 2.575 | 1.106 | 2.67% |
+| base | 42 | 2.480 | 0.944 | 2.38% |
+| base_macro_exogenous_plus | 42 | 2.508 | 0.791 | 2.04% |
+| base_macro_hmm | 42 | 2.377 | 0.547 | 1.81% |
 
-Instead, the repository should be read as a transparent research record showing:
-- what looked promising on validation,
-- what failed on frozen or walk-forward test windows,
-- which feature families appear more robust,
-- and how the experimental protocol has been redesigned to improve OOS credibility.
+**Takeaway:** the best robust feature set in v2 is **base_macro**.  
+The new calendar/event exogenous layer did **not** beat the macro baseline, and HMM remained the weakest branch.
 
-The current interpretation is:
+---
 
-1. **generalization remains the central challenge**;
-2. **macro context is currently the strongest robust signal**;
-3. **HMM/GRU-style learned extensions have not justified their added complexity**;
-4. **robust selection protocol matters more than peak validation Sharpe**;
-5. the most promising path forward lies in **feature science and evaluation design**, not in immediate architectural escalation.
+### 3) Selection Rule Comparison in Ablation Ladder v2
+
+**Meaning of columns**
+- **Selected Test Sharpe**: median test Sharpe of the feature sets chosen by the rule.
+- **Winner Match Rate**: how often the rule picked the actual test winner for that fold.
+- **Regret**: how far the selected model was from the real fold winner. Lower is better.
+
+| Selection Rule | Folds | Selected Test Sharpe (median) | Winner Match Rate | Median Regret |
+|---|---:|---:|---:|---:|
+| **robust_q25_retention** | 14 | **1.365** | **42.9%** | **0.036** |
+| robust_q25 | 14 | 0.871 | 28.6% | 0.234 |
+| sharpe_only | 14 | 0.728 | 7.1% | 0.369 |
+
+**Takeaway:** robust selection worked much better than simple Sharpe-only selection.
+
+---
+
+## Short Interpretation
+
+The project currently supports three conclusions:
+
+1. **Generalization is the main challenge**: strong validation results did not carry over to the frozen test in the earlier configuration-comparison stage.
+2. **Macro context is the strongest robust signal** in the walk-forward setting.
+3. **Selection protocol matters**: robust selection rules were more reliable than Sharpe-only selection.
+
+So the current direction of the project is not “make the network bigger”, but:
+- improve walk-forward methodology,
+- use stability-driven selection,
+- and test feature families that are more economically meaningful and robust out of sample.
 
 ## Repository Structure
 
