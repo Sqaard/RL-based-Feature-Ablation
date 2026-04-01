@@ -50,12 +50,6 @@ The robust configuration-selection rule (`robust_q25_retention`) clearly outperf
 
 This supports the Horizon A shift away from peak validation Sharpe and toward stability-driven model selection.
 
-### Regime diagnostics
-
-v2 also introduced daily test exports and exogenous regime diagnostics based on interpretable market regimes.  
-This infrastructure worked correctly, but most non-`unknown` regimes inside a 3-month test window contained too few days for stable regime-level Sharpe estimates.  
-As a result, regime diagnostics are now technically available, but still limited in statistical strength.
-
 ### Practical conclusion
 
 Ablation Ladder v2 did not produce a new feature winner beyond `base_macro`, but it still represents a meaningful step forward:
