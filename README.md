@@ -1,6 +1,6 @@
 # RL for Financial Time-Series Forecasting on the Dow 30
 
-This repository contains a research pipeline for **reinforcement learning in portfolio trading** on **Dow 30** equities. Its primary objective is not deployment, but **scientifically credible out-of-sample evaluation** of PPO-based portfolio policies under regime shift.
+This repository contains a research pipeline for **reinforcement learning in portfolio trading** on **Dow 30** equities. Its primary objective **scientifically credible out-of-sample evaluation** of PPO-based portfolio policies under regime shift.
 
 ## Project Scope
 
