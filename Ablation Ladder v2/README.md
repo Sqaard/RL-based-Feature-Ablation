@@ -62,5 +62,4 @@ Ablation Ladder v2 did not produce a new feature winner beyond `base_macro`, but
 
 1. it validated the Horizon A reporting and selection framework,
 2. it confirmed that robust selection is more reliable than Sharpe-only selection,
-3. it showed that the new causal calendar/event layer did not add value yet,
-4. and it kept the project focused on robustness, methodology, and feature science rather than premature model complexity.
+3. it showed that the new causal calendar/event layer did not add value yet.
