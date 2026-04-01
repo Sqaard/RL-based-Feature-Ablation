@@ -16,12 +16,7 @@ The repository currently documents three connected lines of work:
    Its main conclusion was that **macro/exogenous context looked more robust than HMM/GRU-style learned features**, while HMM and GRU did not justify becoming the main route to improvement.
 
 3. **Ablation Ladder v2 (current main result)**  
-   The current Horizon A stage, built around:
-   - a fixed reference PPO agent,
-   - walk-forward evaluation,
-   - robust checkpoint/configuration selection,
-   - controlled feature-family ablations,
-   - and regime-aware reporting.
+   The current Horizon A stage, built around robust checkpoint/configuration selection.
 
 ---
 
