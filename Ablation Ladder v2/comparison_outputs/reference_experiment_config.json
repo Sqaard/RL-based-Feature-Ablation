@@ -1,0 +1,30 @@
+{
+  "config_name": "custom_custom",
+  "agent_name": "DRLAgent",
+  "algorithm": "PPO",
+  "reward_mode": "custom_reward",
+  "policy_mode": "custom_mlp_policy",
+  "environment_mode": "custom_env",
+  "buy_cost_pct": 0.001,
+  "sell_cost_pct": 0.001,
+  "hmax": 100,
+  "reward_scaling": 0.0001,
+  "action_constraint": "long_only_box_[-1,1]_scaled_by_hmax",
+  "checkpoint_selection_rule": "checkpoint_robust_score",
+  "configuration_selection_rule": "robust_q25_retention",
+  "seed_list": [
+    42,
+    123,
+    999
+  ],
+  "walk_forward_schedule": {
+    "start_date": "2010-01-01",
+    "first_test_start": "2016-01-04",
+    "end_date": "2023-03-01",
+    "min_train_months": 60,
+    "inner_validation_months": 3,
+    "test_window_months": 3,
+    "step_months": 6,
+    "embargo_days": 5
+  }
+}
