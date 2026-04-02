@@ -1,0 +1,71 @@
+fold_id,feature_set,median_test_sharpe,feature_family,is_negative_control,feature_set_description
+fold_01,base,2.1410285956095354,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_01,base_macro,2.089147403970572,macro_context,False,Baseline technical features plus macro context.
+fold_01,base_macro_hmm,1.9255809653883904,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_01,base_macro_hmm_gru,2.229905724525634,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_01,full,2.5382625365617195,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_02,base,-0.7181526691846436,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_02,base_macro,0.9044651054555708,macro_context,False,Baseline technical features plus macro context.
+fold_02,base_macro_hmm,-0.3136654435326277,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_02,base_macro_hmm_gru,-0.0705376192852427,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_02,full,-0.3817153775771681,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_03,base,1.8039323515599777,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_03,base_macro,1.9530448012900063,macro_context,False,Baseline technical features plus macro context.
+fold_03,base_macro_hmm,2.021919734804918,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_03,base_macro_hmm_gru,1.9043478158801288,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_03,full,1.2212696827576206,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_04,base,4.608277276320169,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_04,base_macro,4.437427376197871,macro_context,False,Baseline technical features plus macro context.
+fold_04,base_macro_hmm,4.400215466828809,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_04,base_macro_hmm_gru,4.480619827397754,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_04,full,4.159578345207091,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_05,base,-1.0206333964288377,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_05,base_macro,-0.3733354081978019,macro_context,False,Baseline technical features plus macro context.
+fold_05,base_macro_hmm,-0.8668063402479436,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_05,base_macro_hmm_gru,-0.7651627356999138,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_05,full,-0.8112222895771863,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_06,base,4.436759082815672,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_06,base_macro,4.936928152471243,macro_context,False,Baseline technical features plus macro context.
+fold_06,base_macro_hmm,4.179076779797319,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_06,base_macro_hmm_gru,4.193575919376265,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_06,full,4.243615840442806,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_07,base,2.822972207178993,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_07,base_macro,3.25179150527683,macro_context,False,Baseline technical features plus macro context.
+fold_07,base_macro_hmm,3.3826279682042464,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_07,base_macro_hmm_gru,3.304204644378133,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_07,full,3.115331415579337,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_08,base,-1.1756751733831416,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_08,base_macro,-0.8287962287433068,macro_context,False,Baseline technical features plus macro context.
+fold_08,base_macro_hmm,-1.374739623328049,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_08,base_macro_hmm_gru,-0.764755085162915,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_08,full,-0.8590520186844999,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_09,base,-1.2587106279371578,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_09,base_macro,-1.2506849342120032,macro_context,False,Baseline technical features plus macro context.
+fold_09,base_macro_hmm,-1.4493979471270868,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_09,base_macro_hmm_gru,-1.3377437976154656,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_09,full,-1.2259988222259948,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_10,base,1.343968185554974,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_10,base_macro,1.8259079492649783,macro_context,False,Baseline technical features plus macro context.
+fold_10,base_macro_hmm,0.9949614467416068,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_10,base_macro_hmm_gru,1.4184904450170268,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_10,full,1.8479726210256693,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_11,base,2.297641076528674,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_11,base_macro,2.631767369556407,macro_context,False,Baseline technical features plus macro context.
+fold_11,base_macro_hmm,2.531494295186559,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_11,base_macro_hmm_gru,2.083233101039431,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_11,full,2.6160001648332303,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_12,base,0.3973912011691085,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_12,base_macro,-0.1855984990192751,macro_context,False,Baseline technical features plus macro context.
+fold_12,base_macro_hmm,-0.2987548600273361,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_12,base_macro_hmm_gru,0.4003654128008916,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_12,full,0.12981591007475,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_13,base,-0.4611818247563799,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_13,base_macro,-0.0983525046531334,macro_context,False,Baseline technical features plus macro context.
+fold_13,base_macro_hmm,-1.0459532548803037,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_13,base_macro_hmm_gru,-1.3775640947329313,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_13,full,-0.7808201671617199,legacy_full_stack,False,Legacy full feature stack including fundamentals.
+fold_14,base,-1.0551598927235686,technical_base,False,"Prices, returns, and baseline technical risk features."
+fold_14,base_macro,-0.753326261663642,macro_context,False,Baseline technical features plus macro context.
+fold_14,base_macro_hmm,-1.2951760017931735,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+fold_14,base_macro_hmm_gru,-0.7916622210239578,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.
+fold_14,full,-0.8309590521683101,legacy_full_stack,False,Legacy full feature stack including fundamentals.

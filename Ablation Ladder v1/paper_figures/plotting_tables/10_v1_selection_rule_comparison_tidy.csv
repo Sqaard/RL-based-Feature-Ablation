@@ -1,0 +1,10 @@
+selection_rule,selection_rule_label,metric,value
+sharpe_only,Sharpe only,selected_test_sharpe_median,0.8721667991779328
+robust_q25,Robust q25,selected_test_sharpe_median,0.8721667991779328
+robust_q25_retention,Robust q25 + retention,selected_test_sharpe_median,1.3651865273602746
+sharpe_only,Sharpe only,selection_matches_test_winner_rate,0.2857142857142857
+robust_q25,Robust q25,selection_matches_test_winner_rate,0.2857142857142857
+robust_q25_retention,Robust q25 + retention,selection_matches_test_winner_rate,0.3571428571428571
+sharpe_only,Sharpe only,median_test_winner_regret,0.2626163779805093
+robust_q25,Robust q25,median_test_winner_regret,0.3050952215480059
+robust_q25_retention,Robust q25 + retention,median_test_winner_regret,0.185354282287419
