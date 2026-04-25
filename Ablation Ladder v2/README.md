@@ -19,35 +19,6 @@ The reference training setup stayed fixed throughout the next-cycle experiments:
 
 The next-cycle feature work should therefore be interpreted as feature-family evidence, not as an architecture upgrade.
 
-## Before The Next-Cycle Plan
-
-Before `NEXT_EXPERIMENT_PLAN.md`, the stored Ablation Ladder v2 evidence supported four main conclusions.
-
-- `base_macro` was the strongest robust reference feature set. In `comparison_outputs/corrected_walk_forward_summary.csv`, its median test Sharpe was `1.3378`.
-- `base_macro_exogenous_plus` did not improve over `base_macro`, so adding generic exogenous/calendar context was not enough.
-- `base_macro_hmm` and `base_macro_gru` were retained as negative-control learned-feature branches. GRU was less damaging than HMM, but neither became the main research direction.
-- The biggest v2 contribution was methodological: better reporting, daily test exports, selection-rule diagnostics, and regime diagnostics.
-
-The next-cycle plan therefore correctly shifted the project away from architecture escalation and toward benchmark hardening plus one-at-a-time feature-family science.
-
-## What Was Implemented After The Plan
-
-The next-cycle implementation added the missing experiment infrastructure and candidate-family runs:
-
-- Benchmark suite reporting was added and propagated into merged analysis outputs.
-- Candidate-only launch/preflight infrastructure was used for one-family-at-a-time experiments.
-- New candidate feature families were trained and exported independently.
-- Historical v2 outputs were merged with all next-cycle candidates into a single final analysis bundle.
-- Per-family critical reports were written for credit, rates, analyst/revision, and vol proxy.
-- Final all-candidate figures were generated into `paper_figures`.
-
-The final merged analysis is:
-
-`merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol`
-
-Its main analysis directory is:
-
-`merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol/analysis`
 
 ## Final Ranking
 
