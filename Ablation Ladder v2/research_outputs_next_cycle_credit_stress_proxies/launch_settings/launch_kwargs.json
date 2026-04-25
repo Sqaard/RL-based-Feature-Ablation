@@ -1,0 +1,26 @@
+{
+  "runner_kwargs": {
+    "base_config_name": "custom_custom",
+    "feature_groups": "DEFAULT_FEATURE_GROUPS",
+    "candidate_feature_families": [
+      "credit_stress_proxies"
+    ],
+    "feature_set_filter": [
+      "base_macro_credit_stress_proxies"
+    ],
+    "seeds": [
+      42,
+      123,
+      999
+    ],
+    "total_timesteps": 200000,
+    "max_folds": null,
+    "es_mode": "relaxed",
+    "dropout_p": 0.1,
+    "eval_freq": 8192,
+    "checkpoint_freq": 4096,
+    "verbose": 0,
+    "selected_candidate_family": "credit_stress_proxies",
+    "panel_scope": "candidate_only"
+  }
+}

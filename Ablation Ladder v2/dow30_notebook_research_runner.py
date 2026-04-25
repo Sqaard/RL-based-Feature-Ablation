@@ -9,7 +9,9 @@ import numpy as np
 import pandas as pd
 
 from dow30_horizon_a import (
+    PRIMARY_BENCHMARK_ID,
     build_reference_experiment_config,
+    ensure_candidate_feature_families,
     ensure_event_calendar_features,
     infer_feature_metadata,
 )
@@ -21,6 +23,7 @@ from dow30_project_research import (
 from dow30_research_support import (
     DEFAULT_FEATURE_GROUPS,
     build_daily_test_export,
+    build_fold_benchmark_suite_export,
     evaluate_equity_curve,
     run_feature_ablation_ladder,
     select_best_artifact,
@@ -125,7 +128,11 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         },
     }
 
-    def _prepare_research_df(df: pd.DataFrame) -> pd.DataFrame:
+    def _prepare_research_df(
+        df: pd.DataFrame,
+        *,
+        candidate_feature_families: Optional[Sequence[str]] = None,
+    ) -> pd.DataFrame:
         out = df.copy()
         unnamed_cols = [col for col in out.columns if str(col).startswith("Unnamed:")]
         if unnamed_cols:
@@ -133,7 +140,11 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         out["date"] = pd.to_datetime(out["date"])
         if "date_available" in out.columns:
             out["date_available"] = pd.to_datetime(out["date_available"], errors="coerce")
-        out = ensure_event_calendar_features(out, date_col="date")
+        out = ensure_candidate_feature_families(
+            out,
+            candidate_feature_families=candidate_feature_families,
+            date_col="date",
+        )
         return out.sort_values(["date", "tic"]).reset_index(drop=True)
 
     def _to_finrl_panel_frame(df: pd.DataFrame) -> pd.DataFrame:
@@ -389,6 +400,7 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         checkpoint_freq: int,
         checkpoint_selection_rule: str,
         verbose: int,
+        benchmark_suite_frame: Optional[pd.DataFrame] = None,
     ) -> Mapping[str, Any]:
         train_scaled, validation_scaled, test_scaled, preprocessing_summary = build_train_only_splits(
             train_df=train_df,
@@ -442,6 +454,19 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         validation_eval = _evaluate_model(model, fold_env_spec, "validation")
         test_eval = _evaluate_model(model, fold_env_spec, "test")
         feature_metadata = infer_feature_metadata(feature_set_name)
+        primary_benchmark_frame = pd.DataFrame()
+        if isinstance(benchmark_suite_frame, pd.DataFrame) and not benchmark_suite_frame.empty:
+            primary_benchmark_frame = benchmark_suite_frame[
+                benchmark_suite_frame["benchmark_id"] == PRIMARY_BENCHMARK_ID
+            ][
+                [
+                    "date",
+                    "benchmark_id",
+                    "benchmark_return",
+                    "benchmark_turnover",
+                    "benchmark_transaction_cost",
+                ]
+            ].copy()
         daily_test_frame = build_daily_test_export(
             test_eval["curve"],
             raw_test_df=test_df,
@@ -454,6 +479,7 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             selected_model_type=selected_artifact.get("artifact_type"),
             selection_rule=checkpoint_selection_rule,
             df_actions=test_eval["raw_result"].get("df_action"),
+            benchmark_frame=primary_benchmark_frame,
         )
 
         return {
@@ -467,6 +493,9 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             "test_metrics": test_eval["metrics"],
             "regime_breakdown": test_eval["regime_breakdown"],
             "daily_test_frame": daily_test_frame,
+            "benchmark_suite_frame": benchmark_suite_frame.copy()
+            if isinstance(benchmark_suite_frame, pd.DataFrame)
+            else pd.DataFrame(),
             "preprocessing_summary": preprocessing_summary,
             "training_config": {
                 "base_config_name": base_config_name,
@@ -485,6 +514,8 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         base_config_name: str = "custom_custom",
         output_dir: str | Path = "./research_outputs_notebook",
         feature_groups: Optional[Mapping[str, Sequence[str]]] = None,
+        candidate_feature_families: Optional[Sequence[str]] = None,
+        feature_set_filter: Optional[Sequence[str]] = None,
         seeds: Sequence[int] = (42, 123),
         total_timesteps: int = 50_000,
         max_folds: Optional[int] = 2,
@@ -494,7 +525,10 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         checkpoint_freq: int = 4096,
         verbose: int = 0,
     ) -> dict[str, Any]:
-        prepared_df = _prepare_research_df(df)
+        prepared_df = _prepare_research_df(
+            df,
+            candidate_feature_families=candidate_feature_families,
+        )
         reference_config = build_reference_experiment_config(
             base_config_name,
             seed_list=seeds,
@@ -506,6 +540,9 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             prepared_df,
             output_dir=output_dir,
             reference_config=reference_config,
+            feature_ladder=feature_groups or DEFAULT_FEATURE_GROUPS,
+            candidate_feature_families=candidate_feature_families,
+            feature_set_filter=feature_set_filter,
         )
         folds = gate["folds"]
         if max_folds is not None:
@@ -513,7 +550,19 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
         if not folds:
             raise ValueError("No walk-forward folds were generated for the provided dataset.")
 
+        benchmark_suite_cache: dict[str, pd.DataFrame] = {}
+
         def fold_callback(train_df, validation_df, test_df, feature_cols, fold, seed, feature_set_name):
+            if fold.fold_id not in benchmark_suite_cache:
+                benchmark_source_df = pd.concat(
+                    [train_df.copy(), validation_df.copy(), test_df.copy()],
+                    ignore_index=True,
+                )
+                benchmark_suite_cache[fold.fold_id] = build_fold_benchmark_suite_export(
+                    test_df,
+                    fold_id=fold.fold_id,
+                    benchmark_source_df=benchmark_source_df,
+                )
             return _run_single_fold(
                 train_df=train_df,
                 validation_df=validation_df,
@@ -531,6 +580,7 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
                 checkpoint_freq=checkpoint_freq,
                 checkpoint_selection_rule=checkpoint_selection_rule,
                 verbose=verbose,
+                benchmark_suite_frame=benchmark_suite_cache[fold.fold_id],
             )
 
         results = run_feature_ablation_ladder(
@@ -538,6 +588,8 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             folds=folds,
             run_fold_fn=fold_callback,
             feature_ladder=feature_groups or DEFAULT_FEATURE_GROUPS,
+            candidate_feature_families=candidate_feature_families,
+            feature_set_filter=feature_set_filter,
             seeds=seeds,
             output_dir=output_dir,
             selection_config=PROJECT_SELECTION_CONFIG,

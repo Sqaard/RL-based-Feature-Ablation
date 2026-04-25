@@ -1,0 +1,31 @@
+{
+  "status": "ready_to_launch",
+  "experiment_name": "next_cycle_candidate_only_sector_relative_context",
+  "config_path": "/home/ma-user/work/configs/next_cycle_candidate_only_sector_relative_context.yaml",
+  "dataset_label": "/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/processed_dataset_snapshot.csv",
+  "resolved_output_dir": "/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context",
+  "candidate_feature_families": [
+    "sector_relative_context"
+  ],
+  "selected_candidate_family": "sector_relative_context",
+  "selected_candidate_feature_set": "base_macro_sector_relative_context",
+  "panel_scope": "candidate_only",
+  "feature_set_filter": [
+    "base_macro_sector_relative_context"
+  ],
+  "available_feature_sets": [
+    "base_macro_sector_relative_context"
+  ],
+  "missing_requested_feature_sets": [],
+  "seed_count": 3,
+  "fold_count": 14,
+  "audit_ok": true,
+  "user_action_required_now": true,
+  "launch_mode": "notebook_config_driven",
+  "launch_config_snapshot_path": "/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/launch_config_snapshot.yaml",
+  "next_user_action": "Launch the notebook experiment with the generated snippet.",
+  "post_run_rebuild_commands": [
+    "python -m dow30_reporting build-benchmark-suite --dataset \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/processed_dataset_snapshot.csv\" --folds-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/walk_forward_folds.csv\" --output \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/benchmark_suite_daily.csv\"",
+    "python -m dow30_reporting rebuild-walkforward-report --input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/walk_forward_results.csv\" --daily-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/walk_forward_daily_test_returns.csv\" --benchmark-suite-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/benchmark_suite_daily.csv\" --outdir \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_sector_relative_context/analysis_rebuilt\""
+  ]
+}

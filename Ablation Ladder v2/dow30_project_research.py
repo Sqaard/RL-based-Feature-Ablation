@@ -8,6 +8,7 @@ import pandas as pd
 from dow30_horizon_a import (
     build_controlled_feature_registry,
     build_reference_experiment_config,
+    ensure_candidate_feature_families,
     ensure_event_calendar_features,
 )
 from dow30_research_support import (
@@ -24,7 +25,22 @@ from dow30_research_support import (
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-DEFAULT_DATASET_PATH = PROJECT_ROOT / "processed_final.csv"
+
+
+def _resolve_default_dataset_path() -> Path:
+    preferred_candidates = (
+        PROJECT_ROOT.parent / "processed_final_fixed.csv",
+        PROJECT_ROOT / "processed_final_fixed.csv",
+        PROJECT_ROOT / "processed_final.csv",
+        PROJECT_ROOT.parent / "processed_final.csv",
+    )
+    for candidate in preferred_candidates:
+        if candidate.exists():
+            return candidate
+    return preferred_candidates[0]
+
+
+DEFAULT_DATASET_PATH = _resolve_default_dataset_path()
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "research_outputs"
 REFERENCE_EXPERIMENT_CONFIG = build_reference_experiment_config("custom_custom")
 
@@ -50,7 +66,11 @@ PROJECT_SELECTION_CONFIG = {
 }
 
 
-def load_processed_dataset(path: str | Path = DEFAULT_DATASET_PATH) -> pd.DataFrame:
+def load_processed_dataset(
+    path: str | Path = DEFAULT_DATASET_PATH,
+    *,
+    candidate_feature_families: Optional[Sequence[str]] = None,
+) -> pd.DataFrame:
     df = pd.read_csv(path)
     unnamed_cols = [col for col in df.columns if str(col).startswith("Unnamed:")]
     if unnamed_cols:
@@ -58,7 +78,10 @@ def load_processed_dataset(path: str | Path = DEFAULT_DATASET_PATH) -> pd.DataFr
     df["date"] = pd.to_datetime(df["date"])
     if "date_available" in df.columns:
         df["date_available"] = pd.to_datetime(df["date_available"], errors="coerce")
-    return ensure_event_calendar_features(df)
+    return ensure_candidate_feature_families(
+        df,
+        candidate_feature_families=candidate_feature_families,
+    )
 
 
 def run_research_gate(
@@ -66,11 +89,21 @@ def run_research_gate(
     output_dir: str | Path = DEFAULT_OUTPUT_DIR,
     constituent_history: Optional[pd.DataFrame] = None,
     reference_config: Optional[Mapping[str, Any]] = None,
+    feature_ladder: Optional[Mapping[str, Sequence[str]]] = None,
+    candidate_feature_families: Optional[Sequence[str]] = None,
+    feature_set_filter: Optional[Sequence[str]] = None,
 ) -> dict[str, Any]:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    prepared_df = ensure_event_calendar_features(df)
-    feature_registry = build_controlled_feature_registry(DEFAULT_FEATURE_GROUPS)
+    prepared_df = ensure_candidate_feature_families(
+        df,
+        candidate_feature_families=candidate_feature_families,
+    )
+    feature_registry = build_controlled_feature_registry(
+        feature_ladder or DEFAULT_FEATURE_GROUPS,
+        candidate_feature_families=candidate_feature_families,
+        include_feature_sets=feature_set_filter,
+    )
     feature_cols = sorted(
         {
             col
@@ -89,7 +122,9 @@ def run_research_gate(
     data_card = build_data_card(
         df=prepared_df,
         audit_report=audit,
-        feature_ladder=DEFAULT_FEATURE_GROUPS,
+        feature_ladder=feature_ladder or DEFAULT_FEATURE_GROUPS,
+        candidate_feature_families=candidate_feature_families,
+        include_feature_sets=feature_set_filter,
         dataset_name="dow30_processed_final",
         output_path=output_dir / "data_card.json",
     )
@@ -214,9 +249,19 @@ def run_project_ablation(
     train_and_select_fn: Callable[..., Mapping[str, Any]],
     output_dir: str | Path = DEFAULT_OUTPUT_DIR,
     seeds: Sequence[int] = (42, 123, 999, 2024, 2025),
+    candidate_feature_families: Optional[Sequence[str]] = None,
+    feature_set_filter: Optional[Sequence[str]] = None,
 ) -> dict[str, Any]:
-    prepared_df = ensure_event_calendar_features(df)
-    gate = run_research_gate(prepared_df, output_dir=output_dir)
+    prepared_df = ensure_candidate_feature_families(
+        df,
+        candidate_feature_families=candidate_feature_families,
+    )
+    gate = run_research_gate(
+        prepared_df,
+        output_dir=output_dir,
+        candidate_feature_families=candidate_feature_families,
+        feature_set_filter=feature_set_filter,
+    )
     fold_runner = build_callback_based_runner(
         train_and_select_fn,
         PROJECT_SELECTION_CONFIG,
@@ -227,6 +272,8 @@ def run_project_ablation(
         folds=gate["folds"],
         run_fold_fn=fold_runner,
         feature_ladder=DEFAULT_FEATURE_GROUPS,
+        candidate_feature_families=candidate_feature_families,
+        feature_set_filter=feature_set_filter,
         seeds=seeds,
         output_dir=output_dir,
         selection_config=PROJECT_SELECTION_CONFIG,

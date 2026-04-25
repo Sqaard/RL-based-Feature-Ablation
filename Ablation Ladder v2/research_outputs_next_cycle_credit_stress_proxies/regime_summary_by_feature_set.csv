@@ -1,0 +1,6 @@
+feature_set,feature_family,is_negative_control,regime_label_exogenous,runs,folds,seeds,n_days_median,mean_daily_return_median,sharpe_median,max_drawdown_median,turnover_median,hit_rate_median,excess_return_vs_benchmark_median
+base_macro_credit_stress_proxies,credit_stress_proxies,False,bear_high_vol,18,6,3,4.0,0.00219543041451542,,-0.012890123415976507,0.0,0.55,5.3853921803926675e-05
+base_macro_credit_stress_proxies,credit_stress_proxies,False,bear_low_vol,9,3,3,1.0,0.0006445202417562449,,0.0,0.0,0.6666666666666666,0.0005234710556391686
+base_macro_credit_stress_proxies,credit_stress_proxies,False,bull_high_vol,9,3,3,1.0,0.0036004028461837922,,0.0,0.0,0.6666666666666666,-0.0005506306999017895
+base_macro_credit_stress_proxies,credit_stress_proxies,False,bull_low_vol,18,6,3,3.5,-1.0454227399614437e-05,,-0.004108739961562413,0.0,0.5833333333333333,0.00031041661354193296
+base_macro_credit_stress_proxies,credit_stress_proxies,False,unknown,42,14,3,59.0,0.00028339323020570476,0.8251872520313137,-0.04552587662747282,12.711864406779661,0.5508474576271186,-0.0001358156775952291

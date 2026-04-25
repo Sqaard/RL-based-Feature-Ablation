@@ -1,0 +1,193 @@
+feature_set,aligned_test_day,median,q25,q75,count,feature_family,is_negative_control,feature_set_description
+base,1,0.0,0.0,0.0,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,2,3.640712127706003e-05,-0.0009815766200063913,0.0006625777661323773,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,3,0.0006392375381468751,-0.0011116469207761714,0.0021547133867262924,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,4,0.0017176562412264396,-8.683791332225743e-05,0.004251108319282937,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,5,0.0022270330205916844,7.1645603660353e-06,0.004621704416465866,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,6,0.003820904697990457,-0.0028381255326113963,0.006244285051643372,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,7,0.0046028721551322205,-0.0005534975403780062,0.01022679797795889,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,8,0.007126596037006272,-0.00044853244609782683,0.0122606857784196,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,9,0.005964822868868014,-0.0017880287118421934,0.013397905456460024,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,10,0.004633504581331271,-0.00929121216436224,0.01427311789204,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,11,0.01327493425568449,-0.006524117340949681,0.018845866935526034,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,12,0.010559580168791216,-0.0023232218065064314,0.01904512933520397,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,13,0.011315342537821627,-0.002652946557187452,0.019671006607372366,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,14,0.01041532470621298,0.001485021527421082,0.016622778627307155,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,15,0.008979025626148607,-0.0027491224215448473,0.017393120405051643,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,16,0.010201728103580554,-0.0016717118783885765,0.015329090007236645,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,17,0.006297645966201859,-0.0045012922226257135,0.016139452358575668,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,18,0.00911749143567675,-0.002821806625043416,0.013509092615766494,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,19,0.005400350217953265,-0.010790788687768199,0.018176272505648794,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,20,0.0074332232931368925,-0.012784559787790362,0.018534318539179695,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,21,0.004154613201704183,-0.008201539252731926,0.01617601721117856,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,22,0.010171543506123593,-0.014108309036123756,0.021041280745166313,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,23,0.009812459459510259,-0.009823982961789629,0.026094716804090423,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,24,0.01078930581551174,-0.02104293382708905,0.028125728504342196,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,25,0.014065099013631621,-0.014585179213017219,0.026712660632541574,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,26,0.015089959281606946,-0.009757603607238319,0.02918568293990964,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,27,0.01752221337266624,-0.02177312545630322,0.03069231291829816,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,28,0.019503668411104846,-0.01954490147045726,0.03317677713821521,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,29,0.020659336389437732,-0.021532816022228868,0.03909677335346834,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,30,0.022770322168989554,-0.01286073973074664,0.04185722617345311,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,31,0.02376564215500332,-0.009452216893432785,0.044420320196957574,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,32,0.023552241695961595,-0.009628702039853748,0.04109882729547548,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,33,0.022169197981388833,-0.007243660139320457,0.04195630048762672,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,34,0.025313302987190478,-0.015277230330523112,0.046909372588169684,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,35,0.022609591267988893,-0.013118916438447786,0.0484724674100821,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,36,0.024124061174139677,-0.005987623868350306,0.04959826020923647,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,37,0.024791464417549536,-0.019376648736399105,0.047999296603376096,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,38,0.021896468095511268,-0.026173127365489518,0.046899112241806984,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,39,0.014151016999033428,-0.030775417971127483,0.05350869195145436,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,40,0.023825170273118035,-0.011324672593110041,0.050052482520294816,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,41,0.024756143836541566,-0.017494150805670544,0.048278825522286184,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,42,0.026228888099125935,-0.021125082471211726,0.04456833060669785,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,43,0.027809053866276856,-0.01889582749501384,0.05137553616377488,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,44,0.026790688775883864,-0.015618670793174277,0.04521410786577823,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,45,0.023574664254889632,-0.013004893249616761,0.04870255007805302,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,46,0.02515684323123646,-0.012470555611936857,0.04843350335194829,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,47,0.02231811449054444,-0.014494532878287891,0.05712363402277848,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,48,0.024950366557197845,-0.01714191971011378,0.06060760491357914,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,49,0.024538468331413488,-0.0111100177272416,0.06483145049452305,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,50,0.02160914865425967,-0.02025826704388753,0.0667727675394571,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,51,0.023287453796174584,-0.024950674309103416,0.06555352002541481,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,52,0.023899984191682377,-0.019368168933563967,0.06597413617689674,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,53,0.025487827556752385,-0.02107938649221114,0.06706968806606384,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,54,0.029364650343083554,-0.02275284094567015,0.06223942056031334,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,55,0.02186559532370491,-0.025345203512034176,0.06094184557712001,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,56,0.01964623549030098,-0.01634079781391326,0.06276630370912895,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,57,0.02487245048959985,-0.023499745891115198,0.06356729765360275,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,58,0.025380762797125644,-0.022242753788276476,0.06387261378976283,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,59,0.028016876908758093,-0.026904600795829736,0.06852063159916322,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,60,0.017073979607658996,-0.024780029899171635,0.07505420107919131,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,61,0.017411477191048408,-0.022488224943678803,0.07220971031266615,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,62,0.0300263312643525,-0.02443011514592791,0.08088408530209212,39,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,63,0.0006046776670891041,-0.051384543507124875,0.07182222205930694,24,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,64,0.014525245074042792,-0.027737682208135245,0.08304120115001473,18,technical_base,False,"Prices, returns, and baseline technical risk features."
+base_macro,1,0.0,0.0,0.0,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,2,-2.7144290923319936e-06,-0.0009579004907606381,0.000620571278858173,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,3,0.0008336354007720814,-0.0008501784968373283,0.0024767279059412783,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,4,0.0021701082219963697,-8.652583508442224e-05,0.004574083167123655,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,5,0.0021076729076383582,-6.160500703747407e-05,0.005085869203901305,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,6,0.0044230097567558024,-0.0014819854920955222,0.006993017041778182,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,7,0.0047715835078926405,0.001029248656967685,0.010044020818423594,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,8,0.008459317425064339,0.00044947325197153276,0.012927446565428546,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,9,0.006138922946580472,-0.001703806396422508,0.014718503952846851,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,10,0.007402642967853423,-0.010968439391696283,0.01416974427177392,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,11,0.009261530056081435,-0.008272550950318286,0.019540481328614023,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,12,0.009234460108726417,-0.0012206989373365618,0.01994040062015634,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,13,0.011679921491382639,-0.0009656192983096834,0.01833815407707845,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,14,0.00948985718487172,-0.002673628301469444,0.017795524135675533,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,15,0.009553751781061659,-0.0002673202830948407,0.01846668424317166,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,16,0.01287155221503511,-0.0024204627493739916,0.01904090113738227,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,17,0.009360400569889293,-0.008240742449833499,0.019756486590194633,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,18,0.012165796782325766,-0.004155780416026045,0.016787215146669476,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,19,0.0037871885403919503,-0.006531577547179368,0.0205735457882969,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,20,0.004471632772068523,-0.008451535836346141,0.019430450808246902,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,21,0.006587303776708686,-0.0047962239099903214,0.021593695868663165,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,22,0.010291012415440615,-0.014595611252033791,0.0239482548518688,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,23,0.011753619668578463,-0.003265550768857345,0.024448907888580784,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,24,0.015329098299919575,-0.003386367484357944,0.027060825857956994,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,25,0.017964000228830934,-0.006620077069115271,0.02967500391021166,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,26,0.019532223189700715,-0.0047398646607549055,0.03542557417492437,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,27,0.019176527685673683,-0.006651960028907833,0.031960060072838914,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,28,0.021430609183344274,-0.012890843502277122,0.036361997378869026,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,29,0.026319119234962884,0.0013042233798563618,0.04054938232285016,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,30,0.024082159828712868,0.007596647151600355,0.047429578576607845,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,31,0.02666434575618304,0.009949133132073129,0.0490132194161248,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,32,0.027680692580120403,0.002830106803324961,0.04783281664379552,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,33,0.02368236968399462,-0.0025195570948050305,0.049344192786616614,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,34,0.027796242511988423,-0.01097102349007642,0.04926770545888187,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,35,0.02701164035002168,0.0011394463762329221,0.052231792712452374,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,36,0.03168827484700676,-0.00047311348575959644,0.05923880167225215,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,37,0.02782949675827362,-0.0002893080009797877,0.0545839775336619,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,38,0.02258947835579972,-0.009490549175141194,0.05715660145750662,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,39,0.025991946384338882,-0.019480292392334175,0.06195879947158528,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,40,0.02648521341489618,-0.011197085495336934,0.05676054781099765,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,41,0.023245356842135023,-0.01113701884325749,0.0561523689582884,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,42,0.021342577024729303,-0.011511805658900698,0.05609910873481766,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,43,0.02568426515675659,-0.011707023933970911,0.0552485023946927,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,44,0.024089336286262197,-7.951165307898411e-05,0.0539634552514931,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,45,0.03063530474557452,0.0017461534339506257,0.06243369862104331,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,46,0.028338140790883815,0.0002323745295301216,0.060714889231162306,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,47,0.02607146724806786,-0.002792686787513765,0.06418018956493582,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,48,0.027013836825549475,-0.005423799525597822,0.06862165491241479,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,49,0.028879720249986085,0.0013357491100927654,0.07064735917579268,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,50,0.019466281472160674,-0.0031734805331307125,0.07310196382025858,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,51,0.017681711530374122,-0.0067970535312621705,0.0714912878146911,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,52,0.02131338501397695,-0.0025891923042515863,0.06856794709716374,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,53,0.02244070569364165,-0.0029522661487276503,0.07063410108815715,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,54,0.022610560713540617,-0.01936581918586927,0.06607957504286222,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,55,0.023195604442777684,-0.020486821971551966,0.06575449455502447,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,56,0.027091725260915744,-0.011016732376615657,0.06870418584948462,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,57,0.02723214475173441,-0.020848258229364952,0.062331514419652956,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,58,0.02592964551702126,-0.015923192447809847,0.06719164616183698,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,59,0.02829670319006683,-0.012982476189096231,0.0674601619044139,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,60,0.032363504171347035,-0.025123978150389525,0.0717295699366714,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,61,0.030365009620338612,-0.016101041244121733,0.07163334001166372,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,62,0.03713442562077485,-0.024110142249508526,0.07725505041727465,39,macro_context,False,Baseline technical features plus macro context.
+base_macro,63,0.0042288769740558285,-0.05231409682370994,0.07332111603170566,24,macro_context,False,Baseline technical features plus macro context.
+base_macro,64,0.03416935110323727,-0.03648615247424947,0.07720998555667458,18,macro_context,False,Baseline technical features plus macro context.
+base_macro_exogenous_plus,1,0.0,0.0,0.0,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,2,0.00013136363582622046,-0.0008032346218108388,0.0006041801362990928,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,3,0.0006329404408457195,-0.0009698803589820171,0.002333657967948821,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,4,0.0040476375243189144,-0.0004915055459973061,0.005102167234325383,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,5,0.0037617273502348336,0.00022557732791139706,0.006281089894872638,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,6,0.005567771595001436,6.962254351911001e-05,0.008722792357815146,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,7,0.005231939162868571,-0.0002162652930731701,0.01293378231391945,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,8,0.008741766358924985,-0.0004269176326477664,0.01356732990877657,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,9,0.007648479183635981,-0.0031586545523620557,0.016540373336383807,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,10,0.007513997542229034,-0.008259501398858254,0.017802794450103465,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,11,0.012937032234932033,-0.008856642316873997,0.025236187816498112,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,12,0.012382032071172944,-0.0031911712978683893,0.022836453586679684,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,13,0.011069189396314849,-0.0031850906875804663,0.025261118586519304,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,14,0.010961385001800439,6.536247553612373e-05,0.01764926784717774,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,15,0.009180503957010755,-0.0018884911739392163,0.0229562145762659,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,16,0.011584771268207894,0.00020661096568541648,0.021506608030365415,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,17,0.00972424609729261,-0.0009723424927935709,0.02248045108098773,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,18,0.010391050632375776,-0.0005794939727198078,0.020992390366869118,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,19,0.005083637378519579,-0.0024826194331832863,0.027021229517488032,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,20,0.006279539882505958,-0.004410346357422379,0.029014645399384087,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,21,0.008197540091995026,-0.006826332998295159,0.02644517584155298,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,22,0.007949652542021957,-0.012800147970130044,0.02766994178155746,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,23,0.011122364935385654,0.000384929304752063,0.03232720575971676,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,24,0.013575257384114248,-0.0033743843972770526,0.03121463044963152,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,25,0.014849948559367165,-0.01449599666827281,0.031843601176707426,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,26,0.01761923026890022,-0.011434882903328003,0.03173918703898532,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,27,0.019371602558075907,-0.004807795045570884,0.028874682770038185,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,28,0.020918340670653568,-0.0018714689632328974,0.038327281956151926,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,29,0.022387301532412196,0.0004070755021445549,0.03951401324882986,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,30,0.026534273031409317,0.004847947690928944,0.04334849410053182,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,31,0.02733826931797456,0.0034509836763637614,0.045776713562126314,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,32,0.024022903751133584,0.0008307420959250689,0.04112449484130548,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,33,0.02266459150069622,0.0018847060465463916,0.044689716803440915,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,34,0.023703179948488806,0.0020253314902269337,0.0450300684300845,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,35,0.03081788942678132,0.00025510936984105004,0.04892521901981822,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,36,0.03343809246318008,-0.005005957279393181,0.05469236783546444,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,37,0.03459466275101186,0.0009215709253947713,0.05245968134504214,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,38,0.026873273609577808,0.00021281643348389223,0.05341303716870932,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,39,0.024602149328881162,0.0018914706719286856,0.05482667938546615,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,40,0.027953939156871277,0.007792058180758121,0.05782094926191783,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,41,0.02475875826053986,0.013073140466338673,0.05328624812903726,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,42,0.022109967712384604,0.007143937311434867,0.05572549536495608,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,43,0.024609600622299443,0.008664046564235084,0.05812610735651097,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,44,0.027671002794223742,0.006807806669207217,0.05182564977682075,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,45,0.035500177575324865,0.006615246617757753,0.053568843479839146,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,46,0.027890193914127837,0.007930298192866614,0.0543962926780982,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,47,0.030655411459091453,0.004286933170698726,0.057327736022393216,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,48,0.030841706560605364,0.0003813165148670583,0.05834753737234566,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,49,0.036698133108701625,0.0017864036225226365,0.06065666583144297,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,50,0.0260617904931717,-0.002842947352021008,0.06277352502167438,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,51,0.028982475773844052,-0.00291172161502648,0.06256607662627739,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,52,0.02930354292070303,-0.0009810964063865224,0.06323210422036557,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,53,0.023965369529360903,-0.004601661760925968,0.06694981675821671,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,54,0.01207801638730499,-0.013395215252969217,0.06615212502630513,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,55,0.008662308571494304,-0.018931820814918593,0.06889692984064383,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,56,0.018109615425060066,-0.010259960219464292,0.07101087117471105,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,57,0.01561973684075213,-0.02062355162643162,0.07188490802932834,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,58,0.018737810171453595,-0.02575938417185214,0.07148555859191391,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,59,0.02177274007506169,-0.017503257605638006,0.06963558337436737,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,60,0.015379221637548568,-0.03332526068514549,0.07443521168292672,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,61,0.019833620584167044,-0.020987413994926457,0.07717505365314825,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,62,0.03859161771284336,-0.02486041848709314,0.08466053305913834,39,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,63,0.0020951742719123034,-0.045942238010530656,0.06484234302031933,24,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,64,0.020444119120420767,-0.016423571268222303,0.06865958883251783,18,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.

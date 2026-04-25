@@ -1,0 +1,6 @@
+{
+  "commands": [
+    "python -m dow30_reporting build-benchmark-suite --dataset \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\processed_final_fixed_external_lagclean_full.csv\" --folds-input \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\walk_forward_folds.csv\" --output \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\benchmark_suite_daily.csv\"",
+    "python -m dow30_reporting rebuild-walkforward-report --input \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\walk_forward_results.csv\" --daily-input \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\walk_forward_daily_test_returns.csv\" --benchmark-suite-input \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\benchmark_suite_daily.csv\" --outdir \"Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies_preflight\\analysis_rebuilt\""
+  ]
+}

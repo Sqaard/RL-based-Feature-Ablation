@@ -1,0 +1,6 @@
+feature_set,feature_family,is_negative_control,regime_label_exogenous,runs,folds,seeds,n_days_median,mean_daily_return_median,sharpe_median,max_drawdown_median,turnover_median,hit_rate_median,excess_return_vs_benchmark_median
+base_macro_vol_term_or_implied_vol_proxy,vol_term_or_implied_vol_proxy,False,bear_high_vol,18,6,3,4.0,0.002576512835683176,,-0.013613385932416788,0.0,0.55,0.0002496554214182405
+base_macro_vol_term_or_implied_vol_proxy,vol_term_or_implied_vol_proxy,False,bear_low_vol,9,3,3,1.0,0.0002739796549718528,,0.0,0.0,0.6666666666666666,6.69449490066383e-05
+base_macro_vol_term_or_implied_vol_proxy,vol_term_or_implied_vol_proxy,False,bull_high_vol,9,3,3,1.0,0.0024839943285558754,,0.0,0.0,0.6666666666666666,-8.88900173821169e-05
+base_macro_vol_term_or_implied_vol_proxy,vol_term_or_implied_vol_proxy,False,bull_low_vol,18,6,3,3.5,0.001401171667242703,,-0.0028415827625796197,0.0,0.6666666666666666,5.740963061956575e-05
+base_macro_vol_term_or_implied_vol_proxy,vol_term_or_implied_vol_proxy,False,unknown,42,14,3,59.0,0.00030679094416290827,0.6691101520198474,-0.05339919470690807,11.864406779661017,0.5338983050847458,-1.6278593659657985e-05

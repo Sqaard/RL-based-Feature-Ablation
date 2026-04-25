@@ -1,0 +1,6 @@
+{
+  "commands": [
+    "python -m dow30_reporting build-benchmark-suite --dataset \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/processed_dataset_snapshot.csv\" --folds-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/walk_forward_folds.csv\" --output \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/benchmark_suite_daily.csv\"",
+    "python -m dow30_reporting rebuild-walkforward-report --input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/walk_forward_results.csv\" --daily-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/walk_forward_daily_test_returns.csv\" --benchmark-suite-input \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/benchmark_suite_daily.csv\" --outdir \"/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_breadth_internal_structure/analysis_rebuilt\""
+  ]
+}

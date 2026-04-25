@@ -1,0 +1,28 @@
+{
+  "raw_row_count": 546,
+  "unique_run_key_count": 546,
+  "regime_expanded_row_count": 0,
+  "expansion_detected": false,
+  "warnings": [],
+  "notes": [
+    "Input results were already unique at run_key level."
+  ],
+  "outputs": {
+    "unique_run_level_results": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\unique_run_level_results.csv",
+    "corrected_walk_forward_summary": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\corrected_walk_forward_summary.csv",
+    "corrected_walk_forward_summary_with_primary_benchmark": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\corrected_walk_forward_summary_with_primary_benchmark.csv",
+    "selection_rule_comparison": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\selection_rule_comparison.csv",
+    "selection_rule_summary": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\selection_rule_summary.csv",
+    "validation_vs_test_winner_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\validation_vs_test_winner_by_fold.csv",
+    "pairwise_permutation_tests_recomputed": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\pairwise_permutation_tests_recomputed.csv",
+    "statistical_credibility_report": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\statistical_credibility_report.json",
+    "walk_forward_daily_test_returns": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\walk_forward_daily_test_returns.csv",
+    "regime_run_level_metrics": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\regime_run_level_metrics.csv",
+    "regime_summary_by_feature_set": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\regime_summary_by_feature_set.csv",
+    "regime_summary_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\regime_summary_by_fold.csv",
+    "benchmark_suite_daily": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\benchmark_suite_daily.csv",
+    "benchmark_run_level_metrics": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\benchmark_run_level_metrics.csv",
+    "benchmark_summary_by_feature_set": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\benchmark_summary_by_feature_set.csv",
+    "benchmark_summary_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol\\analysis\\benchmark_summary_by_fold.csv"
+  }
+}

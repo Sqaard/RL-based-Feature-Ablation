@@ -1,0 +1,4 @@
+selection_rule,folds,selected_feature_sets,selected_test_sharpe_median,actual_test_winner_sharpe_median,selection_matches_test_winner_rate,median_test_winner_regret
+robust_q25,14,base_macro_xsec_sector_gated_context,0.5507218767148737,0.5507218767148737,1.0,0.0
+robust_q25_retention,14,base_macro_xsec_sector_gated_context,0.5507218767148737,0.5507218767148737,1.0,0.0
+sharpe_only,14,base_macro_xsec_sector_gated_context,0.5507218767148737,0.5507218767148737,1.0,0.0

@@ -1,0 +1,15 @@
+fold_id,actual_test_winner_feature_set,actual_test_winner_sharpe_median,winner_label,fold_num
+fold_01,base_macro_credit_stress_proxies,2.559301980701167,Credit,1
+fold_02,base_macro,0.9044651054555708,Base+Macro,2
+fold_03,base_macro_credit_stress_proxies,2.42824406491427,Credit,3
+fold_04,base_macro_analyst_or_fund_revision_features,5.552818467566703,Analyst,4
+fold_05,base_macro_exogenous_plus,-0.269126498155593,Exog+,5
+fold_06,base_macro,4.936928152471243,Base+Macro,6
+fold_07,base_macro_breadth_internal_structure,4.341272274792842,Breadth,7
+fold_08,base_macro_rates_term_structure_lsc,-0.299003357310777,Rates,8
+fold_09,base_macro_vol_term_or_implied_vol_proxy,-0.9872256741969616,Vol Proxy,9
+fold_10,base_macro_rates_term_structure_lsc,2.0401848814525945,Rates,10
+fold_11,base_macro_sector_relative_context,2.904458416927742,Sector,11
+fold_12,base_macro_sector_relative_context,0.5645730549985191,Sector,12
+fold_13,base_macro_sector_relative_context,0.1106836883770007,Sector,13
+fold_14,base_macro_analyst_or_fund_revision_features,-0.609800905264566,Analyst,14

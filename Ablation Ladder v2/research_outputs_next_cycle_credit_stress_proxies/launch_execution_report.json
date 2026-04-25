@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "experiment_name": "next_cycle_candidate_only_credit_stress_proxies",
+  "config_path": "/home/ma-user/work/configs/next_cycle_candidate_only_credit_stress_proxies.yaml",
+  "resolved_output_dir": "/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_credit_stress_proxies",
+  "dataset_snapshot_path": "/home/ma-user/work/Ablation Ladder v2/research_outputs_next_cycle_credit_stress_proxies/processed_dataset_snapshot.csv",
+  "launch_mode": "notebook_config_driven",
+  "selected_candidate_family": "credit_stress_proxies",
+  "selected_candidate_feature_set": "base_macro_credit_stress_proxies",
+  "panel_scope": "candidate_only",
+  "user_action_required_now": false,
+  "next_user_action": "Inspect the generated reports in the launch output directory."
+}

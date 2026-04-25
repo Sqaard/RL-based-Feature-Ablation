@@ -10,14 +10,21 @@ import numpy as np
 import pandas as pd
 
 from dow30_horizon_a import (
+    LEGACY_PRIMARY_BENCHMARK_ID,
+    PRIMARY_BENCHMARK_ID,
+    build_benchmark_suite_frame,
     build_controlled_feature_registry,
     build_exogenous_regime_frame,
     build_market_proxy_frame,
+    ensure_candidate_feature_families,
     ensure_event_calendar_features,
 )
 from dow30_reporting import (
+    build_benchmark_comparison_reports,
     build_corrected_walk_forward_summary,
+    build_primary_benchmark_enriched_summary,
     build_regime_reports_from_daily,
+    build_statistical_credibility_report,
     build_selection_rule_comparison,
     compute_turnover_series_from_actions,
     deduplicate_run_level_results,
@@ -57,6 +64,97 @@ DEFAULT_FEATURE_GROUPS = OrderedDict(
             "forecast_mean",
             "forecast_std",
             "forecast_trend",
+        ],
+        "xsec_dispersion_correlation_regime": [
+            "xsec_ret_dispersion_lag1",
+            "xsec_ret_dispersion_20d_mean",
+            "xsec_ret_dispersion_60d_zscore",
+            "xsec_mean_pairwise_corr_20d",
+            "xsec_mean_pairwise_corr_60d_zscore",
+            "xsec_dispersion_minus_corr_regime_score",
+        ],
+        "breadth_internal_structure": [
+            "breadth_advancing_share_lag1",
+            "breadth_advancing_share_20d_mean",
+            "breadth_declining_share_lag1",
+            "breadth_above_20d_sma_share_lag1",
+            "breadth_above_60d_sma_share_lag1",
+            "breadth_new_20d_high_share_lag1",
+            "breadth_new_20d_low_share_lag1",
+            "breadth_participation_regime_score",
+        ],
+        "sector_relative_context": [
+            "sector_ret_lag1",
+            "sector_ret_20d_mean",
+            "sector_ret_60d_zscore",
+            "sector_rel_market_ret_20d",
+            "sector_leadership_rank_20d",
+            "stock_rel_sector_ret_lag1",
+            "stock_rel_sector_ret_20d_mean",
+            "stock_rel_sector_ret_60d_zscore",
+        ],
+        "xsec_sector_gated_context": [
+            "xsec_sector_stockpick_gate",
+            "xsec_sector_leadership_gate",
+            "xsec_sector_rel_market_gate",
+            "xsec_stock_rel_sector_momentum_gate",
+            "xsec_sector_corr_risk_gate",
+            "xsec_sector_dispersion_leadership_alignment",
+        ],
+        "rates_term_structure_lsc": [
+            "rates_lsc_level_lag1",
+            "rates_lsc_slope_10y_3mo_lag1",
+            "rates_lsc_slope_10y_2y_lag1",
+            "rates_lsc_slope_30y_5y_lag1",
+            "rates_lsc_curvature_2y10y30y_lag1",
+            "rates_lsc_curvature_3mo5y30y_lag1",
+            "rates_lsc_level_20d_change",
+            "rates_lsc_slope_10y_3mo_20d_change",
+            "rates_lsc_level_60d_zscore",
+            "rates_lsc_slope_10y_3mo_60d_zscore",
+            "rates_lsc_curvature_2y10y30y_60d_zscore",
+            "rates_lsc_curve_inversion_flag_lag1",
+            "rates_lsc_policy_pressure_score",
+        ],
+        "credit_stress_proxies": [
+            "credit_baa_spread_lag1",
+            "credit_aaa_spread_lag1",
+            "credit_baa_aaa_quality_spread_lag1",
+            "credit_baa_spread_20d_change",
+            "credit_quality_spread_20d_change",
+            "credit_baa_spread_60d_zscore",
+            "credit_aaa_spread_60d_zscore",
+            "credit_quality_spread_60d_zscore",
+            "credit_nfci_lag5",
+            "credit_nfci_126d_zscore",
+            "credit_stress_regime_score",
+        ],
+        "vol_term_or_implied_vol_proxy": [
+            "vol_vix_lag1",
+            "vol_vxv_lag1",
+            "vol_term_slope_vxv_vix_lag1",
+            "vol_term_ratio_vxv_vix_lag1",
+            "vol_vix_20d_change",
+            "vol_term_slope_20d_change",
+            "vol_vix_60d_zscore",
+            "vol_term_slope_60d_zscore",
+            "vol_term_backwardation_flag_lag1",
+            "vol_implied_stress_regime_score",
+        ],
+        "analyst_or_fund_revision_features": [
+            "fundrev_new_statement_flag_lag1",
+            "fundrev_days_since_statement_lag1",
+            "fundrev_revenue_growth_lag1",
+            "fundrev_eps_growth_lag1",
+            "fundrev_op_margin_lag1",
+            "fundrev_net_margin_lag1",
+            "fundrev_debt_ratio_lag1",
+            "fundrev_revenue_qoq_revision_lag1",
+            "fundrev_eps_qoq_revision_lag1",
+            "fundrev_net_income_qoq_revision_lag1",
+            "fundrev_profitability_revision_score_lag1",
+            "fundrev_balance_sheet_stress_revision_score_lag1",
+            "fundrev_valuation_reset_score_lag1",
         ],
         "fundamental": [
             "PE_ratio",
@@ -514,15 +612,25 @@ def build_data_card(
     df: pd.DataFrame,
     audit_report: Mapping[str, Any],
     feature_ladder: Optional[Mapping[str, Sequence[str]]] = None,
+    candidate_feature_families: Optional[Sequence[str]] = None,
+    include_feature_sets: Optional[Sequence[str]] = None,
     dataset_name: str = "dow30_processed",
     date_col: str = "date",
     ticker_col: str = "tic",
     output_path: Optional[str | Path] = None,
 ) -> dict[str, Any]:
-    data = ensure_event_calendar_features(df.copy(), date_col=date_col)
+    data = ensure_candidate_feature_families(
+        df.copy(),
+        candidate_feature_families=candidate_feature_families,
+        date_col=date_col,
+    )
     data[date_col] = pd.to_datetime(data[date_col])
 
-    registry = build_controlled_feature_registry(feature_ladder or DEFAULT_FEATURE_GROUPS)
+    registry = build_controlled_feature_registry(
+        feature_ladder or DEFAULT_FEATURE_GROUPS,
+        candidate_feature_families=candidate_feature_families,
+        include_feature_sets=include_feature_sets,
+    )
     card = {
         "dataset_name": dataset_name,
         "summary": {
@@ -707,6 +815,40 @@ def evaluate_equity_curve(
     }
 
 
+def build_fold_benchmark_suite_export(
+    raw_test_df: pd.DataFrame,
+    *,
+    fold_id: str,
+    benchmark_source_df: Optional[pd.DataFrame] = None,
+    date_col: str = "date",
+    buy_cost_pct: float = 0.001,
+    sell_cost_pct: float = 0.001,
+    initial_value: float = 1_000_000.0,
+) -> pd.DataFrame:
+    if raw_test_df.empty:
+        return pd.DataFrame()
+
+    benchmark_source = (
+        benchmark_source_df.copy()
+        if benchmark_source_df is not None and not benchmark_source_df.empty
+        else raw_test_df.copy()
+    )
+    benchmark_source[date_col] = pd.to_datetime(benchmark_source[date_col])
+    raw_test = raw_test_df.copy()
+    raw_test[date_col] = pd.to_datetime(raw_test[date_col])
+
+    return build_benchmark_suite_frame(
+        benchmark_source,
+        fold_id=fold_id,
+        test_start=raw_test[date_col].min(),
+        test_end=raw_test[date_col].max(),
+        date_col=date_col,
+        buy_cost_pct=buy_cost_pct,
+        sell_cost_pct=sell_cost_pct,
+        initial_value=initial_value,
+    )
+
+
 def build_daily_test_export(
     curve_df: pd.DataFrame,
     raw_test_df: pd.DataFrame,
@@ -720,12 +862,23 @@ def build_daily_test_export(
     selected_model_type: Optional[str] = None,
     selection_rule: str = "checkpoint_robust_score",
     df_actions: Optional[pd.DataFrame] = None,
+    benchmark_frame: Optional[pd.DataFrame] = None,
     date_col: str = "date",
 ) -> pd.DataFrame:
     curve = add_curve_features(curve_df, date_col=date_col)
-    benchmark = build_market_proxy_frame(raw_test_df, date_col=date_col).rename(
-        columns={"benchmark_return": "benchmark_return"}
-    )
+    if benchmark_frame is not None and not benchmark_frame.empty:
+        benchmark = benchmark_frame.copy()
+        benchmark[date_col] = pd.to_datetime(benchmark[date_col])
+    else:
+        benchmark = build_market_proxy_frame(raw_test_df, date_col=date_col).rename(
+            columns={"benchmark_return": "benchmark_return"}
+        )
+        benchmark["benchmark_id"] = LEGACY_PRIMARY_BENCHMARK_ID
+        benchmark["benchmark_turnover"] = np.nan
+        benchmark["benchmark_transaction_cost"] = np.nan
+    for col in ("benchmark_id", "benchmark_return", "benchmark_turnover", "benchmark_transaction_cost"):
+        if col not in benchmark.columns:
+            benchmark[col] = np.nan
     regime = build_exogenous_regime_frame(raw_test_df, date_col=date_col)[
         [date_col, "regime_label_exogenous"]
     ].copy()
@@ -755,7 +908,10 @@ def build_daily_test_export(
         "daily_return",
         "portfolio_value",
         "turnover",
+        "benchmark_id",
         "benchmark_return",
+        "benchmark_turnover",
+        "benchmark_transaction_cost",
         "selected_model_type",
         "selection_rule",
         "regime_label_exogenous",
@@ -910,7 +1066,7 @@ def select_best_artifact_by_robust_score(
 
 def build_walk_forward_report(
     results_df: pd.DataFrame,
-    group_cols: Sequence[str] = ("feature_set",),
+    group_cols: Sequence[str] = ("feature_set", "feature_family", "is_negative_control"),
     output_dir: Optional[str | Path] = None,
 ) -> dict[str, pd.DataFrame]:
     if results_df.empty:
@@ -1026,17 +1182,28 @@ def run_feature_ablation_ladder(
     folds: Sequence[WalkForwardFold],
     run_fold_fn: Callable[..., Mapping[str, Any]],
     feature_ladder: Optional[Mapping[str, Sequence[str]]] = None,
+    candidate_feature_families: Optional[Sequence[str]] = None,
+    feature_set_filter: Optional[Sequence[str]] = None,
     seeds: Sequence[int] = (42, 123, 999, 2024, 2025),
     date_col: str = "date",
     output_dir: Optional[str | Path] = None,
     selection_config: Optional[Mapping[str, Any]] = None,
     model_name: str = "ppo_dow30",
 ) -> dict[str, Any]:
-    prepared_df = ensure_event_calendar_features(df, date_col=date_col)
-    feature_registry = build_controlled_feature_registry(feature_ladder or DEFAULT_FEATURE_GROUPS)
+    prepared_df = ensure_candidate_feature_families(
+        df,
+        candidate_feature_families=candidate_feature_families,
+        date_col=date_col,
+    )
+    feature_registry = build_controlled_feature_registry(
+        feature_ladder or DEFAULT_FEATURE_GROUPS,
+        candidate_feature_families=candidate_feature_families,
+        include_feature_sets=feature_set_filter,
+    )
     rows: list[dict[str, Any]] = []
     regime_rows: list[dict[str, Any]] = []
     daily_test_rows: list[pd.DataFrame] = []
+    benchmark_suite_rows: list[pd.DataFrame] = []
     artifacts: dict[str, Any] = {}
 
     base_dir = Path(output_dir) if output_dir is not None else None
@@ -1124,6 +1291,10 @@ def run_feature_ablation_ladder(
                 if isinstance(daily_test_frame, pd.DataFrame) and not daily_test_frame.empty:
                     daily_test_rows.append(daily_test_frame.copy())
 
+                benchmark_suite_frame = result.get("benchmark_suite_frame")
+                if isinstance(benchmark_suite_frame, pd.DataFrame) and not benchmark_suite_frame.empty:
+                    benchmark_suite_rows.append(benchmark_suite_frame.copy())
+
                 artifacts[run_key] = result
 
                 if base_dir is not None:
@@ -1154,6 +1325,17 @@ def run_feature_ablation_ladder(
     if not legacy_regime_df.empty and "Market_Regime" in legacy_regime_df.columns and "regime" not in legacy_regime_df.columns:
         legacy_regime_df = legacy_regime_df.rename(columns={"Market_Regime": "regime"})
     daily_test_df = pd.concat(daily_test_rows, ignore_index=True) if daily_test_rows else pd.DataFrame()
+    benchmark_suite_df = (
+        pd.concat(benchmark_suite_rows, ignore_index=True)
+        if benchmark_suite_rows
+        else pd.DataFrame()
+    )
+    if not benchmark_suite_df.empty:
+        benchmark_suite_df["date"] = pd.to_datetime(benchmark_suite_df["date"])
+        benchmark_suite_df = benchmark_suite_df.drop_duplicates(
+            subset=["fold_id", "date", "benchmark_id"],
+            keep="first",
+        ).reset_index(drop=True)
 
     report = build_walk_forward_report(
         results_df=raw_results_df,
@@ -1168,16 +1350,40 @@ def run_feature_ablation_ladder(
     regime_run_level_df = pd.DataFrame()
     regime_summary_by_feature_df = pd.DataFrame()
     regime_summary_by_fold_df = pd.DataFrame()
+    benchmark_run_level_df = pd.DataFrame()
+    benchmark_summary_by_feature_df = pd.DataFrame()
+    benchmark_summary_by_fold_df = pd.DataFrame()
+    enriched_summary_df = report["summary"].copy()
     if not daily_test_df.empty:
         regime_run_level_df, regime_summary_by_feature_df, regime_summary_by_fold_df = (
             build_regime_reports_from_daily(daily_test_df)
         )
+    if not daily_test_df.empty and not benchmark_suite_df.empty:
+        benchmark_run_level_df, benchmark_summary_by_feature_df, benchmark_summary_by_fold_df = (
+            build_benchmark_comparison_reports(
+                daily_test_df,
+                benchmark_suite_df,
+            )
+        )
+        enriched_summary_df = build_primary_benchmark_enriched_summary(
+            report["summary"],
+            benchmark_summary_by_feature_df,
+        )
+    statistical_credibility = build_statistical_credibility_report(
+        unique_results_df,
+        selection_summary_df=selection_summary_df,
+        benchmark_summary_by_feature_df=benchmark_summary_by_feature_df,
+    )
     if base_dir is not None:
         pairwise_suite.to_csv(base_dir / "pairwise_permutation_tests.csv", index=False)
         pairwise_suite.to_csv(base_dir / "pairwise_permutation_tests_recomputed.csv", index=False)
         selection_comparison_df.to_csv(base_dir / "selection_rule_comparison.csv", index=False)
         selection_summary_df.to_csv(base_dir / "selection_rule_summary.csv", index=False)
         validation_vs_test_df.to_csv(base_dir / "validation_vs_test_winner_by_fold.csv", index=False)
+        enriched_summary_df.to_csv(
+            base_dir / "corrected_walk_forward_summary_with_primary_benchmark.csv",
+            index=False,
+        )
         if not legacy_regime_df.empty:
             legacy_regime_df.to_csv(base_dir / "walk_forward_regime_breakdown.csv", index=False)
         if not daily_test_df.empty:
@@ -1185,26 +1391,90 @@ def run_feature_ablation_ladder(
             regime_run_level_df.to_csv(base_dir / "regime_run_level_metrics.csv", index=False)
             regime_summary_by_feature_df.to_csv(base_dir / "regime_summary_by_feature_set.csv", index=False)
             regime_summary_by_fold_df.to_csv(base_dir / "regime_summary_by_fold.csv", index=False)
-        diagnostics = {
+        if not benchmark_suite_df.empty:
+            benchmark_suite_df.to_csv(base_dir / "benchmark_suite_daily.csv", index=False)
+        if not benchmark_run_level_df.empty:
+            benchmark_run_level_df.to_csv(base_dir / "benchmark_run_level_metrics.csv", index=False)
+            benchmark_summary_by_feature_df.to_csv(base_dir / "benchmark_summary_by_feature_set.csv", index=False)
+            benchmark_summary_by_fold_df.to_csv(base_dir / "benchmark_summary_by_fold.csv", index=False)
+        warnings = []
+        if daily_test_df.empty:
+            warnings.append("Daily test export was empty, so regime diagnostics were not written.")
+        if benchmark_suite_df.empty:
+            warnings.append("Benchmark suite export was empty, so multi-benchmark reports were not written.")
+        artifact_index = {
             "raw_row_count": int(len(raw_results_df)),
             "unique_run_key_count": int(unique_results_df["run_key"].nunique()) if not unique_results_df.empty else 0,
             "regime_expanded_row_count": int(len(raw_results_df) - len(unique_results_df)),
             "legacy_regime_rows": int(len(legacy_regime_df)),
             "daily_test_rows": int(len(daily_test_df)),
+            "benchmark_suite_rows": int(len(benchmark_suite_df)),
+            "primary_benchmark_id": PRIMARY_BENCHMARK_ID,
+            "warnings": warnings,
+            "outputs": {
+                "walk_forward_results": str(base_dir / "walk_forward_results.csv"),
+                "corrected_walk_forward_summary": str(base_dir / "corrected_walk_forward_summary.csv"),
+                "corrected_walk_forward_summary_with_primary_benchmark": str(
+                    base_dir / "corrected_walk_forward_summary_with_primary_benchmark.csv"
+                ),
+                "selection_rule_comparison": str(base_dir / "selection_rule_comparison.csv"),
+                "selection_rule_summary": str(base_dir / "selection_rule_summary.csv"),
+                "validation_vs_test_winner_by_fold": str(base_dir / "validation_vs_test_winner_by_fold.csv"),
+                "pairwise_permutation_tests_recomputed": str(
+                    base_dir / "pairwise_permutation_tests_recomputed.csv"
+                ),
+                "statistical_credibility_report": str(base_dir / "statistical_credibility_report.json"),
+            },
         }
-        _serialize_json(diagnostics, base_dir / "artifact_index.json")
+        if not daily_test_df.empty:
+            artifact_index["outputs"]["walk_forward_daily_test_returns"] = str(
+                base_dir / "walk_forward_daily_test_returns.csv"
+            )
+            artifact_index["outputs"]["regime_run_level_metrics"] = str(base_dir / "regime_run_level_metrics.csv")
+            artifact_index["outputs"]["regime_summary_by_feature_set"] = str(
+                base_dir / "regime_summary_by_feature_set.csv"
+            )
+            artifact_index["outputs"]["regime_summary_by_fold"] = str(base_dir / "regime_summary_by_fold.csv")
+        if not benchmark_suite_df.empty:
+            artifact_index["outputs"]["benchmark_suite_daily"] = str(base_dir / "benchmark_suite_daily.csv")
+        if not benchmark_run_level_df.empty:
+            artifact_index["outputs"]["benchmark_run_level_metrics"] = str(
+                base_dir / "benchmark_run_level_metrics.csv"
+            )
+            artifact_index["outputs"]["benchmark_summary_by_feature_set"] = str(
+                base_dir / "benchmark_summary_by_feature_set.csv"
+            )
+            artifact_index["outputs"]["benchmark_summary_by_fold"] = str(
+                base_dir / "benchmark_summary_by_fold.csv"
+            )
+        _serialize_json(artifact_index, base_dir / "artifact_index.json")
+        _serialize_json(statistical_credibility, base_dir / "statistical_credibility_report.json")
+    else:
+        artifact_index = {
+            "raw_row_count": int(len(raw_results_df)),
+            "unique_run_key_count": int(unique_results_df["run_key"].nunique()) if not unique_results_df.empty else 0,
+            "benchmark_suite_rows": int(len(benchmark_suite_df)),
+            "primary_benchmark_id": PRIMARY_BENCHMARK_ID,
+        }
 
     return {
         "results_df": unique_results_df,
         "summary_df": report["summary"],
+        "summary_with_primary_benchmark_df": enriched_summary_df,
         "regime_df": legacy_regime_df,
         "pairwise_tests": pairwise_suite,
         "selection_rule_comparison": selection_comparison_df,
         "selection_rule_summary": selection_summary_df,
         "validation_vs_test_winner_by_fold": validation_vs_test_df,
         "daily_test_df": daily_test_df,
+        "benchmark_suite_df": benchmark_suite_df,
+        "benchmark_run_level_metrics": benchmark_run_level_df,
+        "benchmark_summary_by_feature_set": benchmark_summary_by_feature_df,
+        "benchmark_summary_by_fold": benchmark_summary_by_fold_df,
         "regime_run_level_metrics": regime_run_level_df,
         "regime_summary_by_feature_set": regime_summary_by_feature_df,
         "regime_summary_by_fold": regime_summary_by_fold_df,
+        "statistical_credibility_report": statistical_credibility,
+        "artifact_index": artifact_index,
         "artifacts": artifacts,
     }

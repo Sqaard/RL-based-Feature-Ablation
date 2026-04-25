@@ -1,0 +1,10 @@
+{
+  "raw_row_count": 42,
+  "unique_run_key_count": 42,
+  "regime_expanded_row_count": 0,
+  "duplicate_run_key_count": 0,
+  "expansion_detected": false,
+  "notes": [
+    "Input results were already unique at run_key level."
+  ]
+}

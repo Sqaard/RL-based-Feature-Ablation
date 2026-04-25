@@ -10,6 +10,8 @@ import pandas as pd
 
 from dow30_horizon_a import (
     SelectionRuleSpec,
+    PRIMARY_BENCHMARK_ID,
+    build_benchmark_suite_frame,
     build_selection_rule_registry,
     compute_selection_score_from_frame,
     infer_feature_metadata,
@@ -181,6 +183,49 @@ def build_corrected_walk_forward_summary(
         .reset_index(drop=True)
     )
     return grouped
+
+
+def _build_value_series_from_returns(
+    returns: pd.Series,
+    *,
+    initial_value: float = 1_000_000.0,
+) -> pd.Series:
+    clean_returns = pd.to_numeric(returns, errors="coerce").fillna(0.0)
+    return pd.Series(initial_value, index=clean_returns.index, dtype=float) * (1.0 + clean_returns).cumprod()
+
+
+def _compute_path_metrics(
+    returns: pd.Series,
+    portfolio_values: Optional[pd.Series] = None,
+) -> dict[str, float]:
+    clean_returns = pd.to_numeric(returns, errors="coerce").fillna(0.0)
+    if portfolio_values is None:
+        values = _build_value_series_from_returns(clean_returns)
+    else:
+        values = pd.to_numeric(portfolio_values, errors="coerce")
+        if values.dropna().empty:
+            values = _build_value_series_from_returns(clean_returns)
+        else:
+            values = values.ffill().bfill()
+
+    daily_vol = float(clean_returns.std(ddof=0)) if len(clean_returns) > 0 else np.nan
+    sharpe = (
+        float(np.sqrt(252.0) * clean_returns.mean() / daily_vol)
+        if len(clean_returns) > 0 and daily_vol > 1e-12
+        else np.nan
+    )
+    start_value = float(values.iloc[0]) if len(values) > 0 else np.nan
+    end_value = float(values.iloc[-1]) if len(values) > 0 else np.nan
+    return_pct = (
+        float((end_value / start_value - 1.0) * 100.0)
+        if not np.isnan(start_value) and abs(start_value) > 1e-12 and not np.isnan(end_value)
+        else np.nan
+    )
+    return {
+        "return_pct": return_pct,
+        "sharpe": sharpe,
+        "max_drawdown": _max_drawdown_from_values(values),
+    }
 
 
 def _aggregate_selection_inputs(frame: pd.DataFrame) -> dict[str, Any]:
@@ -355,8 +400,319 @@ def recompute_pairwise_permutation_tests(
                     n_permutations=n_permutations,
                     random_state=random_state,
                 )
-            )
+    )
     return pd.DataFrame(rows)
+
+
+def build_benchmark_comparison_reports(
+    daily_df: pd.DataFrame,
+    benchmark_suite_df: pd.DataFrame,
+    *,
+    primary_benchmark_id: str = PRIMARY_BENCHMARK_ID,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    if daily_df.empty or benchmark_suite_df.empty:
+        empty = pd.DataFrame()
+        return empty, empty, empty
+
+    required_daily_cols = {
+        "date",
+        "run_key",
+        "feature_set",
+        "fold_id",
+        "seed",
+        "daily_return",
+        "portfolio_value",
+    }
+    required_benchmark_cols = {
+        "date",
+        "fold_id",
+        "benchmark_id",
+        "benchmark_name",
+        "benchmark_family",
+        "benchmark_return",
+        "benchmark_portfolio_value",
+    }
+    missing_daily = sorted(required_daily_cols - set(daily_df.columns))
+    missing_benchmark = sorted(required_benchmark_cols - set(benchmark_suite_df.columns))
+    if missing_daily:
+        raise KeyError(
+            "Daily test frame is missing required columns for benchmark comparisons: "
+            + ", ".join(missing_daily)
+        )
+    if missing_benchmark:
+        raise KeyError(
+            "Benchmark suite frame is missing required columns for benchmark comparisons: "
+            + ", ".join(missing_benchmark)
+        )
+
+    daily = ensure_feature_metadata(daily_df.copy())
+    daily["date"] = pd.to_datetime(daily["date"])
+    daily["daily_return"] = pd.to_numeric(daily["daily_return"], errors="coerce").fillna(0.0)
+    daily["portfolio_value"] = pd.to_numeric(daily["portfolio_value"], errors="coerce")
+    if "turnover" in daily.columns:
+        daily["turnover"] = pd.to_numeric(daily["turnover"], errors="coerce")
+
+    benchmarks = benchmark_suite_df.copy()
+    benchmarks["date"] = pd.to_datetime(benchmarks["date"])
+    benchmarks = benchmarks.rename(
+        columns={
+            "benchmark_id": "suite_benchmark_id",
+            "benchmark_name": "suite_benchmark_name",
+            "benchmark_family": "suite_benchmark_family",
+            "is_primary_benchmark": "suite_is_primary_benchmark",
+            "benchmark_return": "suite_benchmark_return",
+            "benchmark_portfolio_value": "suite_benchmark_portfolio_value",
+            "benchmark_turnover": "suite_benchmark_turnover",
+            "benchmark_transaction_cost": "suite_benchmark_transaction_cost",
+        }
+    )
+    for col in (
+        "suite_benchmark_return",
+        "suite_benchmark_portfolio_value",
+        "suite_benchmark_turnover",
+        "suite_benchmark_transaction_cost",
+    ):
+        if col in benchmarks.columns:
+            benchmarks[col] = pd.to_numeric(benchmarks[col], errors="coerce")
+
+    merged = daily.merge(benchmarks, on=["date", "fold_id"], how="inner")
+    if merged.empty:
+        empty = pd.DataFrame()
+        return empty, empty, empty
+
+    run_rows: list[dict[str, Any]] = []
+    for (run_key, benchmark_id), frame in merged.groupby(["run_key", "suite_benchmark_id"], dropna=False):
+        ordered = frame.sort_values("date").reset_index(drop=True)
+        agent_metrics = _compute_path_metrics(ordered["daily_return"], ordered["portfolio_value"])
+        benchmark_metrics = _compute_path_metrics(
+            ordered["suite_benchmark_return"],
+            ordered["suite_benchmark_portfolio_value"],
+        )
+        excess_daily = ordered["daily_return"] - ordered["suite_benchmark_return"]
+        excess_metrics = _compute_path_metrics(excess_daily)
+        template = ordered.iloc[0].to_dict()
+
+        run_rows.append(
+            {
+                "run_key": run_key,
+                "feature_set": template.get("feature_set"),
+                "feature_family": template.get("feature_family"),
+                "is_negative_control": template.get("is_negative_control"),
+                "fold_id": template.get("fold_id"),
+                "seed": template.get("seed"),
+                "selection_rule": template.get("selection_rule"),
+                "selected_model_type": template.get("selected_model_type"),
+                "benchmark_id": benchmark_id,
+                "benchmark_name": template.get("suite_benchmark_name"),
+                "benchmark_family": template.get("suite_benchmark_family"),
+                "is_primary_benchmark": bool(
+                    template.get("suite_is_primary_benchmark", benchmark_id == primary_benchmark_id)
+                ),
+                "n_days": int(len(ordered)),
+                "agent_return_pct": agent_metrics["return_pct"],
+                "agent_sharpe": agent_metrics["sharpe"],
+                "agent_max_drawdown": agent_metrics["max_drawdown"],
+                "agent_turnover": float(ordered["turnover"].mean())
+                if "turnover" in ordered.columns and ordered["turnover"].notna().any()
+                else np.nan,
+                "benchmark_return_pct": benchmark_metrics["return_pct"],
+                "benchmark_sharpe": benchmark_metrics["sharpe"],
+                "benchmark_max_drawdown": benchmark_metrics["max_drawdown"],
+                "benchmark_turnover": float(ordered["suite_benchmark_turnover"].mean())
+                if "suite_benchmark_turnover" in ordered.columns and ordered["suite_benchmark_turnover"].notna().any()
+                else np.nan,
+                "benchmark_transaction_cost_total": float(ordered["suite_benchmark_transaction_cost"].sum())
+                if "suite_benchmark_transaction_cost" in ordered.columns
+                else np.nan,
+                "daily_excess_return_mean": float(excess_daily.mean()),
+                "daily_excess_return_sharpe": excess_metrics["sharpe"],
+                "excess_return_pct": agent_metrics["return_pct"] - benchmark_metrics["return_pct"],
+                "excess_sharpe": agent_metrics["sharpe"] - benchmark_metrics["sharpe"],
+                "benchmark_relative_regret_return_pct": benchmark_metrics["return_pct"] - agent_metrics["return_pct"],
+                "benchmark_relative_regret_sharpe": benchmark_metrics["sharpe"] - agent_metrics["sharpe"],
+                "outperformed_benchmark_on_return": bool(agent_metrics["return_pct"] > benchmark_metrics["return_pct"])
+                if not np.isnan(agent_metrics["return_pct"]) and not np.isnan(benchmark_metrics["return_pct"])
+                else False,
+                "outperformed_benchmark_on_sharpe": bool(agent_metrics["sharpe"] > benchmark_metrics["sharpe"])
+                if not np.isnan(agent_metrics["sharpe"]) and not np.isnan(benchmark_metrics["sharpe"])
+                else False,
+                "hit_rate_vs_benchmark": float((ordered["daily_return"] > ordered["suite_benchmark_return"]).mean()),
+            }
+        )
+
+    run_level_df = pd.DataFrame(run_rows)
+    if run_level_df.empty:
+        empty = pd.DataFrame()
+        return empty, empty, empty
+
+    summary_by_feature = (
+        run_level_df.groupby(
+            [
+                "feature_set",
+                "feature_family",
+                "is_negative_control",
+                "benchmark_id",
+                "benchmark_name",
+                "benchmark_family",
+                "is_primary_benchmark",
+            ],
+            dropna=False,
+        )
+        .agg(
+            runs=("run_key", "nunique"),
+            folds=("fold_id", "nunique"),
+            seeds=("seed", "nunique"),
+            agent_return_pct_median=("agent_return_pct", "median"),
+            benchmark_return_pct_median=("benchmark_return_pct", "median"),
+            excess_return_pct_median=("excess_return_pct", "median"),
+            agent_sharpe_median=("agent_sharpe", "median"),
+            benchmark_sharpe_median=("benchmark_sharpe", "median"),
+            excess_sharpe_median=("excess_sharpe", "median"),
+            agent_max_drawdown_median=("agent_max_drawdown", "median"),
+            benchmark_max_drawdown_median=("benchmark_max_drawdown", "median"),
+            benchmark_relative_regret_return_pct_median=("benchmark_relative_regret_return_pct", "median"),
+            benchmark_relative_regret_sharpe_median=("benchmark_relative_regret_sharpe", "median"),
+            agent_turnover_median=("agent_turnover", "median"),
+            benchmark_turnover_median=("benchmark_turnover", "median"),
+            daily_excess_return_mean_median=("daily_excess_return_mean", "median"),
+            hit_rate_vs_benchmark_median=("hit_rate_vs_benchmark", "median"),
+            outperformed_benchmark_on_return_rate=("outperformed_benchmark_on_return", "mean"),
+            outperformed_benchmark_on_sharpe_rate=("outperformed_benchmark_on_sharpe", "mean"),
+        )
+        .reset_index()
+        .sort_values(
+            ["is_primary_benchmark", "excess_sharpe_median", "excess_return_pct_median"],
+            ascending=[False, False, False],
+        )
+        .reset_index(drop=True)
+    )
+    summary_by_fold = (
+        run_level_df.groupby(["fold_id", "feature_set", "benchmark_id"], dropna=False)
+        .agg(
+            runs=("run_key", "nunique"),
+            excess_return_pct_median=("excess_return_pct", "median"),
+            excess_sharpe_median=("excess_sharpe", "median"),
+            benchmark_win_rate_return=("outperformed_benchmark_on_return", "mean"),
+            benchmark_win_rate_sharpe=("outperformed_benchmark_on_sharpe", "mean"),
+            benchmark_relative_regret_return_pct_median=("benchmark_relative_regret_return_pct", "median"),
+        )
+        .reset_index()
+    )
+
+    return run_level_df, summary_by_feature, summary_by_fold
+
+
+def build_primary_benchmark_enriched_summary(
+    corrected_summary_df: pd.DataFrame,
+    benchmark_summary_by_feature_df: pd.DataFrame,
+    *,
+    primary_benchmark_id: str = PRIMARY_BENCHMARK_ID,
+) -> pd.DataFrame:
+    if corrected_summary_df.empty or benchmark_summary_by_feature_df.empty:
+        return corrected_summary_df.copy()
+
+    corrected = ensure_feature_metadata(corrected_summary_df.copy())
+    primary = benchmark_summary_by_feature_df[
+        benchmark_summary_by_feature_df["benchmark_id"] == primary_benchmark_id
+    ].copy()
+    if primary.empty:
+        return corrected
+    primary = ensure_feature_metadata(primary)
+
+    primary = primary.rename(
+        columns={
+            "benchmark_name": "primary_benchmark_name",
+            "benchmark_return_pct_median": "primary_benchmark_return_pct_median",
+            "benchmark_sharpe_median": "primary_benchmark_sharpe_median",
+            "benchmark_max_drawdown_median": "primary_benchmark_max_drawdown_median",
+            "excess_return_pct_median": "primary_benchmark_excess_return_pct_median",
+            "excess_sharpe_median": "primary_benchmark_excess_sharpe_median",
+            "benchmark_relative_regret_return_pct_median": "primary_benchmark_regret_return_pct_median",
+            "benchmark_relative_regret_sharpe_median": "primary_benchmark_regret_sharpe_median",
+            "outperformed_benchmark_on_return_rate": "primary_benchmark_outperform_return_rate",
+            "outperformed_benchmark_on_sharpe_rate": "primary_benchmark_outperform_sharpe_rate",
+            "hit_rate_vs_benchmark_median": "primary_benchmark_hit_rate_median",
+        }
+    )
+    keep_cols = [
+        "feature_set",
+        "feature_family",
+        "is_negative_control",
+        "primary_benchmark_name",
+        "primary_benchmark_return_pct_median",
+        "primary_benchmark_sharpe_median",
+        "primary_benchmark_max_drawdown_median",
+        "primary_benchmark_excess_return_pct_median",
+        "primary_benchmark_excess_sharpe_median",
+        "primary_benchmark_regret_return_pct_median",
+        "primary_benchmark_regret_sharpe_median",
+        "primary_benchmark_outperform_return_rate",
+        "primary_benchmark_outperform_sharpe_rate",
+        "primary_benchmark_hit_rate_median",
+    ]
+    merge_cols = ["feature_set", "feature_family", "is_negative_control"]
+    if any(col not in corrected.columns for col in merge_cols):
+        return corrected
+    if any(col not in primary.columns for col in merge_cols):
+        return corrected
+    return corrected.merge(
+        primary[keep_cols],
+        on=merge_cols,
+        how="left",
+    )
+
+
+def build_statistical_credibility_report(
+    unique_results_df: pd.DataFrame,
+    *,
+    selection_summary_df: Optional[pd.DataFrame] = None,
+    benchmark_summary_by_feature_df: Optional[pd.DataFrame] = None,
+    primary_benchmark_id: str = PRIMARY_BENCHMARK_ID,
+) -> dict[str, Any]:
+    selection_summary = selection_summary_df if selection_summary_df is not None else pd.DataFrame()
+    benchmark_summary = benchmark_summary_by_feature_df if benchmark_summary_by_feature_df is not None else pd.DataFrame()
+
+    return {
+        "status": "partial_implemented_guardrails",
+        "implemented_metrics": {
+            "retention_ratio": "implemented",
+            "generalization_ratio": "implemented",
+            "selection_rule_regret": "implemented",
+            "winner_match_rate": "implemented",
+            "benchmark_relative_metrics": "implemented" if not benchmark_summary.empty else "not_available",
+        },
+        "multiple_trials_context": {
+            "run_key_count": int(unique_results_df["run_key"].nunique()) if not unique_results_df.empty else 0,
+            "feature_set_count": int(unique_results_df["feature_set"].nunique()) if "feature_set" in unique_results_df.columns else 0,
+            "fold_count": int(unique_results_df["fold_id"].nunique()) if "fold_id" in unique_results_df.columns else 0,
+            "seed_count": int(unique_results_df["seed"].nunique()) if "seed" in unique_results_df.columns else 0,
+            "selection_rule_count": int(selection_summary["selection_rule"].nunique()) if not selection_summary.empty else 0,
+            "benchmark_count": int(benchmark_summary["benchmark_id"].nunique()) if not benchmark_summary.empty else 0,
+            "primary_benchmark_id": primary_benchmark_id,
+            "interpretation_note": (
+                "Configuration selection and benchmark comparison still span multiple trials. "
+                "Raw winner frequencies and median gaps are not a multiple-testing adjustment."
+            ),
+        },
+        "selection_bias_guardrails": {
+            "status": "implemented_partial",
+            "notes": [
+                "Configuration-level retention and generalization metrics are reported.",
+                "Winner-match rate and selection regret are reported by selection rule.",
+                "Benchmark-relative reporting is available when benchmark suite exports are present.",
+            ],
+        },
+        "advanced_statistics_todo": {
+            "deflated_sharpe": {
+                "status": "todo_not_implemented",
+                "next_step": "Add Deflated-Sharpe-style significance reporting for selected strategies.",
+            },
+            "probability_of_backtest_overfitting": {
+                "status": "todo_not_implemented",
+                "next_step": "Add PBO-style workflow once multiple comparable trial batches are accumulated.",
+            },
+        },
+    }
 
 
 def compute_turnover_series_from_actions(
@@ -469,6 +825,7 @@ def build_regime_reports_from_daily(
                 "is_negative_control": template.get("is_negative_control"),
                 "selection_rule": template.get("selection_rule"),
                 "selected_model_type": template.get("selected_model_type"),
+                "benchmark_id": template.get("benchmark_id"),
                 "n_days": n_days,
                 "mean_daily_return": mean_return,
                 "daily_volatility": daily_vol,
@@ -527,35 +884,92 @@ def merge_csv_files(
     key_col: str,
     output_path: Optional[str | Path] = None,
 ) -> pd.DataFrame:
+    return merge_csv_files_by_keys(
+        inputs,
+        key_cols=(key_col,),
+        output_path=output_path,
+        allow_identical_duplicates=False,
+    )
+
+
+def merge_csv_files_by_keys(
+    inputs: Sequence[str | Path],
+    *,
+    key_cols: Sequence[str],
+    output_path: Optional[str | Path] = None,
+    allow_identical_duplicates: bool = False,
+    allow_schema_union: bool = False,
+) -> pd.DataFrame:
     if not inputs:
         raise ValueError("At least one input CSV is required.")
 
     frames = []
     schema: Optional[tuple[str, ...]] = None
-    seen_keys: set[str] = set()
+    union_schema: list[str] = []
+    resolved_key_cols = tuple(str(col) for col in key_cols)
+    if not resolved_key_cols:
+        raise ValueError("At least one key column is required for merging.")
 
     for input_path in inputs:
         frame = pd.read_csv(input_path)
         frame_cols = tuple(frame.columns.tolist())
         if schema is None:
             schema = frame_cols
-        elif frame_cols != schema:
+            union_schema = list(frame_cols)
+        elif frame_cols != schema and not allow_schema_union:
             raise ValueError(
                 f"Incompatible schema for `{input_path}`. Expected columns: {schema}. Got: {frame_cols}."
             )
-        if key_col not in frame.columns:
-            raise KeyError(f"`{input_path}` is missing required key column `{key_col}`.")
-
-        overlap = seen_keys & set(frame[key_col].astype(str))
-        if overlap:
-            sample = ", ".join(sorted(list(overlap))[:5])
-            raise ValueError(
-                f"Conflicting `{key_col}` values encountered while merging. Sample duplicates: {sample}"
+        if allow_schema_union:
+            for col in frame.columns:
+                if col not in union_schema:
+                    union_schema.append(col)
+        missing_cols = [col for col in resolved_key_cols if col not in frame.columns]
+        if missing_cols:
+            raise KeyError(
+                f"`{input_path}` is missing required key columns: {', '.join(missing_cols)}."
             )
-        seen_keys.update(map(str, frame[key_col]))
         frames.append(frame)
 
+    if allow_schema_union and union_schema:
+        frames = [frame.reindex(columns=union_schema) for frame in frames]
+
     merged = pd.concat(frames, ignore_index=True)
+    duplicate_mask = merged.duplicated(subset=list(resolved_key_cols), keep=False)
+    if duplicate_mask.any():
+        duplicate_rows = merged.loc[duplicate_mask].copy()
+        duplicate_keys_df = duplicate_rows[list(resolved_key_cols)].drop_duplicates()
+        sample_keys = duplicate_keys_df.head(5).to_dict(orient="records")
+        if not allow_identical_duplicates:
+            raise ValueError(
+                "Conflicting duplicate keys encountered while merging. "
+                f"Sample duplicates: {sample_keys}"
+            )
+
+        invariant_cols = [col for col in merged.columns if col not in resolved_key_cols]
+        inconsistent_keys: list[dict[str, Any]] = []
+        for key_values, frame in duplicate_rows.groupby(list(resolved_key_cols), dropna=False):
+            if len(frame) <= 1:
+                continue
+            for col in invariant_cols:
+                normalized = frame[col].astype(str).replace({"nan": "<NA>", "NaT": "<NA>"})
+                if normalized.nunique(dropna=False) > 1:
+                    if not isinstance(key_values, tuple):
+                        key_values = (key_values,)
+                    inconsistent_keys.append(
+                        {
+                            col_name: key_value
+                            for col_name, key_value in zip(resolved_key_cols, key_values)
+                        }
+                    )
+                    break
+        if inconsistent_keys:
+            raise ValueError(
+                "Overlapping keys were not identical while merging. "
+                f"Sample inconsistent keys: {inconsistent_keys[:5]}"
+            )
+        merged = merged.drop_duplicates(subset=list(resolved_key_cols), keep="first").reset_index(drop=True)
+
     if output_path is not None:
         output = Path(output_path)
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -563,11 +977,147 @@ def merge_csv_files(
     return merged
 
 
+def merge_research_output_dirs(
+    inputs: Sequence[str | Path],
+    *,
+    output_dir: str | Path,
+    dataset_path: Optional[str | Path] = None,
+) -> dict[str, Any]:
+    if not inputs:
+        raise ValueError("At least one research output directory is required.")
+
+    resolved_inputs = [Path(path) for path in inputs]
+    target_dir = Path(output_dir)
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    results_inputs: list[Path] = []
+    daily_inputs: list[Path] = []
+    folds_inputs: list[Path] = []
+    benchmark_inputs: list[Path] = []
+    missing_daily_dirs: list[str] = []
+    missing_benchmark_dirs: list[str] = []
+    missing_folds_dirs: list[str] = []
+
+    for source_dir in resolved_inputs:
+        results_path = source_dir / "walk_forward_results.csv"
+        if not results_path.exists():
+            raise FileNotFoundError(f"Missing required walk_forward_results.csv in `{source_dir}`.")
+        results_inputs.append(results_path)
+
+        daily_path = source_dir / "walk_forward_daily_test_returns.csv"
+        if daily_path.exists():
+            daily_inputs.append(daily_path)
+        else:
+            missing_daily_dirs.append(str(source_dir))
+
+        folds_path = source_dir / "walk_forward_folds.csv"
+        if folds_path.exists():
+            folds_inputs.append(folds_path)
+        else:
+            missing_folds_dirs.append(str(source_dir))
+
+        benchmark_path = source_dir / "benchmark_suite_daily.csv"
+        if benchmark_path.exists():
+            benchmark_inputs.append(benchmark_path)
+        else:
+            missing_benchmark_dirs.append(str(source_dir))
+
+    merged_results = merge_csv_files_by_keys(
+        results_inputs,
+        key_cols=("run_key",),
+        output_path=target_dir / "walk_forward_results_merged.csv",
+    )
+
+    merged_daily = pd.DataFrame()
+    if daily_inputs:
+        merged_daily = merge_csv_files_by_keys(
+            daily_inputs,
+            key_cols=("run_key", "date"),
+            output_path=target_dir / "walk_forward_daily_test_returns_merged.csv",
+            allow_schema_union=True,
+        )
+
+    merged_folds = pd.DataFrame()
+    if folds_inputs:
+        merged_folds = merge_csv_files_by_keys(
+            folds_inputs,
+            key_cols=("fold_id",),
+            output_path=target_dir / "walk_forward_folds_merged.csv",
+            allow_identical_duplicates=True,
+        )
+
+    benchmark_source = "none"
+    merged_benchmark = pd.DataFrame()
+    if benchmark_inputs:
+        merged_benchmark = merge_csv_files_by_keys(
+            benchmark_inputs,
+            key_cols=("fold_id", "date", "benchmark_id"),
+            output_path=target_dir / "benchmark_suite_daily_merged.csv",
+            allow_identical_duplicates=True,
+        )
+        benchmark_source = "merged_existing_outputs"
+    elif dataset_path is not None and not merged_folds.empty:
+        dataset_df = pd.read_csv(dataset_path)
+        merged_benchmark = build_benchmark_suite_from_dataset(
+            dataset_df,
+            merged_folds,
+            output_path=target_dir / "benchmark_suite_daily_merged.csv",
+        )
+        benchmark_source = "rebuilt_from_dataset"
+
+    analysis_dir = target_dir / "analysis"
+    rebuild_bundle = rebuild_walk_forward_report(
+        merged_results,
+        outdir=analysis_dir,
+        daily_test_df=merged_daily if not merged_daily.empty else None,
+        benchmark_suite_df=merged_benchmark if not merged_benchmark.empty else None,
+    )
+
+    manifest = {
+        "input_dirs": [str(path.resolve()) for path in resolved_inputs],
+        "merged_results_path": str((target_dir / "walk_forward_results_merged.csv").resolve()),
+        "merged_daily_path": (
+            str((target_dir / "walk_forward_daily_test_returns_merged.csv").resolve())
+            if not merged_daily.empty
+            else None
+        ),
+        "merged_folds_path": (
+            str((target_dir / "walk_forward_folds_merged.csv").resolve())
+            if not merged_folds.empty
+            else None
+        ),
+        "merged_benchmark_path": (
+            str((target_dir / "benchmark_suite_daily_merged.csv").resolve())
+            if not merged_benchmark.empty
+            else None
+        ),
+        "benchmark_source": benchmark_source,
+        "missing_daily_dirs": missing_daily_dirs,
+        "missing_benchmark_dirs": missing_benchmark_dirs,
+        "missing_folds_dirs": missing_folds_dirs,
+        "analysis_dir": str(analysis_dir.resolve()),
+    }
+    (target_dir / "merge_manifest.json").write_text(
+        json.dumps(_json_safe(manifest), indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    return {
+        "merged_results": merged_results,
+        "merged_daily": merged_daily,
+        "merged_folds": merged_folds,
+        "merged_benchmark": merged_benchmark,
+        "rebuild_bundle": rebuild_bundle,
+        "manifest": manifest,
+    }
+
+
 def rebuild_walk_forward_report(
     raw_results_df: pd.DataFrame,
     *,
     outdir: str | Path,
     daily_test_df: Optional[pd.DataFrame] = None,
+    benchmark_suite_df: Optional[pd.DataFrame] = None,
     legacy_regime_df: Optional[pd.DataFrame] = None,
     selection_rules: Optional[Mapping[str, SelectionRuleSpec]] = None,
     min_days_per_regime: int = 10,
@@ -586,6 +1136,10 @@ def rebuild_walk_forward_report(
     regime_run_df = pd.DataFrame()
     regime_feature_df = pd.DataFrame()
     regime_fold_df = pd.DataFrame()
+    benchmark_run_df = pd.DataFrame()
+    benchmark_feature_df = pd.DataFrame()
+    benchmark_fold_df = pd.DataFrame()
+    enriched_summary = corrected_summary.copy()
     warnings: list[str] = []
     if daily_test_df is not None and not daily_test_df.empty:
         regime_run_df, regime_feature_df, regime_fold_df = build_regime_reports_from_daily(
@@ -600,8 +1154,30 @@ def rebuild_walk_forward_report(
         if legacy_regime_df is not None and not legacy_regime_df.empty:
             legacy_regime_df.to_csv(outdir / "legacy_walk_forward_regime_breakdown.csv", index=False)
 
+    if benchmark_suite_df is not None and not benchmark_suite_df.empty and daily_test_df is not None and not daily_test_df.empty:
+        benchmark_run_df, benchmark_feature_df, benchmark_fold_df = build_benchmark_comparison_reports(
+            daily_test_df,
+            benchmark_suite_df,
+        )
+        enriched_summary = build_primary_benchmark_enriched_summary(
+            corrected_summary,
+            benchmark_feature_df,
+        )
+        benchmark_suite_df.to_csv(outdir / "benchmark_suite_daily.csv", index=False)
+    else:
+        warnings.append(
+            "Benchmark-suite comparisons were not rebuilt because `benchmark_suite_daily.csv` was not provided."
+        )
+
+    statistical_credibility = build_statistical_credibility_report(
+        unique_results_df,
+        selection_summary_df=selection_summary,
+        benchmark_summary_by_feature_df=benchmark_feature_df,
+    )
+
     unique_results_df.to_csv(outdir / "unique_run_level_results.csv", index=False)
     corrected_summary.to_csv(outdir / "corrected_walk_forward_summary.csv", index=False)
+    enriched_summary.to_csv(outdir / "corrected_walk_forward_summary_with_primary_benchmark.csv", index=False)
     selection_comparison.to_csv(outdir / "selection_rule_comparison.csv", index=False)
     selection_summary.to_csv(outdir / "selection_rule_summary.csv", index=False)
     winner_df.to_csv(outdir / "validation_vs_test_winner_by_fold.csv", index=False)
@@ -610,6 +1186,14 @@ def rebuild_walk_forward_report(
         regime_run_df.to_csv(outdir / "regime_run_level_metrics.csv", index=False)
         regime_feature_df.to_csv(outdir / "regime_summary_by_feature_set.csv", index=False)
         regime_fold_df.to_csv(outdir / "regime_summary_by_fold.csv", index=False)
+    if not benchmark_run_df.empty:
+        benchmark_run_df.to_csv(outdir / "benchmark_run_level_metrics.csv", index=False)
+        benchmark_feature_df.to_csv(outdir / "benchmark_summary_by_feature_set.csv", index=False)
+        benchmark_fold_df.to_csv(outdir / "benchmark_summary_by_fold.csv", index=False)
+    (outdir / "statistical_credibility_report.json").write_text(
+        json.dumps(_json_safe(statistical_credibility), indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
 
     artifact_index = {
         "raw_row_count": diagnostics["raw_row_count"],
@@ -621,12 +1205,16 @@ def rebuild_walk_forward_report(
         "outputs": {
             "unique_run_level_results": str(outdir / "unique_run_level_results.csv"),
             "corrected_walk_forward_summary": str(outdir / "corrected_walk_forward_summary.csv"),
+            "corrected_walk_forward_summary_with_primary_benchmark": str(
+                outdir / "corrected_walk_forward_summary_with_primary_benchmark.csv"
+            ),
             "selection_rule_comparison": str(outdir / "selection_rule_comparison.csv"),
             "selection_rule_summary": str(outdir / "selection_rule_summary.csv"),
             "validation_vs_test_winner_by_fold": str(outdir / "validation_vs_test_winner_by_fold.csv"),
             "pairwise_permutation_tests_recomputed": str(
                 outdir / "pairwise_permutation_tests_recomputed.csv"
             ),
+            "statistical_credibility_report": str(outdir / "statistical_credibility_report.json"),
         },
     }
     if not regime_run_df.empty:
@@ -638,6 +1226,15 @@ def rebuild_walk_forward_report(
                 "regime_summary_by_fold": str(outdir / "regime_summary_by_fold.csv"),
             }
         )
+    if not benchmark_run_df.empty:
+        artifact_index["outputs"].update(
+            {
+                "benchmark_suite_daily": str(outdir / "benchmark_suite_daily.csv"),
+                "benchmark_run_level_metrics": str(outdir / "benchmark_run_level_metrics.csv"),
+                "benchmark_summary_by_feature_set": str(outdir / "benchmark_summary_by_feature_set.csv"),
+                "benchmark_summary_by_fold": str(outdir / "benchmark_summary_by_fold.csv"),
+            }
+        )
 
     (outdir / "artifact_index.json").write_text(
         json.dumps(_json_safe(artifact_index), indent=2, ensure_ascii=False),
@@ -647,6 +1244,7 @@ def rebuild_walk_forward_report(
     return {
         "unique_run_level_results": unique_results_df,
         "corrected_walk_forward_summary": corrected_summary,
+        "corrected_walk_forward_summary_with_primary_benchmark": enriched_summary,
         "selection_rule_comparison": selection_comparison,
         "selection_rule_summary": selection_summary,
         "validation_vs_test_winner_by_fold": winner_df,
@@ -654,8 +1252,43 @@ def rebuild_walk_forward_report(
         "regime_run_level_metrics": regime_run_df,
         "regime_summary_by_feature_set": regime_feature_df,
         "regime_summary_by_fold": regime_fold_df,
+        "benchmark_run_level_metrics": benchmark_run_df,
+        "benchmark_summary_by_feature_set": benchmark_feature_df,
+        "benchmark_summary_by_fold": benchmark_fold_df,
+        "statistical_credibility_report": statistical_credibility,
         "artifact_index": artifact_index,
     }
+
+
+def build_benchmark_suite_from_dataset(
+    dataset_df: pd.DataFrame,
+    folds_df: pd.DataFrame,
+    *,
+    output_path: Optional[str | Path] = None,
+) -> pd.DataFrame:
+    data = dataset_df.copy()
+    data["date"] = pd.to_datetime(data["date"])
+    suite_rows: list[pd.DataFrame] = []
+    for _, row in folds_df.iterrows():
+        fold_id = str(row["fold_id"])
+        test_start = pd.Timestamp(row["test_start"])
+        test_end = pd.Timestamp(row["test_end"])
+        benchmark_source = data[data["date"] <= test_end].copy()
+        suite_rows.append(
+            build_benchmark_suite_frame(
+                benchmark_source,
+                fold_id=fold_id,
+                test_start=test_start,
+                test_end=test_end,
+            )
+        )
+
+    combined = pd.concat(suite_rows, ignore_index=True) if suite_rows else pd.DataFrame()
+    if output_path is not None and not combined.empty:
+        output = Path(output_path)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        combined.to_csv(output, index=False)
+    return combined
 
 
 class OrderedLike(dict):
@@ -686,6 +1319,11 @@ def _parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         help="Optional walk_forward_daily_test_returns.csv for exogenous regime diagnostics.",
     )
     rebuild_parser.add_argument(
+        "--benchmark-suite-input",
+        default=None,
+        help="Optional benchmark_suite_daily.csv for multi-benchmark reporting.",
+    )
+    rebuild_parser.add_argument(
         "--legacy-regime-input",
         default=None,
         help="Optional legacy walk_forward_regime_breakdown.csv for reference only.",
@@ -695,6 +1333,38 @@ def _parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         type=int,
         default=10,
         help="Minimum number of days required before Sharpe is computed inside a regime.",
+    )
+
+    benchmark_parser = subparsers.add_parser(
+        "build-benchmark-suite",
+        help="Build benchmark_suite_daily.csv from a processed dataset and walk-forward folds CSV.",
+    )
+    benchmark_parser.add_argument("--dataset", required=True, help="Processed dataset CSV path.")
+    benchmark_parser.add_argument("--folds-input", required=True, help="walk_forward_folds.csv path.")
+    benchmark_parser.add_argument("--output", required=True, help="Benchmark suite CSV path.")
+
+    merge_outputs_parser = subparsers.add_parser(
+        "merge-research-outputs",
+        help="Merge multiple research output directories and rebuild a unified analysis folder.",
+    )
+    merge_outputs_parser.add_argument(
+        "--inputs",
+        nargs="+",
+        required=True,
+        help="Research output directories to merge.",
+    )
+    merge_outputs_parser.add_argument(
+        "--output-dir",
+        required=True,
+        help="Directory where merged CSVs and rebuilt analysis should be written.",
+    )
+    merge_outputs_parser.add_argument(
+        "--dataset",
+        default=None,
+        help=(
+            "Optional processed dataset CSV path used to rebuild benchmark_suite_daily.csv "
+            "when no merged benchmark suite is available from the input directories."
+        ),
     )
     return parser.parse_args(argv)
 
@@ -708,13 +1378,33 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if args.command == "rebuild-walkforward-report":
         raw_results_df = pd.read_csv(args.input)
         daily_test_df = pd.read_csv(args.daily_input) if args.daily_input else None
+        benchmark_suite_df = pd.read_csv(args.benchmark_suite_input) if args.benchmark_suite_input else None
         legacy_regime_df = pd.read_csv(args.legacy_regime_input) if args.legacy_regime_input else None
         rebuild_walk_forward_report(
             raw_results_df,
             outdir=args.outdir,
             daily_test_df=daily_test_df,
+            benchmark_suite_df=benchmark_suite_df,
             legacy_regime_df=legacy_regime_df,
             min_days_per_regime=args.min_days_per_regime,
+        )
+        return 0
+
+    if args.command == "build-benchmark-suite":
+        dataset_df = pd.read_csv(args.dataset)
+        folds_df = pd.read_csv(args.folds_input)
+        build_benchmark_suite_from_dataset(
+            dataset_df,
+            folds_df,
+            output_path=args.output,
+        )
+        return 0
+
+    if args.command == "merge-research-outputs":
+        merge_research_output_dirs(
+            args.inputs,
+            output_dir=args.output_dir,
+            dataset_path=args.dataset,
         )
         return 0
 

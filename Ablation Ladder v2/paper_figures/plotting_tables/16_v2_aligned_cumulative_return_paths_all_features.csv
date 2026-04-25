@@ -1,0 +1,321 @@
+feature_set,aligned_test_day,median,q25,q75,count,feature_family,is_negative_control,feature_set_description
+base,1,0.0,0.0,0.0,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,2,3.640712127706003e-05,-0.0009815766200063913,0.0006625777661323773,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,3,0.0006392375381468751,-0.0011116469207761714,0.0021547133867262924,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,4,0.0017176562412264396,-8.683791332225743e-05,0.004251108319282937,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,5,0.0022270330205916844,7.1645603660353e-06,0.004621704416465866,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,6,0.003820904697990457,-0.0028381255326113963,0.006244285051643372,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,7,0.0046028721551322205,-0.0005534975403780062,0.01022679797795889,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,8,0.007126596037006272,-0.00044853244609782683,0.0122606857784196,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,9,0.005964822868868014,-0.0017880287118421934,0.013397905456460024,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,10,0.004633504581331271,-0.00929121216436224,0.01427311789204,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,11,0.01327493425568449,-0.006524117340949681,0.018845866935526034,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,12,0.010559580168791216,-0.0023232218065064314,0.01904512933520397,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,13,0.011315342537821627,-0.002652946557187452,0.019671006607372366,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,14,0.01041532470621298,0.001485021527421082,0.016622778627307155,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,15,0.008979025626148607,-0.0027491224215448473,0.017393120405051643,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,16,0.010201728103580554,-0.0016717118783885765,0.015329090007236645,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,17,0.006297645966201859,-0.0045012922226257135,0.016139452358575668,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,18,0.00911749143567675,-0.002821806625043416,0.013509092615766494,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,19,0.005400350217953265,-0.010790788687768199,0.018176272505648794,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,20,0.0074332232931368925,-0.012784559787790362,0.018534318539179695,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,21,0.004154613201704183,-0.008201539252731926,0.01617601721117856,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,22,0.010171543506123593,-0.014108309036123756,0.021041280745166313,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,23,0.009812459459510259,-0.009823982961789629,0.026094716804090423,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,24,0.01078930581551174,-0.02104293382708905,0.028125728504342196,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,25,0.014065099013631621,-0.014585179213017219,0.026712660632541574,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,26,0.015089959281606946,-0.009757603607238319,0.02918568293990964,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,27,0.01752221337266624,-0.02177312545630322,0.03069231291829816,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,28,0.019503668411104846,-0.01954490147045726,0.03317677713821521,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,29,0.020659336389437732,-0.021532816022228868,0.03909677335346834,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,30,0.022770322168989554,-0.01286073973074664,0.04185722617345311,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,31,0.02376564215500332,-0.009452216893432785,0.044420320196957574,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,32,0.023552241695961595,-0.009628702039853748,0.04109882729547548,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,33,0.022169197981388833,-0.007243660139320457,0.04195630048762672,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,34,0.025313302987190478,-0.015277230330523112,0.046909372588169684,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,35,0.022609591267988893,-0.013118916438447786,0.0484724674100821,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,36,0.024124061174139677,-0.005987623868350306,0.04959826020923647,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,37,0.024791464417549536,-0.019376648736399105,0.047999296603376096,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,38,0.021896468095511268,-0.026173127365489518,0.046899112241806984,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,39,0.014151016999033428,-0.030775417971127483,0.05350869195145436,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,40,0.023825170273118035,-0.011324672593110041,0.050052482520294816,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,41,0.024756143836541566,-0.017494150805670544,0.048278825522286184,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,42,0.026228888099125935,-0.021125082471211726,0.04456833060669785,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,43,0.027809053866276856,-0.01889582749501384,0.05137553616377488,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,44,0.026790688775883864,-0.015618670793174277,0.04521410786577823,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,45,0.023574664254889632,-0.013004893249616761,0.04870255007805302,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,46,0.02515684323123646,-0.012470555611936857,0.04843350335194829,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,47,0.02231811449054444,-0.014494532878287891,0.05712363402277848,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,48,0.024950366557197845,-0.01714191971011378,0.06060760491357914,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,49,0.024538468331413488,-0.0111100177272416,0.06483145049452305,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,50,0.02160914865425967,-0.02025826704388753,0.0667727675394571,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,51,0.023287453796174584,-0.024950674309103416,0.06555352002541481,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,52,0.023899984191682377,-0.019368168933563967,0.06597413617689674,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,53,0.025487827556752385,-0.02107938649221114,0.06706968806606384,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,54,0.029364650343083554,-0.02275284094567015,0.06223942056031334,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,55,0.02186559532370491,-0.025345203512034176,0.06094184557712001,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,56,0.01964623549030098,-0.01634079781391326,0.06276630370912895,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,57,0.02487245048959985,-0.023499745891115198,0.06356729765360275,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,58,0.025380762797125644,-0.022242753788276476,0.06387261378976283,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,59,0.028016876908758093,-0.026904600795829736,0.06852063159916322,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,60,0.017073979607658996,-0.024780029899171635,0.07505420107919131,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,61,0.017411477191048408,-0.022488224943678803,0.07220971031266615,42,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,62,0.0300263312643525,-0.02443011514592791,0.08088408530209212,39,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,63,0.0006046776670891041,-0.051384543507124875,0.07182222205930694,24,technical_base,False,"Prices, returns, and baseline technical risk features."
+base,64,0.014525245074042792,-0.027737682208135245,0.08304120115001473,18,technical_base,False,"Prices, returns, and baseline technical risk features."
+base_macro,1,0.0,0.0,0.0,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,2,-2.7144290923319936e-06,-0.0009579004907606381,0.000620571278858173,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,3,0.0008336354007720814,-0.0008501784968373283,0.0024767279059412783,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,4,0.0021701082219963697,-8.652583508442224e-05,0.004574083167123655,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,5,0.0021076729076383582,-6.160500703747407e-05,0.005085869203901305,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,6,0.0044230097567558024,-0.0014819854920955222,0.006993017041778182,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,7,0.0047715835078926405,0.001029248656967685,0.010044020818423594,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,8,0.008459317425064339,0.00044947325197153276,0.012927446565428546,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,9,0.006138922946580472,-0.001703806396422508,0.014718503952846851,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,10,0.007402642967853423,-0.010968439391696283,0.01416974427177392,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,11,0.009261530056081435,-0.008272550950318286,0.019540481328614023,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,12,0.009234460108726417,-0.0012206989373365618,0.01994040062015634,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,13,0.011679921491382639,-0.0009656192983096834,0.01833815407707845,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,14,0.00948985718487172,-0.002673628301469444,0.017795524135675533,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,15,0.009553751781061659,-0.0002673202830948407,0.01846668424317166,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,16,0.01287155221503511,-0.0024204627493739916,0.01904090113738227,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,17,0.009360400569889293,-0.008240742449833499,0.019756486590194633,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,18,0.012165796782325766,-0.004155780416026045,0.016787215146669476,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,19,0.0037871885403919503,-0.006531577547179368,0.0205735457882969,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,20,0.004471632772068523,-0.008451535836346141,0.019430450808246902,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,21,0.006587303776708686,-0.0047962239099903214,0.021593695868663165,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,22,0.010291012415440615,-0.014595611252033791,0.0239482548518688,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,23,0.011753619668578463,-0.003265550768857345,0.024448907888580784,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,24,0.015329098299919575,-0.003386367484357944,0.027060825857956994,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,25,0.017964000228830934,-0.006620077069115271,0.02967500391021166,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,26,0.019532223189700715,-0.0047398646607549055,0.03542557417492437,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,27,0.019176527685673683,-0.006651960028907833,0.031960060072838914,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,28,0.021430609183344274,-0.012890843502277122,0.036361997378869026,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,29,0.026319119234962884,0.0013042233798563618,0.04054938232285016,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,30,0.024082159828712868,0.007596647151600355,0.047429578576607845,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,31,0.02666434575618304,0.009949133132073129,0.0490132194161248,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,32,0.027680692580120403,0.002830106803324961,0.04783281664379552,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,33,0.02368236968399462,-0.0025195570948050305,0.049344192786616614,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,34,0.027796242511988423,-0.01097102349007642,0.04926770545888187,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,35,0.02701164035002168,0.0011394463762329221,0.052231792712452374,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,36,0.03168827484700676,-0.00047311348575959644,0.05923880167225215,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,37,0.02782949675827362,-0.0002893080009797877,0.0545839775336619,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,38,0.02258947835579972,-0.009490549175141194,0.05715660145750662,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,39,0.025991946384338882,-0.019480292392334175,0.06195879947158528,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,40,0.02648521341489618,-0.011197085495336934,0.05676054781099765,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,41,0.023245356842135023,-0.01113701884325749,0.0561523689582884,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,42,0.021342577024729303,-0.011511805658900698,0.05609910873481766,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,43,0.02568426515675659,-0.011707023933970911,0.0552485023946927,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,44,0.024089336286262197,-7.951165307898411e-05,0.0539634552514931,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,45,0.03063530474557452,0.0017461534339506257,0.06243369862104331,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,46,0.028338140790883815,0.0002323745295301216,0.060714889231162306,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,47,0.02607146724806786,-0.002792686787513765,0.06418018956493582,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,48,0.027013836825549475,-0.005423799525597822,0.06862165491241479,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,49,0.028879720249986085,0.0013357491100927654,0.07064735917579268,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,50,0.019466281472160674,-0.0031734805331307125,0.07310196382025858,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,51,0.017681711530374122,-0.0067970535312621705,0.0714912878146911,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,52,0.02131338501397695,-0.0025891923042515863,0.06856794709716374,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,53,0.02244070569364165,-0.0029522661487276503,0.07063410108815715,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,54,0.022610560713540617,-0.01936581918586927,0.06607957504286222,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,55,0.023195604442777684,-0.020486821971551966,0.06575449455502447,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,56,0.027091725260915744,-0.011016732376615657,0.06870418584948462,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,57,0.02723214475173441,-0.020848258229364952,0.062331514419652956,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,58,0.02592964551702126,-0.015923192447809847,0.06719164616183698,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,59,0.02829670319006683,-0.012982476189096231,0.0674601619044139,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,60,0.032363504171347035,-0.025123978150389525,0.0717295699366714,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,61,0.030365009620338612,-0.016101041244121733,0.07163334001166372,42,macro_context,False,Baseline technical features plus macro context.
+base_macro,62,0.03713442562077485,-0.024110142249508526,0.07725505041727465,39,macro_context,False,Baseline technical features plus macro context.
+base_macro,63,0.0042288769740558285,-0.05231409682370994,0.07332111603170566,24,macro_context,False,Baseline technical features plus macro context.
+base_macro,64,0.03416935110323727,-0.03648615247424947,0.07720998555667458,18,macro_context,False,Baseline technical features plus macro context.
+base_macro_exogenous_plus,1,0.0,0.0,0.0,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,2,0.00013136363582622046,-0.0008032346218108388,0.0006041801362990928,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,3,0.0006329404408457195,-0.0009698803589820171,0.002333657967948821,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,4,0.0040476375243189144,-0.0004915055459973061,0.005102167234325383,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,5,0.0037617273502348336,0.00022557732791139706,0.006281089894872638,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,6,0.005567771595001436,6.962254351911001e-05,0.008722792357815146,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,7,0.005231939162868571,-0.0002162652930731701,0.01293378231391945,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,8,0.008741766358924985,-0.0004269176326477664,0.01356732990877657,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,9,0.007648479183635981,-0.0031586545523620557,0.016540373336383807,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,10,0.007513997542229034,-0.008259501398858254,0.017802794450103465,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,11,0.012937032234932033,-0.008856642316873997,0.025236187816498112,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,12,0.012382032071172944,-0.0031911712978683893,0.022836453586679684,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,13,0.011069189396314849,-0.0031850906875804663,0.025261118586519304,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,14,0.010961385001800439,6.536247553612373e-05,0.01764926784717774,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,15,0.009180503957010755,-0.0018884911739392163,0.0229562145762659,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,16,0.011584771268207894,0.00020661096568541648,0.021506608030365415,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,17,0.00972424609729261,-0.0009723424927935709,0.02248045108098773,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,18,0.010391050632375776,-0.0005794939727198078,0.020992390366869118,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,19,0.005083637378519579,-0.0024826194331832863,0.027021229517488032,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,20,0.006279539882505958,-0.004410346357422379,0.029014645399384087,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,21,0.008197540091995026,-0.006826332998295159,0.02644517584155298,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,22,0.007949652542021957,-0.012800147970130044,0.02766994178155746,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,23,0.011122364935385654,0.000384929304752063,0.03232720575971676,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,24,0.013575257384114248,-0.0033743843972770526,0.03121463044963152,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,25,0.014849948559367165,-0.01449599666827281,0.031843601176707426,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,26,0.01761923026890022,-0.011434882903328003,0.03173918703898532,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,27,0.019371602558075907,-0.004807795045570884,0.028874682770038185,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,28,0.020918340670653568,-0.0018714689632328974,0.038327281956151926,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,29,0.022387301532412196,0.0004070755021445549,0.03951401324882986,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,30,0.026534273031409317,0.004847947690928944,0.04334849410053182,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,31,0.02733826931797456,0.0034509836763637614,0.045776713562126314,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,32,0.024022903751133584,0.0008307420959250689,0.04112449484130548,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,33,0.02266459150069622,0.0018847060465463916,0.044689716803440915,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,34,0.023703179948488806,0.0020253314902269337,0.0450300684300845,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,35,0.03081788942678132,0.00025510936984105004,0.04892521901981822,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,36,0.03343809246318008,-0.005005957279393181,0.05469236783546444,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,37,0.03459466275101186,0.0009215709253947713,0.05245968134504214,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,38,0.026873273609577808,0.00021281643348389223,0.05341303716870932,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,39,0.024602149328881162,0.0018914706719286856,0.05482667938546615,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,40,0.027953939156871277,0.007792058180758121,0.05782094926191783,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,41,0.02475875826053986,0.013073140466338673,0.05328624812903726,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,42,0.022109967712384604,0.007143937311434867,0.05572549536495608,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,43,0.024609600622299443,0.008664046564235084,0.05812610735651097,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,44,0.027671002794223742,0.006807806669207217,0.05182564977682075,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,45,0.035500177575324865,0.006615246617757753,0.053568843479839146,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,46,0.027890193914127837,0.007930298192866614,0.0543962926780982,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,47,0.030655411459091453,0.004286933170698726,0.057327736022393216,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,48,0.030841706560605364,0.0003813165148670583,0.05834753737234566,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,49,0.036698133108701625,0.0017864036225226365,0.06065666583144297,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,50,0.0260617904931717,-0.002842947352021008,0.06277352502167438,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,51,0.028982475773844052,-0.00291172161502648,0.06256607662627739,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,52,0.02930354292070303,-0.0009810964063865224,0.06323210422036557,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,53,0.023965369529360903,-0.004601661760925968,0.06694981675821671,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,54,0.01207801638730499,-0.013395215252969217,0.06615212502630513,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,55,0.008662308571494304,-0.018931820814918593,0.06889692984064383,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,56,0.018109615425060066,-0.010259960219464292,0.07101087117471105,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,57,0.01561973684075213,-0.02062355162643162,0.07188490802932834,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,58,0.018737810171453595,-0.02575938417185214,0.07148555859191391,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,59,0.02177274007506169,-0.017503257605638006,0.06963558337436737,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,60,0.015379221637548568,-0.03332526068514549,0.07443521168292672,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,61,0.019833620584167044,-0.020987413994926457,0.07717505365314825,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,62,0.03859161771284336,-0.02486041848709314,0.08466053305913834,39,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,63,0.0020951742719123034,-0.045942238010530656,0.06484234302031933,24,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_exogenous_plus,64,0.020444119120420767,-0.016423571268222303,0.06865958883251783,18,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.
+base_macro_gru,1,0.0,0.0,0.0,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,2,-0.00015513122863758388,-0.0010023747286794782,0.0008223536482333538,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,3,0.0005666663810728334,-0.00040361242828343413,0.0028452909914968294,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,4,0.003400465865898039,-0.000699925014590902,0.005083453530836279,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,5,0.002065967828750237,-0.0004015938101765426,0.005406869638681588,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,6,0.0031600790800099254,-0.004731720118003879,0.007307210336452374,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,7,0.003317249305428094,-0.0002046097383911205,0.010461835298484712,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,8,0.0066664692828181105,8.676015820724414e-05,0.01196045021039377,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,9,0.006615018690075414,-0.0033353844764705265,0.014363736727880216,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,10,0.004180407546493958,-0.008726974614102018,0.014013608605950578,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,11,0.008585061926256521,-0.00474427477001052,0.019401204410726403,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,12,0.009167533488643409,-0.0012114333209948258,0.02000293806421155,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,13,0.009891149365712781,8.634573487692476e-05,0.022525571335297423,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,14,0.007524689547556029,0.0005197548791789353,0.020179455075722885,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,15,0.008809813864996241,-0.004621109582954475,0.02321950737770745,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,16,0.008564337542559475,-0.003482653027628374,0.021672360804550372,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,17,0.00670125410919431,-0.011215214768340864,0.019355477681425814,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,18,0.008656528451273071,-0.004896162604038662,0.02160268017896061,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,19,0.004292038356039307,-0.008138034227872543,0.027712258457908034,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,20,0.005692802117346352,-0.005125843600258473,0.02347014223049082,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,21,0.013343358937706329,-0.006381036795778144,0.023679994079599864,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,22,0.01274753571421483,-0.006252815363064351,0.023313264717167992,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,23,0.014054445718521213,0.0007455142473703491,0.03032846989857868,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,24,0.016753076248229082,0.0018956682606509068,0.032384027759508105,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,25,0.020555364447306546,-0.013581526045166853,0.034096427630107506,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,26,0.02028538375278721,-0.013516291816784765,0.032689985866498905,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,27,0.02083297058580169,-0.0014724522143881313,0.03211128985505268,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,28,0.021874910507147294,-0.0011539504836714232,0.03503156736701518,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,29,0.02686391862311044,0.005855055955248101,0.0406145553110242,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,30,0.027603763766511413,0.012343640740442752,0.04254370414285802,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,31,0.03068117756900246,0.016913417136370512,0.044144804792702164,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,32,0.02461326442822931,0.010514482015239413,0.04681546719604074,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,33,0.021163156931185312,0.0046746471593878125,0.05223203262203541,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,34,0.025306536457930462,-0.001058776208442691,0.05109258216072332,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,35,0.03031131440988233,-1.4357212014648457e-05,0.048159352901697594,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,36,0.03251571921629848,-0.00021003241936423667,0.05377999978080239,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,37,0.0279594137661634,0.002021350015393747,0.05035789315524364,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,38,0.02534962751657366,0.0009214559515007825,0.055582927770074675,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,39,0.022390808974223297,-0.002498608977248379,0.06363739583989503,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,40,0.026514648583815803,0.0005566322853705064,0.06080015710088266,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,41,0.025096135961718224,0.003496818732467266,0.0599072915189251,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,42,0.022592634830426284,0.001215489799456293,0.05279972962724799,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,43,0.026250866110102633,0.0027169239704727954,0.0554415489071966,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,44,0.024182267104468358,-0.0005467876803042504,0.05112770865589822,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,45,0.028905393459136453,-0.0033543422336979323,0.06016894153262781,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,46,0.027374351183983014,0.0018747807593141874,0.06009013220478676,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,47,0.024728194833174344,0.0031877925001493335,0.06562222875403534,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,48,0.024313904896034355,-0.000981479129231827,0.06559947461693921,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,49,0.030680637697186652,0.0003535073778302422,0.06735532890265422,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,50,0.022996719836650414,-0.01529849745389758,0.0745095434523172,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,51,0.02655348662494239,-0.011173849155220128,0.0713252446266725,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,52,0.032733122787204305,-0.007837550502059781,0.06663787434373258,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,53,0.02997870935412017,-0.010724152815347554,0.07194164362269251,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,54,0.024243152713708804,-0.020869037011616715,0.06964383341100538,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,55,0.024209973460113443,-0.030030136159128834,0.06060015526512402,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,56,0.024590305202211393,-0.020518988845777658,0.06764541869374896,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,57,0.026411295537266843,-0.028293749244206357,0.05902460835293105,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,58,0.03401622653151415,-0.029181758253231438,0.06551500820997774,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,59,0.03533369538564157,-0.02169851258351388,0.0721487686911571,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,60,0.028210889431712682,-0.03080849343084402,0.07750593771810882,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,61,0.028808076477183864,-0.02613535563726055,0.07558099637299803,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,62,0.03443129486162477,-0.034712295071758714,0.08334534916134961,39,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,63,0.005147277053200949,-0.05942692267562466,0.07896126062472869,24,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_gru,64,0.040157386122619654,-0.017173236195767633,0.08161901910232,18,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.
+base_macro_hmm,1,0.0,0.0,0.0,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,2,1.4114913845064692e-05,-0.0007235769686697868,0.0006480641053677738,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,3,0.0003367305808069654,-0.0005393395201681306,0.0025786391879557002,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,4,0.0021093083342554886,-0.0005736235418318802,0.00460446781821261,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,5,0.002123274499702621,-0.0007536286464205622,0.005273920625019135,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,6,0.003889579217434269,-0.003578254807103526,0.007040697825241415,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,7,0.004043058958725254,-0.00011033246726985246,0.010087113219833688,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,8,0.008264367536545358,0.0004413452895014047,0.010013731473972054,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,9,0.006511306825794261,-0.005843506600104881,0.01326923903163163,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,10,0.005457892273970311,-0.006798358922135511,0.01319117440325368,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,11,0.011304176443815317,-0.00910275785323475,0.01619578761001983,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,12,0.011666909825095995,-0.004556170216472449,0.017408944535823756,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,13,0.009173322297550857,-0.003077691054476722,0.019510791353722357,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,14,0.007552315272685295,-0.0035934892113294037,0.01795322220176654,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,15,0.008759157775757531,-0.006601799661494184,0.016037297917514015,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,16,0.007009004425434395,-0.002450347377705192,0.020768367113988828,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,17,0.004015592465168694,-0.009793632856872736,0.01987202932751697,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,18,0.0053663857158057215,-0.0019155107560643592,0.01820077451946145,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,19,0.0003211591622356291,-0.013952878940872798,0.02136149961570738,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,20,-0.000707737100886785,-0.01338205188155936,0.023083729860061686,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,21,0.0027779895522850317,-0.01389825549262172,0.01575232013363581,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,22,0.004080866027490471,-0.009069985756310989,0.020818038057277,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,23,0.0076295579020613236,-0.004398198849762669,0.026291882596057414,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,24,0.012381056355913134,-0.015306030804322912,0.029673259481882375,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,25,0.011467352042141221,-0.018048704462660603,0.03168792139415577,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,26,0.014900702490587725,-0.016337821420169513,0.03588019313920049,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,27,0.01751644010465292,-0.025520542360303683,0.029999258591286826,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,28,0.023250597935919992,-0.023078583149097387,0.03314754004206172,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,29,0.024347356137572884,-0.017374526266148244,0.035113043081185014,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,30,0.023688673997805942,-0.007016636632685147,0.03951036178082351,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,31,0.021265890602235382,-0.001433064164477721,0.04264773219804491,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,32,0.02361056952089058,-0.007314547350404016,0.03907060040295024,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,33,0.022509353336953586,-0.009429635111261325,0.04064807913070645,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,34,0.020117103802129277,-0.016225233098556308,0.045223377181042856,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,35,0.02166514368697814,-0.0063455804232926405,0.047916832618653316,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,36,0.02873128761028787,-0.004794036407154395,0.04348645027197989,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,37,0.023129628212658848,-0.006016540743306209,0.04620819290069167,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,38,0.020903178699307357,-0.021501241767478363,0.050154695252065895,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,39,0.023269858434555868,-0.027558714338739076,0.06043250861247934,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,40,0.023241132042746027,-0.028216717439134203,0.05811878253355285,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,41,0.02324349511630852,-0.01948981025453328,0.05407678478416367,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,42,0.02397308553632782,-0.018879063921410977,0.05292060040837909,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,43,0.026158092366293295,-0.01824118375479797,0.05653553922072052,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,44,0.028501320226257953,-0.016012727435757435,0.046889241921101166,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,45,0.024365261705118435,-0.006239158276603068,0.04869886946731555,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,46,0.024014497285936187,-0.0014420401273115835,0.04810979715447844,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,47,0.026573052207358172,-0.005933906772967262,0.05218433795773608,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,48,0.020190846162912002,-0.014406827478070178,0.0571780098960033,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,49,0.026975530080342813,-0.007419243350784338,0.059961852627941514,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,50,0.025708412150489246,-0.01355638657238209,0.06124449826330891,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,51,0.022462664042579128,-0.01597773813913328,0.060417532719924394,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,52,0.02265133297615085,-0.012485509337629458,0.06359631133616461,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,53,0.020658782168494705,-0.015222466988217526,0.06620487264073271,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,54,0.015259315627204617,-0.02109327773794467,0.06516567699048398,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,55,0.007119262607627741,-0.026100394814818323,0.06741697557480986,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,56,0.013339700020957856,-0.028510440094333817,0.0654184640335525,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,57,0.009640174187604211,-0.036188320715330485,0.06518713098083079,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,58,0.010148552874086003,-0.044276459860824485,0.06694682344574504,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,59,0.014383882454816033,-0.0367553181305352,0.07002093964954154,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,60,0.017678869670897934,-0.040487468014738875,0.07062927930417368,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,61,0.017784604292976125,-0.044226807544298,0.07115849151569265,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,62,0.037175529183610445,-0.0370398156237568,0.07730022386521851,39,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,63,-0.0032122665433600983,-0.07447824661150332,0.06081983955088366,24,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.
+base_macro_hmm,64,0.01932310016794969,-0.040196813597142056,0.07473049936627796,18,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.

@@ -1,0 +1,7 @@
+scope,feature_set,metric,value
+overall,all,validation_test_correlation,-0.13349409225780617
+feature_set,base,median_generalization_gap,1.3298566708840749
+feature_set,base_macro,median_generalization_gap,0.9072077493664993
+feature_set,base_macro_exogenous_plus,median_generalization_gap,1.1318967533312039
+feature_set,base_macro_hmm,median_generalization_gap,1.1120561150165311
+feature_set,base_macro_gru,median_generalization_gap,0.8013809431824701
