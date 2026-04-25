@@ -93,38 +93,3 @@ Important directories:
 
 Detailed cleanup and naming guidance is in `RESEARCH_OUTPUTS_INDEX.md`.
 
-## Final Reports And Figures
-
-Core report:
-
-- `NEXT_CYCLE_FINAL_RANKING.md`
-
-Per-family critical conclusions are integrated into:
-
-- `NEXT_CYCLE_FINAL_RANKING.md`
-- `merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol/critical_vol_proxy_comparison_report.md`
-
-Earlier per-family report files may exist locally in superseded intermediate merge folders, but those folders are not required for the final committed analysis.
-
-Updated final figures:
-
-- `paper_figures/21_next_cycle_final_scoreboard.png`
-- `paper_figures/22_next_cycle_candidate_decision_heatmap.png`
-- `paper_figures/23_next_cycle_pairwise_delta_vs_base_macro.png`
-- `paper_figures/24_next_cycle_fold_winner_map.png`
-- `paper_figures/25_next_cycle_selection_rule_degradation.png`
-- `paper_figures/26_next_cycle_benchmark_relative_scatter.png`
-- `paper_figures/27_next_cycle_regime_excess_return_heatmap.png`
-- `paper_figures/28_next_cycle_main_candidate_cumulative_returns.png`
-
-The figure generator is:
-
-`generate_next_cycle_final_figures.py`
-
-## Commit Scope
-
-This folder is ready to be committed as an extension of the prior Ablation Ladder v2 work once the local checkout is in a real git repository.
-
-The commit should be framed as:
-
-`Add next-cycle Ablation Ladder v2 candidate analysis and final ranking`
