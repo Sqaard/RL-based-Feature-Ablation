@@ -253,8 +253,10 @@ Implemented candidate families currently available for one-family cloud runs:
 - `selected_candidate_family = "breadth_internal_structure"`
 - `selected_candidate_family = "sector_relative_context"`
 - `selected_candidate_family = "xsec_sector_gated_context"`
+- `selected_candidate_family = "xsec_sector_complementarity_v2"`
 - `selected_candidate_family = "vol_term_or_implied_vol_proxy"`
 - `selected_candidate_family = "analyst_or_fund_revision_features"`
+- `selected_candidate_family = "rates_credit_vol_risk_state_context"`
 
 For convenience, dedicated one-cell notebooks are also available:
 
@@ -273,8 +275,10 @@ Their matching configs are:
 - `..\configs\next_cycle_candidate_only_breadth_internal_structure.yaml`
 - `..\configs\next_cycle_candidate_only_sector_relative_context.yaml`
 - `..\configs\next_cycle_candidate_only_xsec_sector_gated_context.yaml`
+- `..\configs\next_cycle_candidate_only_xsec_sector_complementarity_v2.yaml`
 - `..\configs\next_cycle_candidate_only_vol_term_or_implied_vol_proxy.yaml`
 - `..\configs\next_cycle_candidate_only_analyst_or_fund_revision_features.yaml`
+- `..\configs\next_cycle_candidate_only_rates_credit_vol_risk_state_context.yaml`
 
 External macro and revision-proxy candidate runs should use:
 
@@ -312,6 +316,54 @@ After the standalone `xsec`, `breadth`, and `sector` runs, the recommended diagn
 - `xsec_sector_gated_context`
 
 This candidate includes the original causal `xsec` and `sector_relative` columns plus bounded interaction gates. It is intended to test whether the more stable xsec regime signal can condition the episodic sector-relative signal without changing the reference PPO setup.
+
+## Interaction/Gating v2 Launch
+
+After the completed single-family next-cycle round, the first implemented interaction branch was:
+
+- `selected_candidate_family = "rates_credit_vol_risk_state_context"`
+- feature set: `base_macro_rates_credit_vol_risk_state_context`
+- config: `..\configs\next_cycle_candidate_only_rates_credit_vol_risk_state_context.yaml`
+- expected dataset: `..\processed_final_fixed_external_lagclean_full.csv`
+- recommended output directory: `.\research_outputs_next_cycle_rates_credit_vol_risk_state_context`
+
+This branch combines the retained rates, credit, and vol proxy inputs with a narrow set of bounded risk-state gates. It is pre-registered as interaction/gating v2 and should be merged back into the canonical historical plus next-cycle panel before any promotion decision.
+
+Preflight:
+
+```powershell
+python -m dow30_next_cycle_launch preflight-launch `
+  --config ..\configs\next_cycle_candidate_only_rates_credit_vol_risk_state_context.yaml `
+  --dataset ..\processed_final_fixed_external_lagclean_full.csv `
+  --output-dir .\research_outputs_next_cycle_rates_credit_vol_risk_state_context
+```
+
+Reject this branch if it does not improve `base_macro` on median test Sharpe and benchmark-relative excess Sharpe after merged reporting.
+
+That branch was later run and rejected. The final planned Horizon A feature-interaction branch was:
+
+- `selected_candidate_family = "xsec_sector_complementarity_v2"`
+- feature set: `base_macro_xsec_sector_complementarity_v2`
+- config: `..\configs\next_cycle_candidate_only_xsec_sector_complementarity_v2.yaml`
+- expected dataset: `..\processed_final_fixed_external_lagclean_full.csv` or `..\processed_final_fixed.csv`
+- recommended output directory: `.\research_outputs_next_cycle_xsec_sector_complementarity_v2`
+
+Preflight:
+
+```powershell
+python -m dow30_next_cycle_launch preflight-launch `
+  --config ..\configs\next_cycle_candidate_only_xsec_sector_complementarity_v2.yaml `
+  --dataset ..\processed_final_fixed_external_lagclean_full.csv `
+  --output-dir .\research_outputs_next_cycle_xsec_sector_complementarity_v2
+```
+
+Treat this as the final Horizon A feature-interaction experiment before Phase-2 review.
+
+This branch has now been run and merged into:
+
+`merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2`
+
+Decision: do not promote over `base_macro`. It was a competitive near-miss, but it did not beat the frozen reference or the primary benchmark-relative bar. Horizon A feature-interaction search should close here.
 
 ## Merge New Seeds And Rebuild Reports
 
@@ -401,12 +453,13 @@ Outputs written when benchmark suite data are available include:
 The following items remain intentionally deferred even after the reporting and panel-derived candidate upgrades:
 
 - stronger multiple-testing / backtest-overfitting safeguards such as Deflated-Sharpe-style or PBO-style reporting,
-- external-data next-cycle candidate families such as rates term structure, credit stress, volatility term structure, and analyst/fund revision features.
+- any additional Horizon A feature-interaction branch,
+- latent-action PPO,
+- SSL/state-compression or domain-invariance training.
 
 Important interpretation rules for these next-cycle items:
 
-- external-data planning candidates are placeholders only and are **not** active members of `build_controlled_feature_registry`,
-- they should not be described as available training features until causal data plumbing is implemented,
+- completed external-data candidates are available only through the lag-clean dataset path documented above,
 - future benchmark hardening should use the same walk-forward windows and cost conventions as the agent,
 - the core comparable seed set for required next-cycle experiments should stay `(42, 123, 999)`, with any broader seed expansion treated as a later stability extension.
 

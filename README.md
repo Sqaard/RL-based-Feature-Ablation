@@ -1,155 +1,81 @@
-# Reinforcement Learning for Robust Portfolio Trading 
+# Reinforcement Learning for Financial Time-Series Forecasting
 
-This repository contains a research pipeline for **reinforcement learning in portfolio trading** on **Dow 30** equities. Its primary objective **scientifically credible out-of-sample evaluation** of PPO-based portfolio policies under regime shift.
+This repository is a research record for testing whether a PPO portfolio agent can generalize across market regimes on the Dow 30 universe.
 
-## Project Scope
+The current conclusion is deliberately conservative: strong validation performance was not enough. After repeated walk-forward ablations, benchmark-relative reporting, and feature-interaction tests, `base_macro` remains the primary reference feature set. The next step is not another Horizon A feature stack; it is Phase-2 latent-action review.
 
-The project is organized into three research stages:
+![Horizon A interaction closeout scoreboard](Ablation%20Ladder%20v2/paper_figures/29_horizon_a_interaction_closeout_scoreboard.png)
 
-1. **Configuration Comparison**  
-   A controlled comparison of PPO configurations across reward functions, policy-network variants, and training-stability settings.
+## Current Status
 
-2. **Ablation Ladder v1**  
-   The first walk-forward baseline focused on feature-family comparison under a more realistic OOS protocol.
+| Stage | Question | Result |
+|---|---|---|
+| Configuration Comparison | Which PPO setup is stable enough to study? | PPO with custom reward / custom MLP became the reference training setup, but did not beat passive baselines on the frozen test split. |
+| Ablation Ladder v1 | Which feature directions survive a more realistic OOS protocol? | Macro context looked more robust than learned HMM/GRU-style extensions. |
+| Ablation Ladder v2 / Horizon A | Can new causal feature families or interaction gates beat `base_macro`? | No promoted replacement. Vol, rates, credit, and xsec/sector families are useful diagnostics, but not robust winners. |
+| Next Phase | Where should the project move next? | Latent-action review before generic SSL/state-compression. |
 
-3. **Ablation Ladder v2**  
-   The current Horizon A experiment, built around a fixed reference PPO agent, robust model selection, controlled feature ablations, and regime-aware reporting.
+## Final Horizon A Ranking
 
-## Research Question
+The final Horizon A bundle merges the historical v2 panel with all next-cycle single-family candidates and both interaction/gating branches:
 
-The central question of the project is:
+`Ablation Ladder v2/merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2`
 
-> Can a PPO-based trading agent learn a portfolio policy that generalizes across changing market regimes, rather than only fitting a single validation window?
+| Feature set | Median test Sharpe | Median excess Sharpe vs primary benchmark | Actual winner folds | Decision |
+|---|---:|---:|---:|---|
+| `base_macro` | 1.3378 | -0.2144 | 2 | Primary reference |
+| `base_macro_vol_term_or_implied_vol_proxy` | 1.1405 | -0.2135 | 1 | Retain as diagnostic/top-tier family |
+| `base_macro_xsec_sector_complementarity_v2` | 1.1347 | -0.2232 | 0 | Near-miss, do not promote |
+| `base_macro_rates_term_structure_lsc` | 1.0974 | -0.2336 | 2 | Retain as diagnostic/top-tier family |
+| `base_macro_credit_stress_proxies` | 1.0709 | -0.1903 | 2 | Retain as episodic stress family |
+| `base_macro_rates_credit_vol_risk_state_context` | 0.5151 | -0.2919 | 0 | Reject |
 
-A related question is:
+No candidate cleared the promotion bar against `base_macro` and the primary benchmark-relative guardrails.
 
-> Which feature families improve robustness out of sample, and which mainly add complexity?
+## What The Figures Show
 
-## Data and Features
+The most important result is not a single ranking table. It is the combination of three diagnostics:
 
-The base universe is the **Dow 30**, enriched with:
-- technical indicators,
-- WRDS-based firm-level variables,
-- macro / market context,
-- HMM-derived regime features,
-- GRU-based short-horizon forecasts,
-- calendar/event features.
+![Benchmark-relative candidate view](Ablation%20Ladder%20v2/paper_figures/26_next_cycle_benchmark_relative_scatter.png)
 
-The earlier configuration-comparison stage used a high-dimensional state representation (approximately 629 features).  
-The later ablation stages replaced this with a controlled feature ladder of smaller, interpretable feature sets.
+The benchmark-relative scatter shows why the project avoids overclaiming. Several feature families are useful, but none becomes a clean benchmark-relative OOS winner.
 
-## Experimental Design
+![Selection-rule phase boundary](Ablation%20Ladder%20v2/paper_figures/30_horizon_a_phase_boundary_selection.png)
 
-### Configuration Comparison
-A fixed chronological split was used:
+Selection reliability worsened as the feature panel expanded. This is the main reason Horizon A should close rather than continue adding feature stacks.
 
-- **Train:** 2010-01-01 → 2021-10-01  
-- **Validation:** 2021-10-01 → 2022-01-03  
-- **Frozen test:** 2022-01-03 → 2023-03-01  
+![Main candidate cumulative returns](Ablation%20Ladder%20v2/paper_figures/28_next_cycle_main_candidate_cumulative_returns.png)
 
-This stage compared PPO configurations under a single split and identified a stable reference setup.
+The cumulative-return view is diagnostic only, but it helps compare the retained single-family candidates and interaction branches on the same aligned test-window basis.
 
-### Ablation Ladder / Horizon A
-Later experiments used **walk-forward evaluation** with repeated train / validation / test windows and multi-seed assessment.
+## Research Design
 
-The current reference setup uses:
-- PPO
-- custom reward
-- custom MLP policy
-- robust checkpoint selection
-- robust configuration selection
-- controlled feature-family ablations
+The repository is built around controlled out-of-sample testing rather than leaderboard-style model selection.
 
-The current feature ladder includes:
-- `base`
-- `base_macro`
-- `base_macro_exogenous_plus`
-- `base_macro_hmm` *(negative control)*
-- `base_macro_gru` *(negative control)*
+- The data universe is Dow 30 equities with technical, macro, WRDS-derived, regime, and candidate feature-family extensions.
+- The core model is PPO with a frozen reference setup during Horizon A.
+- Evaluation moved from a single train/validation/test split to repeated walk-forward folds and multi-seed runs.
+- Reporting includes corrected walk-forward summaries, benchmark-relative metrics, regime diagnostics, selection-rule diagnostics, and pairwise tests.
 
-## Key Results
+## Repository Map
 
-### 1) Configuration Comparison (single frozen test split)
+| Path | Purpose |
+|---|---|
+| `Configuration Comparison/` | Early PPO configuration experiments and frozen-test comparison. |
+| `Ablation Ladder v1/` | First walk-forward feature-family baseline. |
+| `Ablation Ladder v2/` | Current Horizon A package, final merged analysis, closeout docs, and figures. |
+| `Ablation Ladder v2/HORIZON_A_CLOSEOUT.md` | Final Horizon A decision record. |
+| `Ablation Ladder v2/NEXT_CYCLE_FINAL_RANKING.md` | Detailed candidate ranking before the final interaction closeout. |
+| `Ablation Ladder v2/RESEARCH_OUTPUTS_INDEX.md` | Output-folder map and reproducibility notes. |
+| `Latent Actions/LATENT_ACTIONS_PHASE2_PLAN.md` | Recommended next research stage. |
 
-**Meaning of columns**
-- **Val Sharpe**: average validation Sharpe across seeds. Higher is better.
-- **Test Sharpe**: average frozen-test Sharpe across seeds. Higher is better.
-- **Annual Return**: average test annual return. Higher is better.
-- **MDD**: average maximum drawdown on test. Closer to 0 is better.
+## Key Takeaway
 
-| Model | Val Sharpe (mean) | Test Sharpe (mean) | Test Annual Return (mean) | Test MDD (mean) |
-|---|---:|---:|---:|---:|
-| custom_custom | 2.15 | -0.82 | -12.17% | -0.183 |
-| finrl_custom | 1.86 | -0.92 | -13.38% | -0.195 |
-| zhang_custom | 1.69 | -0.98 | -14.38% | -0.200 |
-| zhang_finrl | 2.61 | -1.42 | -1.90% | -0.023 |
-| custom_finrl | 2.79 | -1.53 | -6.10% | -0.074 |
-| finrl_finrl | 1.90 | -2.06 | -5.16% | -0.060 |
-| Buy & Hold (equal-weight) | — | **-0.33** | **-7.50%** | -0.208 |
-| DJI baseline | — | -0.42 | -9.40% | -0.219 |
+This project does not claim that PPO has already achieved reliable superiority over passive benchmarks. Its main contribution is a transparent evaluation path showing what failed, what remained useful, and where the next research intervention should be targeted.
 
-**Takeaway:** validation looked strong, but **none of the RL models beat passive baselines on the frozen test**.
+The current decision is:
 
----
-
-### 2) Ablation Ladder v2 (walk-forward, 42 runs per feature set)
-
-**Meaning of columns**
-- **Val Sharpe**: median validation Sharpe across walk-forward runs.
-- **Test Sharpe**: median test Sharpe across walk-forward runs.
-- **Test Return**: median test return across walk-forward runs.
-- This stage is more important than the single-split stage because it uses repeated walk-forward evaluation.
-
-| Feature Set | Runs | Val Sharpe (median) | Test Sharpe (median) | Test Return % (median) |
-|---|---:|---:|---:|---:|
-| **base_macro** | 42 | 2.585 | **1.338** | **3.26%** |
-| base_macro_gru | 42 | 2.575 | 1.106 | 2.67% |
-| base | 42 | 2.480 | 0.944 | 2.38% |
-| base_macro_exogenous_plus | 42 | 2.508 | 0.791 | 2.04% |
-| base_macro_hmm | 42 | 2.377 | 0.547 | 1.81% |
-
-**Takeaway:** the best robust feature set in v2 is **base_macro**.  
-The new calendar/event exogenous layer did **not** beat the macro baseline, and HMM remained the weakest branch.
-
----
-
-### 3) Selection Rule Comparison in Ablation Ladder v2
-
-**Meaning of columns**
-- **Selected Test Sharpe**: median test Sharpe of the feature sets chosen by the rule.
-- **Winner Match Rate**: how often the rule picked the actual test winner for that fold.
-- **Regret**: how far the selected model was from the real fold winner. Lower is better.
-
-| Selection Rule | Folds | Selected Test Sharpe (median) | Winner Match Rate | Median Regret |
-|---|---:|---:|---:|---:|
-| **robust_q25_retention** | 14 | **1.365** | **42.9%** | **0.036** |
-| robust_q25 | 14 | 0.871 | 28.6% | 0.234 |
-| sharpe_only | 14 | 0.728 | 7.1% | 0.369 |
-
-**Takeaway:** robust selection worked much better than simple Sharpe-only selection.
-
----
-
-## Short Interpretation
-
-The project currently supports three conclusions:
-
-1. **Generalization is the main challenge**: strong validation results did not carry over to the frozen test in the earlier configuration-comparison stage.
-2. **Macro context is the strongest robust signal** in the walk-forward setting.
-3. **Selection protocol matters**: robust selection rules were more reliable than Sharpe-only selection.
-
-So the current direction of the project is not “make the network bigger”, but:
-- improve walk-forward methodology,
-- use stability-driven selection,
-- and test feature families that are more economically meaningful and robust out of sample.
-
-## Repository Structure
-
-```text
-RL_for_financial_time_series_forecasting/
-│
-├── README.md
-├── Preprocessing/
-├── Configuration Comparison/
-├── Ablation Ladder v1/
-└── Ablation Ladder v2/
+1. keep `base_macro` as the Horizon A reference;
+2. stop the feature-interaction search under the frozen PPO setup;
+3. carry vol, rates, credit, and xsec/sector diagnostics forward as context;
+4. start Phase-2 latent-action review before generic SSL/state-compression.

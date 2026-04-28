@@ -80,6 +80,17 @@ XSEC_SECTOR_GATED_CONTEXT_FEATURES: tuple[str, ...] = (
     "xsec_sector_dispersion_leadership_alignment",
 )
 
+XSEC_SECTOR_COMPLEMENTARITY_V2_FEATURES: tuple[str, ...] = (
+    "xsec_sector_v2_stockpick_regime_strength",
+    "xsec_sector_v2_leadership_concentration",
+    "xsec_sector_v2_stockpick_leadership_strength",
+    "xsec_sector_v2_stockpick_residual_strength",
+    "xsec_sector_v2_corr_leadership_mismatch",
+    "xsec_sector_v2_sector_stock_confirmation",
+    "xsec_sector_v2_rotation_pressure",
+    "xsec_sector_v2_complementarity_score",
+)
+
 RATES_TERM_STRUCTURE_LSC_FEATURES: tuple[str, ...] = (
     "rates_lsc_level_lag1",
     "rates_lsc_slope_10y_3mo_lag1",
@@ -121,6 +132,17 @@ VOL_TERM_OR_IMPLIED_VOL_PROXY_FEATURES: tuple[str, ...] = (
     "vol_term_slope_60d_zscore",
     "vol_term_backwardation_flag_lag1",
     "vol_implied_stress_regime_score",
+)
+
+RATES_CREDIT_VOL_RISK_STATE_CONTEXT_FEATURES: tuple[str, ...] = (
+    "risk_state_rates_credit_stress_gate",
+    "risk_state_rates_vol_stress_gate",
+    "risk_state_credit_vol_stress_gate",
+    "risk_state_curve_inversion_credit_gate",
+    "risk_state_curve_inversion_vol_gate",
+    "risk_state_vol_backwardation_credit_gate",
+    "risk_state_policy_credit_vol_composite",
+    "risk_state_discount_stress_alignment",
 )
 
 ANALYST_OR_FUND_REVISION_PROXY_FEATURES: tuple[str, ...] = (
@@ -286,8 +308,32 @@ IMPLEMENTED_NEXT_CYCLE_CANDIDATE_FAMILIES: "OrderedDict[str, dict[str, Any]]" = 
                 "the episodic sector-relative signal. It uses only lagged/rolling panel-derived features."
             ),
         },
-        "vol_term_or_implied_vol_proxy": {
+        "xsec_sector_complementarity_v2": {
             "rank": 7,
+            "family_type": "market_internal_relative_interaction",
+            "planned_status": "implemented_interaction_v2_candidate_available",
+            "suitability": "FINAL_HORIZON_A_INTERACTION_TEST",
+            "needs_external_data": False,
+            "derivable_from_existing_panel": True,
+            "feature_set_name": "base_macro_xsec_sector_complementarity_v2",
+            "feature_columns": list(
+                XSEC_DISPERSION_CORRELATION_FEATURES
+                + SECTOR_RELATIVE_CONTEXT_FEATURES
+                + XSEC_SECTOR_COMPLEMENTARITY_V2_FEATURES
+            ),
+            "economic_intuition": (
+                "Cross-sectional dispersion/correlation can indicate when stock-specific or "
+                "sector-relative context should matter, while sector leadership can identify "
+                "episodic rotation opportunities."
+            ),
+            "notes": (
+                "Redesigned final Horizon A interaction test after the first xsec-sector gate "
+                "and rates/credit/vol risk-state stack both underperformed. It uses narrow "
+                "complementarity-strength and mismatch features rather than copying the v1 gate."
+            ),
+        },
+        "vol_term_or_implied_vol_proxy": {
+            "rank": 8,
             "family_type": "macro_exogenous",
             "planned_status": "implemented_candidate_available",
             "suitability": "NOW",
@@ -304,8 +350,32 @@ IMPLEMENTED_NEXT_CYCLE_CANDIDATE_FAMILIES: "OrderedDict[str, dict[str, Any]]" = 
                 "same-day close leakage into the trading decision."
             ),
         },
+        "rates_credit_vol_risk_state_context": {
+            "rank": 9,
+            "family_type": "macro_exogenous_interaction",
+            "planned_status": "implemented_interaction_v2_candidate_available",
+            "suitability": "INTERACTION_V2_NOW",
+            "needs_external_data": True,
+            "derivable_from_existing_panel": False,
+            "feature_set_name": "base_macro_rates_credit_vol_risk_state_context",
+            "feature_columns": list(
+                RATES_TERM_STRUCTURE_LSC_FEATURES
+                + CREDIT_STRESS_PROXIES_FEATURES
+                + VOL_TERM_OR_IMPLIED_VOL_PROXY_FEATURES
+                + RATES_CREDIT_VOL_RISK_STATE_CONTEXT_FEATURES
+            ),
+            "economic_intuition": (
+                "Rates, credit, and implied-volatility stress encode a coherent risk-state context: "
+                "discount-rate pressure, funding stress, and persistence of market fear."
+            ),
+            "notes": (
+                "First pre-registered interaction/gating v2 branch after the single-family next-cycle "
+                "round. It uses the existing lag-clean rates, credit, and vol proxy columns plus narrow "
+                "bounded interaction gates; it is not an architecture change."
+            ),
+        },
         "analyst_or_fund_revision_features": {
-            "rank": 8,
+            "rank": 10,
             "family_type": "fundamental_exogenous_proxy",
             "planned_status": "implemented_proxy_candidate_available",
             "suitability": "DIAGNOSTIC_ONLY",
@@ -1069,6 +1139,159 @@ def ensure_xsec_sector_gated_context_features(
     return add_xsec_sector_gated_context_features(df, date_col=date_col)
 
 
+def _positive_regime_gate(series: pd.Series, *, scale: float = 2.0) -> pd.Series:
+    return _bounded_regime_gate(series, scale=scale).clip(lower=0.0)
+
+
+def _absolute_regime_strength(series: pd.Series, *, scale: float = 2.0) -> pd.Series:
+    return _bounded_regime_gate(series, scale=scale).abs()
+
+
+def add_xsec_sector_complementarity_v2_features(
+    df: pd.DataFrame,
+    *,
+    date_col: str = "date",
+) -> pd.DataFrame:
+    out = ensure_xsec_dispersion_correlation_features(df, date_col=date_col)
+    out = ensure_sector_relative_context_features(out, date_col=date_col)
+    out[date_col] = pd.to_datetime(out[date_col])
+
+    stockpick_strength = _positive_regime_gate(out["xsec_dispersion_minus_corr_regime_score"])
+    corr_pressure = _positive_regime_gate(out["xsec_mean_pairwise_corr_60d_zscore"])
+    leadership_centered = (
+        pd.to_numeric(out["sector_leadership_rank_20d"], errors="coerce")
+        .replace([np.inf, -np.inf], np.nan)
+        - 0.5
+    )
+    leadership_concentration = (leadership_centered.abs() * 2.0).clip(lower=0.0, upper=1.0)
+    sector_rel_market_strength = _absolute_regime_strength(out["sector_rel_market_ret_20d"])
+    sector_momentum = _bounded_regime_gate(out["sector_ret_60d_zscore"])
+    stock_residual = _bounded_regime_gate(out["stock_rel_sector_ret_60d_zscore"])
+    stock_residual_strength = stock_residual.abs()
+
+    out["xsec_sector_v2_stockpick_regime_strength"] = stockpick_strength
+    out["xsec_sector_v2_leadership_concentration"] = leadership_concentration
+    out["xsec_sector_v2_stockpick_leadership_strength"] = (
+        stockpick_strength * leadership_concentration
+    )
+    out["xsec_sector_v2_stockpick_residual_strength"] = (
+        stockpick_strength * stock_residual_strength
+    )
+    out["xsec_sector_v2_corr_leadership_mismatch"] = corr_pressure * leadership_concentration
+    out["xsec_sector_v2_sector_stock_confirmation"] = sector_momentum * stock_residual
+    out["xsec_sector_v2_rotation_pressure"] = (
+        sector_rel_market_strength * (stock_residual_strength - leadership_concentration)
+    )
+    out["xsec_sector_v2_complementarity_score"] = (
+        out["xsec_sector_v2_stockpick_leadership_strength"]
+        + out["xsec_sector_v2_stockpick_residual_strength"]
+        - out["xsec_sector_v2_corr_leadership_mismatch"]
+    ) / 3.0
+    return out
+
+
+def ensure_xsec_sector_complementarity_v2_features(
+    df: pd.DataFrame,
+    *,
+    date_col: str = "date",
+) -> pd.DataFrame:
+    required = set(
+        XSEC_DISPERSION_CORRELATION_FEATURES
+        + SECTOR_RELATIVE_CONTEXT_FEATURES
+        + XSEC_SECTOR_COMPLEMENTARITY_V2_FEATURES
+    )
+    if required.issubset(df.columns):
+        out = df.copy()
+        out[date_col] = pd.to_datetime(out[date_col])
+        return out
+    return add_xsec_sector_complementarity_v2_features(df, date_col=date_col)
+
+
+def _numeric_candidate_column(df: pd.DataFrame, column: str) -> pd.Series:
+    return pd.to_numeric(df[column], errors="coerce").replace([np.inf, -np.inf], np.nan)
+
+
+def add_rates_credit_vol_risk_state_context_features(
+    df: pd.DataFrame,
+    *,
+    date_col: str = "date",
+) -> pd.DataFrame:
+    out = ensure_precomputed_candidate_features(
+        df,
+        candidate_family="rates_term_structure_lsc",
+        required_columns=RATES_TERM_STRUCTURE_LSC_FEATURES,
+        date_col=date_col,
+    )
+    out = ensure_precomputed_candidate_features(
+        out,
+        candidate_family="credit_stress_proxies",
+        required_columns=CREDIT_STRESS_PROXIES_FEATURES,
+        date_col=date_col,
+    )
+    out = ensure_precomputed_candidate_features(
+        out,
+        candidate_family="vol_term_or_implied_vol_proxy",
+        required_columns=VOL_TERM_OR_IMPLIED_VOL_PROXY_FEATURES,
+        date_col=date_col,
+    )
+    out[date_col] = pd.to_datetime(out[date_col])
+
+    rates_pressure = _bounded_regime_gate(out["rates_lsc_policy_pressure_score"])
+    credit_stress = _bounded_regime_gate(out["credit_stress_regime_score"])
+    vol_stress = _bounded_regime_gate(out["vol_implied_stress_regime_score"])
+    curve_inversion = (
+        _numeric_candidate_column(out, "rates_lsc_curve_inversion_flag_lag1")
+        .fillna(0.0)
+        .clip(lower=0.0, upper=1.0)
+    )
+    vol_backwardation = (
+        _numeric_candidate_column(out, "vol_term_backwardation_flag_lag1")
+        .fillna(0.0)
+        .clip(lower=0.0, upper=1.0)
+    )
+    inverted_curve_pressure = _bounded_regime_gate(
+        -_numeric_candidate_column(out, "rates_lsc_slope_10y_3mo_60d_zscore")
+    )
+    credit_quality_pressure = _bounded_regime_gate(
+        _numeric_candidate_column(out, "credit_quality_spread_60d_zscore")
+    )
+    vol_term_pressure = _bounded_regime_gate(
+        -_numeric_candidate_column(out, "vol_term_slope_60d_zscore")
+    )
+
+    out["risk_state_rates_credit_stress_gate"] = rates_pressure * credit_stress
+    out["risk_state_rates_vol_stress_gate"] = rates_pressure * vol_stress
+    out["risk_state_credit_vol_stress_gate"] = credit_stress * vol_stress
+    out["risk_state_curve_inversion_credit_gate"] = curve_inversion * credit_quality_pressure
+    out["risk_state_curve_inversion_vol_gate"] = curve_inversion * vol_stress
+    out["risk_state_vol_backwardation_credit_gate"] = vol_backwardation * credit_stress
+    out["risk_state_policy_credit_vol_composite"] = (
+        rates_pressure + credit_stress + vol_stress
+    ) / 3.0
+    out["risk_state_discount_stress_alignment"] = inverted_curve_pressure * (
+        credit_quality_pressure + vol_term_pressure
+    ) / 2.0
+    return out
+
+
+def ensure_rates_credit_vol_risk_state_context_features(
+    df: pd.DataFrame,
+    *,
+    date_col: str = "date",
+) -> pd.DataFrame:
+    required = set(
+        RATES_TERM_STRUCTURE_LSC_FEATURES
+        + CREDIT_STRESS_PROXIES_FEATURES
+        + VOL_TERM_OR_IMPLIED_VOL_PROXY_FEATURES
+        + RATES_CREDIT_VOL_RISK_STATE_CONTEXT_FEATURES
+    )
+    if required.issubset(df.columns):
+        out = df.copy()
+        out[date_col] = pd.to_datetime(out[date_col])
+        return out
+    return add_rates_credit_vol_risk_state_context_features(df, date_col=date_col)
+
+
 def ensure_precomputed_candidate_features(
     df: pd.DataFrame,
     *,
@@ -1105,6 +1328,8 @@ def ensure_candidate_feature_families(
         out = ensure_sector_relative_context_features(out, date_col=date_col)
     if "xsec_sector_gated_context" in requested:
         out = ensure_xsec_sector_gated_context_features(out, date_col=date_col)
+    if "xsec_sector_complementarity_v2" in requested:
+        out = ensure_xsec_sector_complementarity_v2_features(out, date_col=date_col)
     if "rates_term_structure_lsc" in requested:
         out = ensure_precomputed_candidate_features(
             out,
@@ -1126,6 +1351,8 @@ def ensure_candidate_feature_families(
             required_columns=VOL_TERM_OR_IMPLIED_VOL_PROXY_FEATURES,
             date_col=date_col,
         )
+    if "rates_credit_vol_risk_state_context" in requested:
+        out = ensure_rates_credit_vol_risk_state_context_features(out, date_col=date_col)
     if "analyst_or_fund_revision_features" in requested:
         out = ensure_precomputed_candidate_features(
             out,
@@ -1156,9 +1383,11 @@ def build_controlled_feature_registry(
     breadth_internal = groups.get("breadth_internal_structure", ())
     sector_relative = groups.get("sector_relative_context", ())
     xsec_sector_gated = groups.get("xsec_sector_gated_context", ())
+    xsec_sector_complementarity_v2 = groups.get("xsec_sector_complementarity_v2", ())
     rates_term_structure = groups.get("rates_term_structure_lsc", ())
     credit_stress = groups.get("credit_stress_proxies", ())
     vol_term = groups.get("vol_term_or_implied_vol_proxy", ())
+    rates_credit_vol_risk_state = groups.get("rates_credit_vol_risk_state_context", ())
     revision_proxy = groups.get("analyst_or_fund_revision_features", ())
     exogenous_plus = EVENT_CALENDAR_FEATURES if include_event_calendar else ()
     requested_candidates = {str(name) for name in (candidate_feature_families or ())}
@@ -1291,6 +1520,37 @@ def build_controlled_feature_registry(
                 "xsec_sector_gated_context",
             ),
         )
+    if (
+        "xsec_sector_complementarity_v2" in requested_candidates
+        and xsec_regime
+        and sector_relative
+        and xsec_sector_complementarity_v2
+    ):
+        registry["base_macro_xsec_sector_complementarity_v2"] = FeatureSetSpec(
+            name="base_macro_xsec_sector_complementarity_v2",
+            columns=tuple(
+                dict.fromkeys(
+                    base
+                    + macro
+                    + xsec_regime
+                    + sector_relative
+                    + xsec_sector_complementarity_v2
+                )
+            ),
+            feature_family="xsec_sector_complementarity_v2",
+            is_negative_control=False,
+            feature_set_description=(
+                "Baseline technical and macro features plus redesigned causal xsec-sector "
+                "complementarity v2 features."
+            ),
+            source_groups=(
+                "base",
+                "macro",
+                "xsec_dispersion_correlation_regime",
+                "sector_relative_context",
+                "xsec_sector_complementarity_v2",
+            ),
+        )
     if "vol_term_or_implied_vol_proxy" in requested_candidates and vol_term:
         registry["base_macro_vol_term_or_implied_vol_proxy"] = FeatureSetSpec(
             name="base_macro_vol_term_or_implied_vol_proxy",
@@ -1301,6 +1561,40 @@ def build_controlled_feature_registry(
                 "Baseline technical and macro features plus lag-clean implied-volatility term-structure context."
             ),
             source_groups=("base", "macro", "vol_term_or_implied_vol_proxy"),
+        )
+    if (
+        "rates_credit_vol_risk_state_context" in requested_candidates
+        and rates_term_structure
+        and credit_stress
+        and vol_term
+        and rates_credit_vol_risk_state
+    ):
+        registry["base_macro_rates_credit_vol_risk_state_context"] = FeatureSetSpec(
+            name="base_macro_rates_credit_vol_risk_state_context",
+            columns=tuple(
+                dict.fromkeys(
+                    base
+                    + macro
+                    + rates_term_structure
+                    + credit_stress
+                    + vol_term
+                    + rates_credit_vol_risk_state
+                )
+            ),
+            feature_family="rates_credit_vol_risk_state_context",
+            is_negative_control=False,
+            feature_set_description=(
+                "Baseline technical and macro features plus lag-clean rates, credit, vol proxy, "
+                "and narrow risk-state interaction gates."
+            ),
+            source_groups=(
+                "base",
+                "macro",
+                "rates_term_structure_lsc",
+                "credit_stress_proxies",
+                "vol_term_or_implied_vol_proxy",
+                "rates_credit_vol_risk_state_context",
+            ),
         )
     if "analyst_or_fund_revision_features" in requested_candidates and revision_proxy:
         registry["base_macro_analyst_or_fund_revision_features"] = FeatureSetSpec(
@@ -1369,9 +1663,19 @@ def infer_feature_metadata(feature_set_name: Any) -> dict[str, Any]:
         family = "xsec_sector_gated_context"
         description = "Macro baseline plus causal xsec-sector gated interaction context features."
         is_negative = False
+    elif name == "base_macro_xsec_sector_complementarity_v2":
+        family = "xsec_sector_complementarity_v2"
+        description = "Macro baseline plus redesigned causal xsec-sector complementarity v2 features."
+        is_negative = False
     elif name == "base_macro_vol_term_or_implied_vol_proxy":
         family = "vol_term_or_implied_vol_proxy"
         description = "Macro baseline plus lag-clean implied-volatility term-structure proxy features."
+        is_negative = False
+    elif name == "base_macro_rates_credit_vol_risk_state_context":
+        family = "rates_credit_vol_risk_state_context"
+        description = (
+            "Macro baseline plus lag-clean rates, credit, vol proxy, and narrow risk-state gates."
+        )
         is_negative = False
     elif name == "base_macro_analyst_or_fund_revision_features":
         family = "analyst_or_fund_revision_features"

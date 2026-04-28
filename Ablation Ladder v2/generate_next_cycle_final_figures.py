@@ -22,7 +22,7 @@ from matplotlib.patches import Patch
 ROOT = Path(__file__).resolve().parent
 ANALYSIS_DIR = (
     ROOT
-    / "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol"
+    / "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2"
     / "analysis"
 )
 FIGURE_DIR = ROOT / "paper_figures"
@@ -48,10 +48,12 @@ SHORT_LABELS = {
     "base_macro_breadth_internal_structure": "Breadth",
     "base_macro_sector_relative_context": "Sector",
     "base_macro_xsec_sector_gated_context": "XSec/Sector Gate",
+    "base_macro_xsec_sector_complementarity_v2": "XSec/Sector v2",
     "base_macro_credit_stress_proxies": "Credit",
     "base_macro_rates_term_structure_lsc": "Rates",
     "base_macro_analyst_or_fund_revision_features": "Analyst",
     "base_macro_vol_term_or_implied_vol_proxy": "Vol Proxy",
+    "base_macro_rates_credit_vol_risk_state_context": "Rates/Credit/Vol",
 }
 
 FAMILY_GROUPS = {
@@ -64,10 +66,12 @@ FAMILY_GROUPS = {
     "base_macro_breadth_internal_structure": "candidate_low_priority",
     "base_macro_sector_relative_context": "candidate_keep",
     "base_macro_xsec_sector_gated_context": "candidate_reject",
+    "base_macro_xsec_sector_complementarity_v2": "interaction_near_miss",
     "base_macro_credit_stress_proxies": "candidate_top_tier",
     "base_macro_rates_term_structure_lsc": "candidate_top_tier",
     "base_macro_analyst_or_fund_revision_features": "candidate_reject",
     "base_macro_vol_term_or_implied_vol_proxy": "candidate_top_tier",
+    "base_macro_rates_credit_vol_risk_state_context": "interaction_reject",
 }
 
 PALETTE = {
@@ -77,6 +81,8 @@ PALETTE = {
     "candidate_keep": "#4f7f52",
     "candidate_low_priority": "#b47c30",
     "candidate_reject": "#9a4d4d",
+    "interaction_near_miss": "#6a5aa3",
+    "interaction_reject": "#7f5964",
 }
 
 GROUP_LABELS = {
@@ -86,6 +92,8 @@ GROUP_LABELS = {
     "candidate_keep": "Retain for diagnostics",
     "candidate_low_priority": "Low-priority diagnostic",
     "candidate_reject": "Do not promote",
+    "interaction_near_miss": "Interaction near-miss",
+    "interaction_reject": "Rejected interaction",
 }
 
 
@@ -224,6 +232,8 @@ def figure_22_candidate_decision_heatmap(data: dict[str, pd.DataFrame]) -> None:
         "base_macro_breadth_internal_structure",
         "base_macro_analyst_or_fund_revision_features",
         "base_macro_xsec_sector_gated_context",
+        "base_macro_rates_credit_vol_risk_state_context",
+        "base_macro_xsec_sector_complementarity_v2",
     ]
     df = (
         summary[summary["feature_set"].isin(candidates)]
@@ -460,6 +470,8 @@ def figure_27_regime_excess_heatmap(data: dict[str, pd.DataFrame]) -> None:
         "base_macro_sector_relative_context",
         "base_macro_analyst_or_fund_revision_features",
         "base_macro_xsec_sector_gated_context",
+        "base_macro_rates_credit_vol_risk_state_context",
+        "base_macro_xsec_sector_complementarity_v2",
     ]
     regime = regime[regime["feature_set"].isin(keep)].copy()
     pivot = regime.pivot_table(
@@ -496,10 +508,12 @@ def figure_28_cumulative_paths(data: dict[str, pd.DataFrame]) -> None:
     keep = [
         "base_macro",
         "base_macro_vol_term_or_implied_vol_proxy",
+        "base_macro_xsec_sector_complementarity_v2",
         "base_macro_rates_term_structure_lsc",
         "base_macro_credit_stress_proxies",
         "base_macro_xsec_dispersion_correlation_regime",
         "base_macro_sector_relative_context",
+        "base_macro_rates_credit_vol_risk_state_context",
     ]
     daily = daily[daily["feature_set"].isin(keep)].copy()
     daily = daily.sort_values(["feature_set", "date"])
@@ -524,13 +538,205 @@ def figure_28_cumulative_paths(data: dict[str, pd.DataFrame]) -> None:
             alpha=0.95,
         )
     ax.axhline(0, color="#111111", linewidth=0.8)
-    ax.set_title("Mean daily test cumulative return paths: main retained families", fontsize=13, weight="bold")
+    ax.set_title(
+        "Mean daily test cumulative return paths: reference, retained families, final interactions",
+        fontsize=13,
+        weight="bold",
+    )
     ax.set_ylabel("Cumulative return (%)")
     ax.grid(alpha=0.25)
     ax.legend(frameon=False, ncol=2, fontsize=9)
     fig.autofmt_xdate()
     fig.tight_layout()
     _save_figure(fig, "28_next_cycle_main_candidate_cumulative_returns")
+
+
+def figure_29_horizon_a_interaction_closeout(data: dict[str, pd.DataFrame]) -> None:
+    summary = data["summary"]
+    benchmark = data["benchmark"]
+    winners = data["winners"]
+    closeout_sets = [
+        "base_macro",
+        "base_macro_vol_term_or_implied_vol_proxy",
+        "base_macro_rates_term_structure_lsc",
+        "base_macro_credit_stress_proxies",
+        "base_macro_xsec_dispersion_correlation_regime",
+        "base_macro_sector_relative_context",
+        "base_macro_xsec_sector_gated_context",
+        "base_macro_rates_credit_vol_risk_state_context",
+        "base_macro_xsec_sector_complementarity_v2",
+    ]
+    actual_winners = (
+        winners[["fold_id", "actual_test_winner_feature_set"]]
+        .drop_duplicates()
+        .groupby("actual_test_winner_feature_set")
+        .size()
+        .rename("actual_test_winner_folds")
+    )
+    robust_selected = (
+        winners[winners["selection_rule"].eq("robust_q25_retention")]
+        .groupby("selected_feature_set")
+        .size()
+        .rename("robust_q25_retention_selected_folds")
+    )
+    df = (
+        summary[summary["feature_set"].isin(closeout_sets)]
+        .merge(
+            benchmark[
+                [
+                    "feature_set",
+                    "primary_benchmark_excess_sharpe_median",
+                    "primary_benchmark_outperform_sharpe_rate",
+                ]
+            ],
+            on="feature_set",
+            how="left",
+        )
+        .set_index("feature_set")
+        .join(actual_winners, how="left")
+        .join(robust_selected, how="left")
+        .reindex(closeout_sets)
+        .fillna({"actual_test_winner_folds": 0, "robust_q25_retention_selected_folds": 0})
+        .reset_index()
+    )
+    df["short_label"] = df["feature_set"].map(_label)
+    df["family_group"] = df["feature_set"].map(FAMILY_GROUPS).fillna("historical")
+    df["actual_test_winner_folds"] = df["actual_test_winner_folds"].astype(int)
+    df["robust_q25_retention_selected_folds"] = df["robust_q25_retention_selected_folds"].astype(int)
+    _save_table(
+        df[
+            [
+                "feature_set",
+                "short_label",
+                "family_group",
+                "test_sharpe_median",
+                "test_sharpe_mean",
+                "primary_benchmark_excess_sharpe_median",
+                "primary_benchmark_outperform_sharpe_rate",
+                "actual_test_winner_folds",
+                "robust_q25_retention_selected_folds",
+            ]
+        ],
+        "29_horizon_a_interaction_closeout_scoreboard.csv",
+    )
+
+    plot_df = df.sort_values("test_sharpe_median", ascending=True)
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.8), sharey=True)
+    axes[0].barh(
+        plot_df["short_label"],
+        plot_df["test_sharpe_median"],
+        color=_colors(plot_df["feature_set"]),
+    )
+    axes[0].axvline(0, color="#222222", linewidth=0.8)
+    axes[0].set_title("Median test Sharpe", fontsize=11, weight="bold")
+    axes[0].set_ylabel("Feature set")
+
+    axes[1].barh(
+        plot_df["short_label"],
+        plot_df["primary_benchmark_excess_sharpe_median"],
+        color=_colors(plot_df["feature_set"]),
+    )
+    axes[1].axvline(0, color="#222222", linewidth=0.8)
+    axes[1].set_title("Median excess Sharpe vs benchmark", fontsize=11, weight="bold")
+
+    axes[2].barh(
+        plot_df["short_label"],
+        plot_df["actual_test_winner_folds"],
+        color=_colors(plot_df["feature_set"]),
+    )
+    axes[2].set_title("Actual test-winner folds", fontsize=11, weight="bold")
+    axes[2].set_xlabel("Count")
+
+    for ax in axes:
+        ax.grid(axis="x", alpha=0.25)
+        ax.tick_params(axis="y", labelsize=9)
+    _add_group_legend(axes[-1])
+    fig.suptitle(
+        "Horizon A closeout: interactions improved diagnostics, not the primary reference",
+        fontsize=14,
+        weight="bold",
+    )
+    fig.tight_layout()
+    _save_figure(fig, "29_horizon_a_interaction_closeout_scoreboard")
+
+
+def figure_30_horizon_a_phase_boundary_selection(data: dict[str, pd.DataFrame]) -> None:
+    panel_sources = [
+        ("Historical v2", ROOT / "comparison_outputs" / "selection_rule_summary.csv"),
+        (
+            "Single-family panel",
+            ROOT
+            / "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol"
+            / "analysis"
+            / "selection_rule_summary.csv",
+        ),
+        (
+            "+ Risk-state interaction",
+            ROOT
+            / "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state"
+            / "analysis"
+            / "selection_rule_summary.csv",
+        ),
+        ("Final Horizon A", SELECTION_PATH),
+    ]
+    frames = []
+    for order, (panel, path) in enumerate(panel_sources):
+        df = pd.read_csv(path)
+        df["panel"] = panel
+        df["panel_order"] = order
+        frames.append(df)
+    combined = pd.concat(frames, ignore_index=True, sort=False)
+    numeric_cols = [
+        "selected_test_sharpe_median",
+        "actual_test_winner_sharpe_median",
+        "selection_matches_test_winner_rate",
+        "median_test_winner_regret",
+    ]
+    for col in numeric_cols:
+        combined[col] = pd.to_numeric(combined[col], errors="coerce")
+    _save_table(combined, "30_horizon_a_phase_boundary_selection.csv")
+
+    metrics = [
+        ("selected_test_sharpe_median", "Selected median test Sharpe"),
+        ("median_test_winner_regret", "Median test-winner regret"),
+        ("selection_matches_test_winner_rate", "Winner match rate"),
+    ]
+    rules = ["robust_q25_retention", "robust_q25", "sharpe_only"]
+    colors = {
+        "robust_q25_retention": "#176b87",
+        "robust_q25": "#6a5aa3",
+        "sharpe_only": "#b47c30",
+    }
+    panel_labels = [panel for panel, _ in panel_sources]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.7), sharex=True)
+    for ax, (metric, title) in zip(axes, metrics):
+        for rule in rules:
+            rows = (
+                combined[combined["selection_rule"].eq(rule)]
+                .sort_values("panel_order")
+                .set_index("panel")
+                .reindex(panel_labels)
+            )
+            ax.plot(
+                np.arange(len(panel_labels)),
+                rows[metric],
+                marker="o",
+                linewidth=2.0,
+                label=rule,
+                color=colors[rule],
+            )
+        ax.set_xticks(np.arange(len(panel_labels)))
+        ax.set_xticklabels(panel_labels, rotation=25, ha="right", fontsize=8)
+        ax.set_title(title, fontsize=11, weight="bold")
+        ax.grid(alpha=0.25)
+    axes[0].legend(frameon=False, fontsize=8)
+    fig.suptitle(
+        "Phase boundary: feature search is no longer the bottleneck after Horizon A",
+        fontsize=14,
+        weight="bold",
+    )
+    fig.tight_layout()
+    _save_figure(fig, "30_horizon_a_phase_boundary_selection")
 
 
 def main() -> None:
@@ -544,6 +750,8 @@ def main() -> None:
     figure_26_benchmark_scatter(data)
     figure_27_regime_excess_heatmap(data)
     figure_28_cumulative_paths(data)
+    figure_29_horizon_a_interaction_closeout(data)
+    figure_30_horizon_a_phase_boundary_selection(data)
 
 
 if __name__ == "__main__":

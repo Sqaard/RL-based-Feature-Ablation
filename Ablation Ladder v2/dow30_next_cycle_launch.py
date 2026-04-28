@@ -209,12 +209,20 @@ def format_notebook_launch_snippet(
     optional_block = "\n".join(optional_lines)
     if optional_block:
         optional_block = "\n" + optional_block
-    return f"""from dow30_next_cycle_launch import run_bootstrapped_notebook_launch_from_csv
+    horizon_a_root = Path(config_path).resolve().parents[1] / "Ablation Ladder v2"
+    return f"""import sys
+from pathlib import Path
+
+HORIZON_A_ROOT = Path(r"{horizon_a_root}")
+if str(HORIZON_A_ROOT) not in sys.path:
+    sys.path.insert(0, str(HORIZON_A_ROOT))
+
+from dow30_next_cycle_launch import run_bootstrapped_notebook_launch_from_csv
 
 launch_bundle = run_bootstrapped_notebook_launch_from_csv(
     config_path=r"{Path(config_path).resolve()}",
     dataset_path=r"{Path(processed_dataset_path).resolve()}",
-    output_dir=r"{output_dir}",{optional_block}
+    output_dir=r"{Path(output_dir).resolve()}",{optional_block}
 )
 
 preflight = launch_bundle["preflight"]
@@ -227,8 +235,8 @@ def format_post_run_rebuild_commands(
     output_dir: str | Path,
     processed_dataset_path: str | Path,
 ) -> list[str]:
-    output = Path(output_dir)
-    processed = Path(processed_dataset_path)
+    output = Path(output_dir).resolve()
+    processed = Path(processed_dataset_path).resolve()
     return [
         (
             "python -m dow30_reporting build-benchmark-suite "
@@ -240,6 +248,7 @@ def format_post_run_rebuild_commands(
             "python -m dow30_reporting rebuild-walkforward-report "
             f"--input \"{output / 'walk_forward_results.csv'}\" "
             f"--daily-input \"{output / 'walk_forward_daily_test_returns.csv'}\" "
+            f"--test-actions-input \"{output / 'walk_forward_test_actions.csv'}\" "
             f"--benchmark-suite-input \"{output / 'benchmark_suite_daily.csv'}\" "
             f"--outdir \"{output / 'analysis_rebuilt'}\""
         ),

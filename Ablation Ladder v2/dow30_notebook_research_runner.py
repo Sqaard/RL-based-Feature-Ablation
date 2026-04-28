@@ -24,6 +24,7 @@ from dow30_research_support import (
     DEFAULT_FEATURE_GROUPS,
     build_daily_test_export,
     build_fold_benchmark_suite_export,
+    build_test_action_export,
     evaluate_equity_curve,
     run_feature_ablation_ladder,
     select_best_artifact,
@@ -481,6 +482,18 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             df_actions=test_eval["raw_result"].get("df_action"),
             benchmark_frame=primary_benchmark_frame,
         )
+        test_action_frame = build_test_action_export(
+            test_eval["raw_result"].get("df_action"),
+            run_key=f"{feature_set_name}__{fold.fold_id}__seed{seed}",
+            feature_set=feature_set_name,
+            feature_family=feature_metadata["feature_family"],
+            is_negative_control=feature_metadata["is_negative_control"],
+            fold_id=fold.fold_id,
+            seed=seed,
+            selected_model_type=selected_artifact.get("artifact_type"),
+            selection_rule=checkpoint_selection_rule,
+            split_name="test",
+        )
 
         return {
             "candidate_df": scored_candidate_df,
@@ -493,6 +506,7 @@ def build_notebook_research_runner(ns: Mapping[str, Any]):
             "test_metrics": test_eval["metrics"],
             "regime_breakdown": test_eval["regime_breakdown"],
             "daily_test_frame": daily_test_frame,
+            "test_action_frame": test_action_frame,
             "benchmark_suite_frame": benchmark_suite_frame.copy()
             if isinstance(benchmark_suite_frame, pd.DataFrame)
             else pd.DataFrame(),

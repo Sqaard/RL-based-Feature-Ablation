@@ -1,0 +1,31 @@
+{
+  "status": "ready_to_launch",
+  "experiment_name": "next_cycle_candidate_only_xsec_sector_complementarity_v2",
+  "config_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\configs\\next_cycle_candidate_only_xsec_sector_complementarity_v2.yaml",
+  "dataset_label": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\processed_dataset_snapshot.csv",
+  "resolved_output_dir": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2",
+  "candidate_feature_families": [
+    "xsec_sector_complementarity_v2"
+  ],
+  "selected_candidate_family": "xsec_sector_complementarity_v2",
+  "selected_candidate_feature_set": "base_macro_xsec_sector_complementarity_v2",
+  "panel_scope": "candidate_only",
+  "feature_set_filter": [
+    "base_macro_xsec_sector_complementarity_v2"
+  ],
+  "available_feature_sets": [
+    "base_macro_xsec_sector_complementarity_v2"
+  ],
+  "missing_requested_feature_sets": [],
+  "seed_count": 3,
+  "fold_count": 14,
+  "audit_ok": true,
+  "user_action_required_now": true,
+  "launch_mode": "notebook_config_driven",
+  "launch_config_snapshot_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\launch_config_snapshot.yaml",
+  "next_user_action": "Launch the notebook experiment with the generated snippet.",
+  "post_run_rebuild_commands": [
+    "python -m dow30_reporting build-benchmark-suite --dataset \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\processed_dataset_snapshot.csv\" --folds-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\walk_forward_folds.csv\" --output \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\benchmark_suite_daily.csv\"",
+    "python -m dow30_reporting rebuild-walkforward-report --input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\walk_forward_results.csv\" --daily-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\walk_forward_daily_test_returns.csv\" --benchmark-suite-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\benchmark_suite_daily.csv\" --outdir \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\analysis_rebuilt\""
+  ]
+}

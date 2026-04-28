@@ -4,6 +4,8 @@
 
 This report closes the next-cycle Horizon A feature-family round. It summarizes what changed after `NEXT_EXPERIMENT_PLAN.md`, ranks all candidate families against the historical Ablation Ladder v2 baseline, and defines the next interaction/gating v2 shortlist.
 
+Postscript: both interaction/gating v2 branches have since been run. `base_macro_rates_credit_vol_risk_state_context` was rejected, and `base_macro_xsec_sector_complementarity_v2` was a competitive near-miss but still did not beat `base_macro`. See `INTERACTION_GATING_V2_RESULTS.md`, `XSEC_SECTOR_COMPLEMENTARITY_V2_RESULTS.md`, and the final merged bundle `merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2`.
+
 ## Pre-Plan Baseline
 
 Before the next-cycle experiments, the repository evidence was:
@@ -156,4 +158,3 @@ Reject an interaction/gating v2 branch if:
 - it only improves validation and not test,
 - its fold wins are concentrated in one narrow regime without improving aggregate robustness,
 - or it worsens selection-rule reliability further.
-

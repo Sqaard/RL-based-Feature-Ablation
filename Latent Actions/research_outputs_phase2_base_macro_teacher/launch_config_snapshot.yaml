@@ -1,0 +1,42 @@
+experiment_name: latent_actions_phase2_base_macro_teacher
+status: ready_to_launch
+phase:
+  stage: phase_2_latent_actions
+  purpose: teacher_action_export
+  horizon_a_status: closed
+  teacher_feature_set: base_macro
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+notes:
+  execution_mode: Rerun only the frozen base_macro reference policy to export teacher
+    action traces.
+  dataset_requirement: Use processed_final_fixed_external_lagclean_full.csv for consistency
+    with the final Horizon A merged cycle.
+  output_directory: Latent Actions/research_outputs_phase2_base_macro_teacher
+  required_new_artifact: walk_forward_test_actions.csv
+  first_audit_tool: Latent Actions/latent_action_phase2_tools.py
+  kill_rules: Do not continue to tokenizer, behavior cloning, or PPO fine-tuning if
+    action traces are missing, degenerate, or unstable across folds/seeds.
+runner_kwargs:
+  base_config_name: custom_custom
+  feature_set_filter:
+  - base_macro
+  seeds:
+  - 42
+  - 123
+  - 999
+  total_timesteps: 200000
+  max_folds: null
+  es_mode: relaxed
+  dropout_p: 0.1
+  eval_freq: 8192
+  checkpoint_freq: 4096
+  verbose: 0

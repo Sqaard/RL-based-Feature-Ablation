@@ -31,21 +31,47 @@ These folders should be kept as raw experiment artifacts:
 - `research_outputs_next_cycle_rates_term_structure_lsc`
 - `research_outputs_next_cycle_analyst_or_fund_revision_features`
 - `research_outputs_next_cycle_vol_term_or_implied_vol_proxy`
+- `research_outputs_next_cycle_rates_credit_vol_risk_state_context`
+- `research_outputs_next_cycle_xsec_sector_complementarity_v2`
 
 Meaning:
 
 - Each folder is a single-family candidate-only run.
+- The rates/credit/vol folder is the first pre-registered interaction/gating v2 candidate-only run.
+- The xsec/sector complementarity v2 folder is the final Horizon A feature-interaction candidate-only run.
 - These are the audit trail for the final merged result.
 - They should not be collapsed into one raw folder because keeping one folder per experiment makes provenance and reruns easier.
 
 ## Canonical Final Merged Output
 
+Current final post-interaction merged output:
+
+`merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2`
+
+Meaning:
+
+- Merged analysis that combines `comparison_outputs`, every completed next-cycle candidate family, the rates/credit/vol risk-state branch, and the final xsec/sector complementarity v2 branch.
+- This is the canonical final Horizon A feature-interaction analysis.
+- The critical report is `critical_xsec_sector_complementarity_v2_report.md`.
+
+Current post-interaction merged output:
+
+`merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state`
+
+Meaning:
+
+- Merged analysis that combines `comparison_outputs`, every completed next-cycle candidate family, and the first interaction/gating v2 branch.
+- This is the superseded analysis after testing only `base_macro_rates_credit_vol_risk_state_context`.
+- The critical report is `critical_rates_credit_vol_risk_state_context_report.md`.
+
+Previous all-single-family merged output:
+
 `merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol`
 
 Meaning:
 
-- Final merged analysis that combines `comparison_outputs` with every completed next-cycle candidate family.
-- This is the canonical all-candidate analysis for the current commit.
+- Final single-family merged analysis that combines `comparison_outputs` with every completed next-cycle candidate family before the interaction/gating v2 branch.
+- This remains the canonical pre-interaction analysis.
 
 If this folder is renamed in a future cleanup commit, use:
 
@@ -90,6 +116,8 @@ New next-cycle figures:
 - `26_next_cycle_benchmark_relative_scatter`
 - `27_next_cycle_regime_excess_return_heatmap`
 - `28_next_cycle_main_candidate_cumulative_returns`
+- `29_horizon_a_interaction_closeout_scoreboard`
+- `30_horizon_a_phase_boundary_selection`
 
 Source plotting tables live in:
 
@@ -99,3 +127,23 @@ The generator is:
 
 `generate_next_cycle_final_figures.py`
 
+## Phase-2 Latent-Action Preparation
+
+New notebook runs now persist policy action traces when the notebook runtime returns `df_action`:
+
+- Raw run output: `walk_forward_test_actions.csv`
+- Merged output: `walk_forward_test_actions_merged.csv`
+- Rebuilt analysis output: `analysis/walk_forward_test_actions.csv`
+
+These action traces are intentionally separate from `walk_forward_daily_test_returns.csv`. Daily returns remain the backtest/statistical surface; actions are the teacher dataset surface for Phase-2 latent-action diagnostics.
+
+The first audit utility lives in the Phase-2 folder:
+
+`..\Latent Actions\latent_action_phase2_tools.py`
+
+It builds:
+
+- `latent_action_teacher_matrix.csv`
+- `latent_action_teacher_simple_codes.csv`
+- `latent_action_teacher_action_summary.csv`
+- `latent_action_teacher_code_counts.csv`

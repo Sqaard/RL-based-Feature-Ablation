@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "experiment_name": "next_cycle_candidate_only_xsec_sector_complementarity_v2",
+  "config_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\configs\\next_cycle_candidate_only_xsec_sector_complementarity_v2.yaml",
+  "resolved_output_dir": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2",
+  "dataset_snapshot_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_complementarity_v2\\processed_dataset_snapshot.csv",
+  "launch_mode": "notebook_config_driven",
+  "selected_candidate_family": "xsec_sector_complementarity_v2",
+  "selected_candidate_feature_set": "base_macro_xsec_sector_complementarity_v2",
+  "panel_scope": "candidate_only",
+  "user_action_required_now": false,
+  "next_user_action": "Inspect the generated reports in the launch output directory."
+}

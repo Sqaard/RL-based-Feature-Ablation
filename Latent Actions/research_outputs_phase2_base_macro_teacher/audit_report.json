@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "checks": {
+    "duplicate_date_ticker_rows": 0,
+    "ticker_date_monotonicity_violations": 0,
+    "fundamental_future_leakage_rows": 0,
+    "missing_feature_columns": [],
+    "gru_feature_columns": [
+      "gru_return_forecast_1d",
+      "gru_return_forecast_2d",
+      "gru_return_forecast_3d",
+      "gru_return_forecast_4d",
+      "gru_return_forecast_5d"
+    ],
+    "missing_price_rows": 0,
+    "row_count": 96019,
+    "ticker_count": 29,
+    "date_start": "2010-01-04T00:00:00",
+    "date_end": "2023-02-28T00:00:00"
+  },
+  "issues": [],
+  "warnings": [
+    "Historical Dow 30 membership was not verified because no constituent history table was provided.",
+    "GRU columns are present. For walk-forward runs they must be re-fit per fold or rebuilt with a rolling feature pipeline."
+  ]
+}

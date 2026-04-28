@@ -1,0 +1,29 @@
+{
+  "status": "ready_to_launch",
+  "experiment_name": "latent_actions_phase2_base_macro_teacher",
+  "config_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\latent_actions_phase2_base_macro_teacher.yaml",
+  "dataset_label": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\processed_dataset_snapshot.csv",
+  "resolved_output_dir": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher",
+  "candidate_feature_families": [],
+  "selected_candidate_family": null,
+  "selected_candidate_feature_set": null,
+  "panel_scope": null,
+  "feature_set_filter": [
+    "base_macro"
+  ],
+  "available_feature_sets": [
+    "base_macro"
+  ],
+  "missing_requested_feature_sets": [],
+  "seed_count": 3,
+  "fold_count": 14,
+  "audit_ok": true,
+  "user_action_required_now": true,
+  "launch_mode": "notebook_config_driven",
+  "launch_config_snapshot_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\launch_config_snapshot.yaml",
+  "next_user_action": "Launch the notebook experiment with the generated snippet.",
+  "post_run_rebuild_commands": [
+    "python -m dow30_reporting build-benchmark-suite --dataset \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\processed_dataset_snapshot.csv\" --folds-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\walk_forward_folds.csv\" --output \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\benchmark_suite_daily.csv\"",
+    "python -m dow30_reporting rebuild-walkforward-report --input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\walk_forward_results.csv\" --daily-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\walk_forward_daily_test_returns.csv\" --test-actions-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\walk_forward_test_actions.csv\" --benchmark-suite-input \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\benchmark_suite_daily.csv\" --outdir \"C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Latent Actions\\research_outputs_phase2_base_macro_teacher\\analysis_rebuilt\""
+  ]
+}

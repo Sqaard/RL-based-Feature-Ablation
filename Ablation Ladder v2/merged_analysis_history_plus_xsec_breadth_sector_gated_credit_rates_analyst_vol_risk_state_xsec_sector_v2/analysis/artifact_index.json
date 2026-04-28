@@ -1,0 +1,28 @@
+{
+  "raw_row_count": 630,
+  "unique_run_key_count": 630,
+  "regime_expanded_row_count": 0,
+  "expansion_detected": false,
+  "warnings": [],
+  "notes": [
+    "Input results were already unique at run_key level."
+  ],
+  "outputs": {
+    "unique_run_level_results": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\unique_run_level_results.csv",
+    "corrected_walk_forward_summary": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\corrected_walk_forward_summary.csv",
+    "corrected_walk_forward_summary_with_primary_benchmark": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\corrected_walk_forward_summary_with_primary_benchmark.csv",
+    "selection_rule_comparison": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\selection_rule_comparison.csv",
+    "selection_rule_summary": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\selection_rule_summary.csv",
+    "validation_vs_test_winner_by_fold": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\validation_vs_test_winner_by_fold.csv",
+    "pairwise_permutation_tests_recomputed": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\pairwise_permutation_tests_recomputed.csv",
+    "statistical_credibility_report": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\statistical_credibility_report.json",
+    "walk_forward_daily_test_returns": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\walk_forward_daily_test_returns.csv",
+    "regime_run_level_metrics": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\regime_run_level_metrics.csv",
+    "regime_summary_by_feature_set": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\regime_summary_by_feature_set.csv",
+    "regime_summary_by_fold": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\regime_summary_by_fold.csv",
+    "benchmark_suite_daily": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\benchmark_suite_daily.csv",
+    "benchmark_run_level_metrics": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\benchmark_run_level_metrics.csv",
+    "benchmark_summary_by_feature_set": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\benchmark_summary_by_feature_set.csv",
+    "benchmark_summary_by_fold": "merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2\\analysis\\benchmark_summary_by_fold.csv"
+  }
+}

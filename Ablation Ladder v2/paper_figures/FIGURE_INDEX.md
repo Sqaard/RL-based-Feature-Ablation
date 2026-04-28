@@ -89,7 +89,7 @@ Three-panel scorecard comparing median test Sharpe, median test return, and medi
 - Note: This is the main final ranking figure. It shows why `base_macro` remains primary while vol, rates, and credit remain important candidates.
 
 ### `22_next_cycle_candidate_decision_heatmap` - Candidate decision heatmap
-Cross-candidate normalized heatmap across Sharpe, return, positive-run rate, retention, and benchmark-relative metrics.
+Cross-candidate normalized heatmap across Sharpe, return, positive-run rate, retention, and benchmark-relative metrics, now including the final interaction/gating branches.
 - Files: `22_next_cycle_candidate_decision_heatmap.png`, `22_next_cycle_candidate_decision_heatmap.svg`
 - Tables: `plotting_tables\22_next_cycle_candidate_decision_heatmap.csv`
 - Note: This figure is intended to show complementary strengths rather than a single universal winner.
@@ -124,8 +124,20 @@ Median daily excess return versus benchmark by feature family and exogenous regi
 - Tables: `plotting_tables\27_next_cycle_regime_excess_return_heatmap.csv`
 - Note: Regime cells are diagnostic only because some regime windows are short.
 
-### `28_next_cycle_main_candidate_cumulative_returns` - Main retained candidate cumulative paths
-Mean daily test cumulative-return paths for `base_macro` and the main retained candidate families.
+### `28_next_cycle_main_candidate_cumulative_returns` - Main retained candidate and interaction cumulative paths
+Mean daily test cumulative-return paths for `base_macro`, the main retained candidate families, and the final interaction/gating branches.
 - Files: `28_next_cycle_main_candidate_cumulative_returns.png`, `28_next_cycle_main_candidate_cumulative_returns.svg`
 - Tables: `plotting_tables\28_next_cycle_main_candidate_cumulative_returns.csv`
 - Note: This figure is meant for visual trajectory comparison, not for standalone statistical inference.
+
+### `29_horizon_a_interaction_closeout_scoreboard` - Horizon A interaction closeout scoreboard
+Focused closeout scorecard for the retained single-family inputs and all interaction/gating branches.
+- Files: `29_horizon_a_interaction_closeout_scoreboard.png`, `29_horizon_a_interaction_closeout_scoreboard.svg`
+- Tables: `plotting_tables\29_horizon_a_interaction_closeout_scoreboard.csv`
+- Note: The figure shows why `xsec_sector_complementarity_v2` is a useful near-miss but not a promoted replacement for `base_macro`.
+
+### `30_horizon_a_phase_boundary_selection` - Horizon A phase-boundary selection diagnostics
+Selection-rule reliability across the historical panel, the single-family panel, the first interaction branch, and the final Horizon A panel.
+- Files: `30_horizon_a_phase_boundary_selection.png`, `30_horizon_a_phase_boundary_selection.svg`
+- Tables: `plotting_tables\30_horizon_a_phase_boundary_selection.csv`
+- Note: This figure marks the transition away from feature-interaction search and into Phase-2 latent-action review.

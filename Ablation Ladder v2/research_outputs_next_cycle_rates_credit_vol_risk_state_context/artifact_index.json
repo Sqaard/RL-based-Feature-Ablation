@@ -1,0 +1,28 @@
+{
+  "raw_row_count": 42,
+  "unique_run_key_count": 42,
+  "regime_expanded_row_count": 0,
+  "legacy_regime_rows": 60,
+  "daily_test_rows": 2643,
+  "benchmark_suite_rows": 3524,
+  "primary_benchmark_id": "dow30_equal_weight_rebalance_matched",
+  "warnings": [],
+  "outputs": {
+    "walk_forward_results": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\walk_forward_results.csv",
+    "corrected_walk_forward_summary": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\corrected_walk_forward_summary.csv",
+    "corrected_walk_forward_summary_with_primary_benchmark": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\corrected_walk_forward_summary_with_primary_benchmark.csv",
+    "selection_rule_comparison": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\selection_rule_comparison.csv",
+    "selection_rule_summary": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\selection_rule_summary.csv",
+    "validation_vs_test_winner_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\validation_vs_test_winner_by_fold.csv",
+    "pairwise_permutation_tests_recomputed": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\pairwise_permutation_tests_recomputed.csv",
+    "statistical_credibility_report": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\statistical_credibility_report.json",
+    "walk_forward_daily_test_returns": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\walk_forward_daily_test_returns.csv",
+    "regime_run_level_metrics": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\regime_run_level_metrics.csv",
+    "regime_summary_by_feature_set": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\regime_summary_by_feature_set.csv",
+    "regime_summary_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\regime_summary_by_fold.csv",
+    "benchmark_suite_daily": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\benchmark_suite_daily.csv",
+    "benchmark_run_level_metrics": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\benchmark_run_level_metrics.csv",
+    "benchmark_summary_by_feature_set": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\benchmark_summary_by_feature_set.csv",
+    "benchmark_summary_by_fold": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context\\benchmark_summary_by_fold.csv"
+  }
+}

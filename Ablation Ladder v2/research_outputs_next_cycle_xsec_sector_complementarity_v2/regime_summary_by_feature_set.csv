@@ -1,0 +1,6 @@
+feature_set,feature_family,is_negative_control,regime_label_exogenous,runs,folds,seeds,n_days_median,mean_daily_return_median,sharpe_median,max_drawdown_median,turnover_median,hit_rate_median,excess_return_vs_benchmark_median
+base_macro_xsec_sector_complementarity_v2,xsec_sector_complementarity_v2,False,bear_high_vol,18,6,3,4.0,0.0019212507416622032,,-0.010198930337150025,0.0,0.55,-1.0125035972213532e-05
+base_macro_xsec_sector_complementarity_v2,xsec_sector_complementarity_v2,False,bear_low_vol,9,3,3,1.0,0.0008369019761255517,,0.0,0.0,0.3333333333333333,-0.001106163457999485
+base_macro_xsec_sector_complementarity_v2,xsec_sector_complementarity_v2,False,bull_high_vol,9,3,3,1.0,0.0030880742289718377,,0.0,0.0,0.6666666666666666,0.00048566472629628463
+base_macro_xsec_sector_complementarity_v2,xsec_sector_complementarity_v2,False,bull_low_vol,18,6,3,3.5,-0.00044613522028359444,,-0.004175474260528833,0.0,0.55,-0.0007959901103863558
+base_macro_xsec_sector_complementarity_v2,xsec_sector_complementarity_v2,False,unknown,42,14,3,59.0,0.0005111440524180398,0.8764638376648972,-0.04976547412486004,11.864406779661017,0.5338983050847458,-0.000213388444987088

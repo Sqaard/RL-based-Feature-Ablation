@@ -1,0 +1,28 @@
+{
+  "input_dirs": [
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\comparison_outputs",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_dispersion_correlation_regime",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_breadth_internal_structure",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_sector_relative_context",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_xsec_sector_gated_context",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_credit_stress_proxies",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_term_structure_lsc",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_analyst_or_fund_revision_features",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_vol_term_or_implied_vol_proxy",
+    "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\research_outputs_next_cycle_rates_credit_vol_risk_state_context"
+  ],
+  "merged_results_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state\\walk_forward_results_merged.csv",
+  "merged_daily_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state\\walk_forward_daily_test_returns_merged.csv",
+  "merged_folds_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state\\walk_forward_folds_merged.csv",
+  "merged_benchmark_path": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state\\benchmark_suite_daily_merged.csv",
+  "benchmark_source": "merged_existing_outputs",
+  "missing_daily_dirs": [],
+  "missing_benchmark_dirs": [
+    "comparison_outputs"
+  ],
+  "missing_folds_dirs": [
+    "research_outputs_next_cycle_breadth_internal_structure",
+    "research_outputs_next_cycle_sector_relative_context"
+  ],
+  "analysis_dir": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Ablation Ladder v2\\merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state\\analysis"
+}

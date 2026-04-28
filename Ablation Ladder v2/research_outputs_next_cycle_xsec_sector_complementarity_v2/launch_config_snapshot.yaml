@@ -1,0 +1,44 @@
+experiment_name: next_cycle_candidate_only_xsec_sector_complementarity_v2
+status: ready_to_run
+launch_selection:
+  candidate_family: xsec_sector_complementarity_v2
+  panel_scope: candidate_only
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+notes:
+  execution_mode: Run only the xsec_sector_complementarity_v2 final Horizon A interaction
+    branch on this notebook or worker.
+  dataset_requirement: Can use processed_final_fixed.csv; processed_final_fixed_external_lagclean_full.csv
+    is also accepted for alignment with the latest merged cycle.
+  merge_strategy: Merge the resulting output directory with existing historical, next-cycle,
+    and rates/credit/vol risk-state outputs later.
+  baseline_reuse_expected: true
+  pre_registered_hypothesis: Xsec dispersion/correlation regimes may identify when
+    sector leadership and stock-vs-sector residual context are useful; v2 uses narrow
+    complementarity-strength and mismatch features rather than copying the failed
+    xsec_sector_gated_context branch.
+  kill_rules: Reject if it does not beat base_macro on median test Sharpe, benchmark-relative
+    excess Sharpe, fold-level robustness, and selection reliability after merged reporting.
+  phase_boundary: Treat this as the final Horizon A feature-interaction experiment
+    before Phase-2 review.
+runner_kwargs:
+  base_config_name: custom_custom
+  seeds:
+  - 42
+  - 123
+  - 999
+  total_timesteps: 200000
+  max_folds: null
+  es_mode: relaxed
+  dropout_p: 0.1
+  eval_freq: 8192
+  checkpoint_freq: 4096
+  verbose: 0

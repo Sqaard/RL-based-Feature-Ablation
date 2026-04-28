@@ -1,0 +1,244 @@
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+  baseline_string: custom_custom + PPO + custom_reward + custom_mlp_policy + checkpoint_robust_score + robust_q25_retention + buy_cost_pct 0.001 + sell_cost_pct 0.001 + long_only_box_[-1,1]_scaled_by_hmax
+
+required_comparable_seeds:
+  - 42
+  - 123
+  - 999
+
+optional_stability_extension_seeds:
+  - 2024
+  - 2025
+
+main_reference_feature_set: base_macro
+
+negative_controls:
+  - base_macro_hmm
+  - base_macro_gru
+
+benchmark_suite:
+  - id: dow30_equal_weight_rebalance_matched
+    status: implemented_in_repo
+    family_type: passive_structured
+    definition: Equal-weight across the Dow 30 universe with the same rebalance cadence as the agent and transaction costs applied when weights change.
+    walk_forward_requirement: same folds and same date windows as the agent
+    cost_requirement: same cost convention when turnover exists
+  - id: dow30_market_proxy_buy_hold
+    status: implemented_in_repo
+    family_type: passive_market
+    definition: Market proxy baseline aligned to the same walk-forward windows without adaptive selection.
+    walk_forward_requirement: same folds and same date windows as the agent
+    cost_requirement: buy-and-hold unless the implementation explicitly trades
+  - id: dow30_equal_weight_vol_target
+    status: implemented_in_repo
+    family_type: passive_risk_managed
+    definition: Equal-weight portfolio scaled to a fixed target volatility using causal trailing realized volatility.
+    walk_forward_requirement: same folds and same date windows as the agent
+    cost_requirement: same cost convention when exposure changes
+  - id: dow30_trend_filter_overlay
+    status: implemented_in_repo
+    family_type: simple_structured
+    definition: Equal-weight portfolio with a causal market trend overlay that reduces or removes exposure in adverse trend states.
+    walk_forward_requirement: same folds and same date windows as the agent
+    cost_requirement: same cost convention when the overlay trades
+
+candidate_feature_families:
+  - id: rates_term_structure_lsc
+    rank: 1
+    family_type: macro_exogenous
+    economic_intuition: Yield-curve level, slope, and curvature can proxy policy stance, growth expectations, and discount-rate pressure.
+    dow30_relevance: High relevance for large-cap regime sensitivity and discount-rate exposure.
+    leakage_risk: Medium unless lag-clean daily source timing is enforced.
+    implementation_difficulty: Medium
+    suitability: NOW
+    status: implemented_candidate_available
+    feature_set_name: base_macro_rates_term_structure_lsc
+    dataset_requirement: processed_final_fixed_external_lagclean_full.csv
+    notes: Implemented from lag-clean FRED Treasury curve features.
+  - id: credit_stress_proxies
+    rank: 2
+    family_type: macro_exogenous
+    economic_intuition: Credit stress can capture funding conditions and risk appetite before equity damage is fully visible.
+    dow30_relevance: High relevance for large industrial, consumer, and financial names in the Dow 30.
+    leakage_risk: Medium if spread series or release timing are mishandled.
+    implementation_difficulty: Medium_to_high
+    suitability: NOW
+    status: implemented_candidate_available
+    feature_set_name: base_macro_credit_stress_proxies
+    dataset_requirement: processed_final_fixed_external_lagclean_full.csv
+    notes: Implemented with long-history BAA10Y, AAA10Y, and NFCI proxies because ICE BofA OAS downloads no longer cover the 2010-2023 experiment window.
+  - id: xsec_dispersion_correlation_regime
+    rank: 3
+    family_type: market_internal
+    economic_intuition: Cross-sectional dispersion and correlation can separate stock-picking-friendly regimes from index-dominated regimes.
+    dow30_relevance: High because the agent allocates across a small large-cap universe.
+    leakage_risk: Low_to_medium if rolling statistics are computed causally from the panel.
+    implementation_difficulty: Medium
+    suitability: NOW
+    notes: Implemented in repo as the first run-ready next-cycle candidate because it is derivable from the existing panel without external feeds.
+  - id: breadth_internal_structure
+    rank: 4
+    family_type: market_internal
+    economic_intuition: Participation-style breadth signals can show whether market moves have broad internal support.
+    dow30_relevance: Medium_to_high for interpreting broad vs narrow leadership in the universe.
+    leakage_risk: Low_to_medium when built causally from the panel.
+    implementation_difficulty: Medium
+    suitability: NOW
+    status: implemented_candidate_available
+    feature_set_name: base_macro_breadth_internal_structure
+    notes: Implemented from the existing Dow 30 panel with causal lagged participation and prior-close breadth structure.
+  - id: sector_relative_context
+    rank: 5
+    family_type: relative_context
+    economic_intuition: Sector-relative context can encode leadership and cyclicality without changing the policy architecture.
+    dow30_relevance: Medium because the Dow 30 still spans distinct sector behaviors.
+    leakage_risk: Low_to_medium if sector mapping is fixed and no future information is used.
+    implementation_difficulty: Medium
+    suitability: NOW
+    status: implemented_candidate_available
+    feature_set_name: base_macro_sector_relative_context
+    notes: Implemented with a fixed Dow 30 ticker-to-sector map and causal lagged sector-relative return context.
+  - id: xsec_sector_gated_context
+    rank: 6
+    family_type: market_internal_relative_interaction
+    economic_intuition: The xsec stock-picking regime can gate sector leadership and stock-vs-sector momentum signals.
+    dow30_relevance: Medium_to_high because the first candidate results showed stable xsec behavior and episodic sector-relative upside.
+    leakage_risk: Low_to_medium when all interaction inputs remain lagged or rolling-causal.
+    implementation_difficulty: Medium
+    suitability: NOW
+    status: implemented_diagnostic_candidate_available
+    feature_set_name: base_macro_xsec_sector_gated_context
+    notes: Implemented as a diagnostic branch after comparing xsec, breadth, and sector standalone experiments.
+  - id: xsec_sector_complementarity_v2
+    rank: 7
+    family_type: market_internal_relative_interaction
+    economic_intuition: Cross-sectional dispersion/correlation may identify when sector leadership and stock-vs-sector residual context are complementary.
+    dow30_relevance: Medium_to_high as the final narrow structural interaction test before Phase-2 review.
+    leakage_risk: Low_to_medium when all inputs remain lagged or rolling-causal.
+    implementation_difficulty: Medium
+    suitability: FINAL_HORIZON_A_INTERACTION_TEST
+    status: implemented_interaction_v2_candidate_available
+    feature_set_name: base_macro_xsec_sector_complementarity_v2
+    notes: Redesigned v2 branch using complementarity-strength and mismatch features instead of copying the failed xsec_sector_gated_context design.
+  - id: vol_term_or_implied_vol_proxy
+    rank: 8
+    family_type: macro_exogenous
+    economic_intuition: Volatility term structure may distinguish temporary volatility spikes from more persistent stress regimes.
+    dow30_relevance: Medium when a credible implied-volatility source exists.
+    leakage_risk: Medium_to_high depending on data source and timing.
+    implementation_difficulty: High
+    suitability: NOW
+    status: implemented_candidate_available
+    feature_set_name: base_macro_vol_term_or_implied_vol_proxy
+    dataset_requirement: processed_final_fixed_external_lagclean_full.csv
+    notes: Implemented from lag-clean VIXCLS and VXVCLS term-structure proxy features.
+  - id: analyst_or_fund_revision_features
+    rank: 9
+    family_type: fundamental_exogenous_proxy
+    economic_intuition: Revision-style features can encode changing expectations only if availability timing is truly lag-clean.
+    dow30_relevance: Medium in principle, operationally risky in practice.
+    leakage_risk: High
+    implementation_difficulty: High
+    suitability: DIAGNOSTIC_ONLY
+    status: implemented_proxy_candidate_available
+    feature_set_name: base_macro_analyst_or_fund_revision_features
+    dataset_requirement: processed_final_fixed_external_lagclean_full.csv
+    notes: Implemented as a lagged point-in-time fundamental revision proxy. This is not true analyst estimate revision data.
+
+experiment_matrix:
+  phase_a0_analysis_only:
+    mode: analysis_only
+    status: implemented_support_available
+    required_inputs:
+      - Ablation Ladder v2/comparison_outputs/walk_forward_daily_test_returns.csv
+      - Ablation Ladder v2/comparison_outputs/selection_rule_summary.csv
+      - Ablation Ladder v2/comparison_outputs/corrected_walk_forward_summary.csv
+    required_outputs:
+      - benchmark specification
+      - benchmark-relative reporting plan
+      - multiple-testing caution language
+    training_allowed: false
+  phase_a1_single_family_training:
+    mode: single_family_training
+    status: ready_to_run_with_multiple_implemented_candidates
+    frozen_reference_baseline: true
+    required_feature_sets:
+      - base_macro
+      - base_macro_hmm
+      - base_macro_gru
+      - base_macro_xsec_dispersion_correlation_regime
+    recommended_candidate_1: base_macro_xsec_dispersion_correlation_regime
+    additional_candidate_only_feature_sets:
+      - base_macro_rates_term_structure_lsc
+      - base_macro_credit_stress_proxies
+      - base_macro_breadth_internal_structure
+      - base_macro_sector_relative_context
+      - base_macro_xsec_sector_gated_context
+      - base_macro_xsec_sector_complementarity_v2
+      - base_macro_vol_term_or_implied_vol_proxy
+      - base_macro_analyst_or_fund_revision_features
+    final_interaction_before_phase_2: base_macro_xsec_sector_complementarity_v2
+    recommended_execution_pattern: Run one implemented candidate family per independent notebook, then merge each output directory into the historical baseline analysis.
+    required_comparable_seeds:
+      - 42
+      - 123
+      - 999
+    optional_after_full_reporting:
+      feature_sets:
+        - base
+      extra_seeds:
+        - 2024
+        - 2025
+      second_new_family_allowed_only_after_reporting: true
+    forbidden:
+      - uncontrolled_multi_family_bundle
+      - architecture_change
+      - latent_action_training
+      - ssl_training
+      - state_compression_training
+      - benchmark_definition_change_mid_comparison
+      - mixed_feature_and_benchmark_narrative
+
+reporting_priorities:
+  implemented_in_v2:
+    - id: retention_ratio
+      status: implemented
+      source: Ablation Ladder v2/comparison_outputs/corrected_walk_forward_summary.csv
+    - id: generalization_ratio
+      status: implemented
+      source: Ablation Ladder v2/comparison_outputs/corrected_walk_forward_summary.csv
+    - id: selected_model_regret
+      status: implemented
+      source: Ablation Ladder v2/comparison_outputs/selection_rule_summary.csv
+    - id: winner_match_rate
+      status: implemented
+      source: Ablation Ladder v2/comparison_outputs/selection_rule_summary.csv
+    - id: current_market_proxy_excess_return
+      status: partially_supported
+      source: Ablation Ladder v2/comparison_outputs/regime_summary_by_feature_set.csv
+  planned_placeholders:
+    - id: benchmark_relative_metrics_multi_suite
+      status: implemented
+      purpose: Compare the agent against all required benchmark definitions, not only the current market proxy field.
+    - id: deflated_sharpe_style_reporting
+      status: planned_not_implemented
+      purpose: Add stronger Sharpe significance and multiple-trial awareness.
+    - id: probability_of_backtest_overfitting_mindset
+      status: planned_not_implemented
+      purpose: Record explicit backtest-overfitting safeguards and trial-count language.
+    - id: multiple_trials_language
+      status: planned_not_implemented
+      purpose: Make experiment summaries explicit about selection opportunities and winner's curse.
+
+latent_action_branch_status: phase_2
+state_ssl_status: deferred
+dg_invariance_status: future_relevant_ssl_framing

@@ -992,9 +992,11 @@ def merge_research_output_dirs(
 
     results_inputs: list[Path] = []
     daily_inputs: list[Path] = []
+    action_inputs: list[Path] = []
     folds_inputs: list[Path] = []
     benchmark_inputs: list[Path] = []
     missing_daily_dirs: list[str] = []
+    missing_action_dirs: list[str] = []
     missing_benchmark_dirs: list[str] = []
     missing_folds_dirs: list[str] = []
 
@@ -1009,6 +1011,12 @@ def merge_research_output_dirs(
             daily_inputs.append(daily_path)
         else:
             missing_daily_dirs.append(str(source_dir))
+
+        action_path = source_dir / "walk_forward_test_actions.csv"
+        if action_path.exists():
+            action_inputs.append(action_path)
+        else:
+            missing_action_dirs.append(str(source_dir))
 
         folds_path = source_dir / "walk_forward_folds.csv"
         if folds_path.exists():
@@ -1034,6 +1042,15 @@ def merge_research_output_dirs(
             daily_inputs,
             key_cols=("run_key", "date"),
             output_path=target_dir / "walk_forward_daily_test_returns_merged.csv",
+            allow_schema_union=True,
+        )
+
+    merged_actions = pd.DataFrame()
+    if action_inputs:
+        merged_actions = merge_csv_files_by_keys(
+            action_inputs,
+            key_cols=("run_key", "action_row_id"),
+            output_path=target_dir / "walk_forward_test_actions_merged.csv",
             allow_schema_union=True,
         )
 
@@ -1070,6 +1087,7 @@ def merge_research_output_dirs(
         merged_results,
         outdir=analysis_dir,
         daily_test_df=merged_daily if not merged_daily.empty else None,
+        test_actions_df=merged_actions if not merged_actions.empty else None,
         benchmark_suite_df=merged_benchmark if not merged_benchmark.empty else None,
     )
 
@@ -1086,6 +1104,11 @@ def merge_research_output_dirs(
             if not merged_folds.empty
             else None
         ),
+        "merged_actions_path": (
+            str((target_dir / "walk_forward_test_actions_merged.csv").resolve())
+            if not merged_actions.empty
+            else None
+        ),
         "merged_benchmark_path": (
             str((target_dir / "benchmark_suite_daily_merged.csv").resolve())
             if not merged_benchmark.empty
@@ -1093,6 +1116,7 @@ def merge_research_output_dirs(
         ),
         "benchmark_source": benchmark_source,
         "missing_daily_dirs": missing_daily_dirs,
+        "missing_action_dirs": missing_action_dirs,
         "missing_benchmark_dirs": missing_benchmark_dirs,
         "missing_folds_dirs": missing_folds_dirs,
         "analysis_dir": str(analysis_dir.resolve()),
@@ -1105,6 +1129,7 @@ def merge_research_output_dirs(
     return {
         "merged_results": merged_results,
         "merged_daily": merged_daily,
+        "merged_actions": merged_actions,
         "merged_folds": merged_folds,
         "merged_benchmark": merged_benchmark,
         "rebuild_bundle": rebuild_bundle,
@@ -1117,6 +1142,7 @@ def rebuild_walk_forward_report(
     *,
     outdir: str | Path,
     daily_test_df: Optional[pd.DataFrame] = None,
+    test_actions_df: Optional[pd.DataFrame] = None,
     benchmark_suite_df: Optional[pd.DataFrame] = None,
     legacy_regime_df: Optional[pd.DataFrame] = None,
     selection_rules: Optional[Mapping[str, SelectionRuleSpec]] = None,
@@ -1153,6 +1179,9 @@ def rebuild_walk_forward_report(
         )
         if legacy_regime_df is not None and not legacy_regime_df.empty:
             legacy_regime_df.to_csv(outdir / "legacy_walk_forward_regime_breakdown.csv", index=False)
+
+    if test_actions_df is not None and not test_actions_df.empty:
+        test_actions_df.to_csv(outdir / "walk_forward_test_actions.csv", index=False)
 
     if benchmark_suite_df is not None and not benchmark_suite_df.empty and daily_test_df is not None and not daily_test_df.empty:
         benchmark_run_df, benchmark_feature_df, benchmark_fold_df = build_benchmark_comparison_reports(
@@ -1200,6 +1229,7 @@ def rebuild_walk_forward_report(
         "unique_run_key_count": diagnostics["unique_run_key_count"],
         "regime_expanded_row_count": diagnostics["regime_expanded_row_count"],
         "expansion_detected": diagnostics["expansion_detected"],
+        "test_action_rows": int(len(test_actions_df)) if test_actions_df is not None else 0,
         "warnings": warnings,
         "notes": diagnostics["notes"],
         "outputs": {
@@ -1225,6 +1255,10 @@ def rebuild_walk_forward_report(
                 "regime_summary_by_feature_set": str(outdir / "regime_summary_by_feature_set.csv"),
                 "regime_summary_by_fold": str(outdir / "regime_summary_by_fold.csv"),
             }
+        )
+    if test_actions_df is not None and not test_actions_df.empty:
+        artifact_index["outputs"]["walk_forward_test_actions"] = str(
+            outdir / "walk_forward_test_actions.csv"
         )
     if not benchmark_run_df.empty:
         artifact_index["outputs"].update(
@@ -1255,6 +1289,7 @@ def rebuild_walk_forward_report(
         "benchmark_run_level_metrics": benchmark_run_df,
         "benchmark_summary_by_feature_set": benchmark_feature_df,
         "benchmark_summary_by_fold": benchmark_fold_df,
+        "test_actions_df": test_actions_df if test_actions_df is not None else pd.DataFrame(),
         "statistical_credibility_report": statistical_credibility,
         "artifact_index": artifact_index,
     }
@@ -1319,6 +1354,11 @@ def _parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         help="Optional walk_forward_daily_test_returns.csv for exogenous regime diagnostics.",
     )
     rebuild_parser.add_argument(
+        "--test-actions-input",
+        default=None,
+        help="Optional walk_forward_test_actions.csv for latent-action teacher diagnostics.",
+    )
+    rebuild_parser.add_argument(
         "--benchmark-suite-input",
         default=None,
         help="Optional benchmark_suite_daily.csv for multi-benchmark reporting.",
@@ -1378,12 +1418,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if args.command == "rebuild-walkforward-report":
         raw_results_df = pd.read_csv(args.input)
         daily_test_df = pd.read_csv(args.daily_input) if args.daily_input else None
+        test_actions_df = pd.read_csv(args.test_actions_input) if args.test_actions_input else None
         benchmark_suite_df = pd.read_csv(args.benchmark_suite_input) if args.benchmark_suite_input else None
         legacy_regime_df = pd.read_csv(args.legacy_regime_input) if args.legacy_regime_input else None
         rebuild_walk_forward_report(
             raw_results_df,
             outdir=args.outdir,
             daily_test_df=daily_test_df,
+            test_actions_df=test_actions_df,
             benchmark_suite_df=benchmark_suite_df,
             legacy_regime_df=legacy_regime_df,
             min_days_per_regime=args.min_days_per_regime,
