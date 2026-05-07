@@ -9,8 +9,8 @@ import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-HORIZON_A_ROOT = PROJECT_ROOT / "Ablation Ladder v2"
-LATENT_ACTION_ROOT = PROJECT_ROOT / "Latent Actions"
+HORIZON_A_ROOT = PROJECT_ROOT / "src" / "feature_ablation"
+LATENT_ACTION_ROOT = PROJECT_ROOT / "src" / "action_audit"
 if str(LATENT_ACTION_ROOT) not in sys.path:
     sys.path.insert(0, str(LATENT_ACTION_ROOT))
 

@@ -1,6 +1,0 @@
-feature_set,median_gap,q25_gap,q75_gap,count,feature_family,is_negative_control,feature_set_description,feature_order
-base,1.3298566708840749,0.011040892200736119,3.197590321621166,42,technical_base,False,"Prices, returns, and baseline technical risk features.",0
-base_macro,0.9072077493664993,-0.5689961507741504,3.1964863968737043,42,macro_context,False,Baseline technical features plus macro context.,1
-base_macro_exogenous_plus,1.1318967533312039,-0.54795103079405,2.6613175145569206,42,calendar_exogenous,False,Baseline technical and macro features plus event/calendar exogenous features.,2
-base_macro_hmm,1.1120561150165311,-0.23361737971710733,3.3105474833027606,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.,3
-base_macro_gru,0.8013809431824701,-0.1286687283243307,3.4418484924510353,42,negative_control_gru,True,GRU-enhanced feature set treated as a negative control.,4

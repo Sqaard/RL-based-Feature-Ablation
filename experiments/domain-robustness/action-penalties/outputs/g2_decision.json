@@ -1,0 +1,17 @@
+{
+  "branch": "SSL Domain Generalization G2",
+  "status": "completed",
+  "seed_policy": "one_seed_screening_only",
+  "screening_decision": "screening_fail",
+  "complete_variants": 7,
+  "missing_variants": 0,
+  "best_variant_by_gate_score": "g2f_conservative_full",
+  "best_non_negative_control_variant_by_gate_score": "g2f_conservative_full",
+  "negative_control_variant": "g2g_overregularized_negative_control",
+  "negative_control_gate_score": -0.5724351395862983,
+  "negative_control_top_warning": false,
+  "screening_pass_candidates": [],
+  "mixed_informative_variants": [],
+  "gate_rule": "One-seed screening candidate requires higher test Sharpe, higher benchmark-excess Sharpe and return, no material drawdown deterioration, paired/fold support, no inactivity, no turnover-only warning, and a better gate score than the overregularized negative control.",
+  "g3_implication": "Do not prepare G3 unless at least one non-negative-control G2 candidate is confirmed with a 3-seed rerun."
+}

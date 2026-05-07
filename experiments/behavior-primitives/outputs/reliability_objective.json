@@ -1,0 +1,20 @@
+{
+  "ReliabilityScore": {
+    "test_sharpe_median": 0.25,
+    "benchmark_excess_sharpe_median": 0.2,
+    "benchmark_excess_return_median": 0.15,
+    "sortino_or_calmar": 0.1,
+    "worst_regime_excess_return": 0.1,
+    "winner_fold_count": 0.08,
+    "median_regret": -0.05,
+    "seed_fold_instability": -0.04,
+    "excessive_turnover_without_excess_return": -0.03
+  },
+  "kill_rules": [
+    "Lower turnover is not success without Sharpe and benchmark-relative improvement.",
+    "Higher return is not success if Sharpe, drawdown, or worst-regime performance worsens.",
+    "One seed/fold success is screening only.",
+    "Benchmark-relative Sharpe/return must not degrade.",
+    "Median wins do not count if worst-regime performance collapses."
+  ]
+}

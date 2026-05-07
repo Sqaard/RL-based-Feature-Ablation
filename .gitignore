@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.rar
+*.zip
+joseph_behavior_interpretability_handoff.zip
+processed_*.csv
+dow_wnds.csv

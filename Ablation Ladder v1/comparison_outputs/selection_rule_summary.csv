@@ -1,4 +1,0 @@
-selection_rule,folds,selected_feature_sets,selected_test_sharpe_median,actual_test_winner_sharpe_median,selection_matches_test_winner_rate,median_test_winner_regret
-robust_q25_retention,14,"base, base_macro, base_macro_hmm, base_macro_hmm_gru, full",1.3651865273602746,1.37621886324062,0.35714285714285715,0.18535428228741901
-robust_q25,14,"base, base_macro, base_macro_hmm, base_macro_hmm_gru, full",0.8721667991779328,1.37621886324062,0.2857142857142857,0.30509522154800595
-sharpe_only,14,"base, base_macro, base_macro_hmm, base_macro_hmm_gru, full",0.8721667991779328,1.37621886324062,0.2857142857142857,0.2626163779805093

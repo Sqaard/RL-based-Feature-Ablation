@@ -1,0 +1,11 @@
+feature_set,simple_action_code,count,share
+base_macro,buy_only__high__diversified,289,0.1111111111111111
+base_macro,buy_only__low__concentrated,8,0.0030757400999615533
+base_macro,buy_only__medium__concentrated,2,0.0007689350249903883
+base_macro,buy_only__medium__diversified,39,0.014994232987312572
+base_macro,flat__flat__flat,1725,0.6632064590542099
+base_macro,mixed__high__diversified,3,0.0011534025374855825
+base_macro,mixed__low__concentrated,225,0.08650519031141868
+base_macro,mixed__low__diversified,59,0.022683583237216455
+base_macro,mixed__medium__concentrated,120,0.0461361014994233
+base_macro,mixed__medium__diversified,131,0.050365244136870435

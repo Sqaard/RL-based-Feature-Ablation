@@ -1,0 +1,54 @@
+experiment_name: ssl_domain_g1i_drawdown_stress_mild
+status: ready_to_run
+launch_selection:
+  candidate_family: null
+  panel_scope: null
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward_with_training_only_domain_reward_scaling
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+notes:
+  execution_mode: Run only base_macro with the specified training-only domain reward
+    scaling.
+  dataset_requirement: Use processed_final_fixed_external_lagclean_full.csv.
+  baseline_reuse_expected: false
+  phase: SSL/domain-generalization G1 parallel batch.
+  variant_id: g1i_drawdown_stress_mild
+  pre_registered_hypothesis: Mildly upweight deep train drawdown domains.
+  isolation_rule: Validation/test rewards are unscaled and checkpoint selection uses
+    checkpoint_robust_score.
+  kill_rules: Reject if benchmark-relative OOS metrics do not improve versus the frozen
+    base_macro teacher/reference.
+runner_kwargs:
+  base_config_name: custom_custom
+  candidate_feature_families: []
+  feature_set_filter:
+  - base_macro
+  seeds:
+  - 42
+  - 123
+  - 999
+  total_timesteps: 200000
+  max_folds: null
+  es_mode: relaxed
+  dropout_p: 0.1
+  eval_freq: 8192
+  checkpoint_freq: 4096
+  checkpoint_selection_rule: checkpoint_robust_score
+  domain_reward_scaling:
+    enabled: true
+    derived_domain: benchmark_drawdown_tercile
+    mode: stress_upweight
+    domain_weights:
+      shallow_drawdown: 0.85
+      mid_drawdown: 1.0
+      deep_drawdown: 1.2
+    min_multiplier: 0.75
+    max_multiplier: 1.25
+  verbose: 0

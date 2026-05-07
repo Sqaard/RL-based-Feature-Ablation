@@ -1,6 +1,0 @@
-feature_set,median_gap,q25_gap,q75_gap,count,feature_family,is_negative_control,feature_set_description,feature_order
-base,1.3298566708840749,0.011040892200736119,3.197590321621166,42,technical_base,False,"Prices, returns, and baseline technical risk features.",0
-base_macro,0.9072077493664995,-0.5689961507741504,3.1964863968737043,42,macro_context,False,Baseline technical features plus macro context.,1
-base_macro_hmm,1.1120561150165311,-0.23361737971710733,3.3105474833027606,42,negative_control_hmm,True,HMM-enhanced feature set treated as a negative control.,2
-base_macro_hmm_gru,0.9313419688541688,-0.6720435368428261,3.284948819404888,42,legacy_hmm_gru_combo,True,Legacy combined HMM+GRU feature set from the previous cycle.,3
-full,0.9162883284151125,-0.11978372947984439,3.8891410380913465,42,legacy_full_stack,False,Legacy full feature stack including fundamentals.,4

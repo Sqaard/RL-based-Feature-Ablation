@@ -1,81 +1,53 @@
-# Reinforcement Learning for Financial Time-Series Forecasting
+# RL for Financial Time-Series Forecasting
 
-This repository is a research record for testing whether a PPO portfolio agent can generalize across market regimes on the Dow 30 universe.
+Goal: build a Dow 30 PPO trading agent that remains reliable when market regimes change.
 
-The current conclusion is deliberately conservative: strong validation performance was not enough. After repeated walk-forward ablations, benchmark-relative reporting, and feature-interaction tests, `base_macro` remains the primary reference feature set. The next step is not another Horizon A feature stack; it is Phase-2 latent-action review.
+The current result is conservative: `base_macro` is still the best reference policy, generic feature expansion did not beat it, G1/G2 robustness interventions failed, and the active next step is behavior-level interpretability.
 
-![Horizon A interaction closeout scoreboard](Ablation%20Ladder%20v2/paper_figures/29_horizon_a_interaction_closeout_scoreboard.png)
+![Research ladder](docs/assets/01_research_ladder.png)
 
-## Current Status
+This is the project path: baseline PPO, feature ablation, robustness failures, then behavior primitives.
 
-| Stage | Question | Result |
+## Experiments As Questions
+
+| Question | Experiment | Answer |
 |---|---|---|
-| Configuration Comparison | Which PPO setup is stable enough to study? | PPO with custom reward / custom MLP became the reference training setup, but did not beat passive baselines on the frozen test split. |
-| Ablation Ladder v1 | Which feature directions survive a more realistic OOS protocol? | Macro context looked more robust than learned HMM/GRU-style extensions. |
-| Ablation Ladder v2 / Horizon A | Can new causal feature families or interaction gates beat `base_macro`? | No promoted replacement. Vol, rates, credit, and xsec/sector families are useful diagnostics, but not robust winners. |
-| Next Phase | Where should the project move next? | Latent-action review before generic SSL/state-compression. |
+| Which PPO setup is worth studying? | Baseline PPO comparison | Custom reward + custom MLP became the working reference, but passive baselines stayed hard to beat. |
+| Do more feature families improve OOS reliability? | Feature ablation | No. `base_macro` remained the strongest reference after Horizon A. |
+| Does PPO just underweight stress days? | G1 stress reweighting | No reliable OOS improvement. |
+| Does PPO just trade too aggressively? | G2 action penalties | No. Lower turnover alone did not improve benchmark-relative quality. |
+| What now? | Behavior primitives | Find recurring behaviors that explain success and failure before another PPO intervention. |
 
-## Final Horizon A Ranking
+## Current Evidence
 
-The final Horizon A bundle merges the historical v2 panel with all next-cycle single-family candidates and both interaction/gating branches:
+![Feature ablation scoreboard](docs/assets/02_feature_ablation_scoreboard.png)
 
-`Ablation Ladder v2/merged_analysis_history_plus_xsec_breadth_sector_gated_credit_rates_analyst_vol_risk_state_xsec_sector_v2`
+The best feature candidates were useful diagnostics, but none replaced `base_macro`.
 
-| Feature set | Median test Sharpe | Median excess Sharpe vs primary benchmark | Actual winner folds | Decision |
-|---|---:|---:|---:|---|
-| `base_macro` | 1.3378 | -0.2144 | 2 | Primary reference |
-| `base_macro_vol_term_or_implied_vol_proxy` | 1.1405 | -0.2135 | 1 | Retain as diagnostic/top-tier family |
-| `base_macro_xsec_sector_complementarity_v2` | 1.1347 | -0.2232 | 0 | Near-miss, do not promote |
-| `base_macro_rates_term_structure_lsc` | 1.0974 | -0.2336 | 2 | Retain as diagnostic/top-tier family |
-| `base_macro_credit_stress_proxies` | 1.0709 | -0.1903 | 2 | Retain as episodic stress family |
-| `base_macro_rates_credit_vol_risk_state_context` | 0.5151 | -0.2919 | 0 | Reject |
+| Stage | Best/Key result | Decision |
+|---|---|---|
+| Baseline PPO | RL configuration stabilized | Keep as research baseline |
+| Feature ablation | `base_macro` median test Sharpe `1.3378` | Keep as reference |
+| G1 domain robustness | stress reward weighting mixed/noisy | Fail |
+| G2 conservative actions | one-seed screen found no pass | Screening fail |
+| Behavior primitives | 6 primitives, several failure candidates | Active diagnostic stage |
 
-No candidate cleared the promotion bar against `base_macro` and the primary benchmark-relative guardrails.
+![Robustness to primitives](docs/assets/03_robustness_to_primitives.png)
 
-## What The Figures Show
-
-The most important result is not a single ranking table. It is the combination of three diagnostics:
-
-![Benchmark-relative candidate view](Ablation%20Ladder%20v2/paper_figures/26_next_cycle_benchmark_relative_scatter.png)
-
-The benchmark-relative scatter shows why the project avoids overclaiming. Several feature families are useful, but none becomes a clean benchmark-relative OOS winner.
-
-![Selection-rule phase boundary](Ablation%20Ladder%20v2/paper_figures/30_horizon_a_phase_boundary_selection.png)
-
-Selection reliability worsened as the feature panel expanded. This is the main reason Horizon A should close rather than continue adding feature stacks.
-
-![Main candidate cumulative returns](Ablation%20Ladder%20v2/paper_figures/28_next_cycle_main_candidate_cumulative_returns.png)
-
-The cumulative-return view is diagnostic only, but it helps compare the retained single-family candidates and interaction branches on the same aligned test-window basis.
-
-## Research Design
-
-The repository is built around controlled out-of-sample testing rather than leaderboard-style model selection.
-
-- The data universe is Dow 30 equities with technical, macro, WRDS-derived, regime, and candidate feature-family extensions.
-- The core model is PPO with a frozen reference setup during Horizon A.
-- Evaluation moved from a single train/validation/test split to repeated walk-forward folds and multi-seed runs.
-- Reporting includes corrected walk-forward summaries, benchmark-relative metrics, regime diagnostics, selection-rule diagnostics, and pairwise tests.
+The failed robustness branches changed the question from global regularization to targeted failure-mode discovery.
 
 ## Repository Map
 
-| Path | Purpose |
+| Path | What to read |
 |---|---|
-| `Configuration Comparison/` | Early PPO configuration experiments and frozen-test comparison. |
-| `Ablation Ladder v1/` | First walk-forward feature-family baseline. |
-| `Ablation Ladder v2/` | Current Horizon A package, final merged analysis, closeout docs, and figures. |
-| `Ablation Ladder v2/HORIZON_A_CLOSEOUT.md` | Final Horizon A decision record. |
-| `Ablation Ladder v2/NEXT_CYCLE_FINAL_RANKING.md` | Detailed candidate ranking before the final interaction closeout. |
-| `Ablation Ladder v2/RESEARCH_OUTPUTS_INDEX.md` | Output-folder map and reproducibility notes. |
-| `Latent Actions/LATENT_ACTIONS_PHASE2_PLAN.md` | Recommended next research stage. |
+| `experiments/baseline-ppo/` | First PPO setup comparison. |
+| `experiments/feature-ablation/` | Horizon A feature-family search and final ranking. |
+| `experiments/domain-robustness/` | G1/G2 robustness tests: both failed. |
+| `experiments/action-audit/` | Latent-action offline diagnostics. |
+| `experiments/behavior-primitives/` | Current interpretability-first audit. |
+| `src/` | Reproducible research utilities. |
+| `configs/` | Launch configs grouped by experiment stage. |
 
-## Key Takeaway
+## Bottom Line
 
-This project does not claim that PPO has already achieved reliable superiority over passive benchmarks. Its main contribution is a transparent evaluation path showing what failed, what remained useful, and where the next research intervention should be targeted.
-
-The current decision is:
-
-1. keep `base_macro` as the Horizon A reference;
-2. stop the feature-interaction search under the frozen PPO setup;
-3. carry vol, rates, credit, and xsec/sector diagnostics forward as context;
-4. start Phase-2 latent-action review before generic SSL/state-compression.
+This repo does not claim a finished trading edge. It documents a disciplined path toward one: keep the strongest baseline, reject weak improvements, diagnose failure behavior, and only then design the next PPO experiment.

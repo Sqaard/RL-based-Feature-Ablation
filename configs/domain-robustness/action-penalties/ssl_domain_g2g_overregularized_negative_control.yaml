@@ -1,0 +1,56 @@
+experiment_name: ssl_domain_g2g_overregularized_negative_control
+status: ready_to_run
+launch_selection:
+  candidate_family: null
+  panel_scope: null
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward_with_training_only_action_regularization
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+notes:
+  execution_mode: Run only base_macro with training-only action regularization.
+  dataset_requirement: Use processed_final_fixed_external_lagclean_full.csv.
+  baseline_reuse_expected: false
+  phase: SSL/domain-generalization G2 action-regularization screening batch.
+  variant_id: g2g_overregularized_negative_control
+  pre_registered_hypothesis: 'Negative control: very strong penalties should expose
+    inactive-policy false positives.'
+  mechanism: overregularized_negative_control
+  seed_policy: Screen with one seed first; rerun any positive variant with 3 seeds
+    before claiming pass.
+  isolation_rule: Validation/test rewards are unregularized and checkpoint selection
+    uses checkpoint_robust_score.
+  kill_rules: Reject if improvement is only lower turnover or if benchmark-relative
+    OOS metrics do not improve.
+runner_kwargs:
+  base_config_name: custom_custom
+  candidate_feature_families: []
+  feature_set_filter:
+  - base_macro
+  seeds:
+  - 42
+  total_timesteps: 200000
+  max_folds: null
+  es_mode: relaxed
+  dropout_p: 0.1
+  eval_freq: 8192
+  checkpoint_freq: 4096
+  checkpoint_selection_rule: checkpoint_robust_score
+  domain_reward_scaling: {}
+  action_regularization:
+    enabled: true
+    turnover_penalty: 0.12
+    smoothness_penalty: 0.1
+    concentration_penalty: 0.05
+    max_weight_penalty: 0.1
+    max_weight_target: 0.12
+    kl_to_previous_penalty: 0.0
+    normalize_penalties: true
+    train_only: true
+  verbose: 0

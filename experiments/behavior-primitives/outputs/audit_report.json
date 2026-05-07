@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "rows": 2601,
+  "behavior_windows": 2517,
+  "n_primitives": 6,
+  "kmeans_inertia": 89740.98577793861,
+  "outputs": {
+    "decision_state_action_rows": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\decision_state_action_rows.csv",
+    "behavior_window_features": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\behavior_window_features.csv",
+    "behavior_primitive_assignments": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\behavior_primitive_assignments.csv",
+    "behavior_primitive_summary": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\behavior_primitive_summary.csv",
+    "primitive_regime_alignment": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\primitive_regime_alignment.csv",
+    "primitive_concept_alignment": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\primitive_concept_alignment.csv",
+    "primitive_style_alignment": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\primitive_style_alignment.csv",
+    "audit_report": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\audit_report.json",
+    "markdown_report": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\BEHAVIOR_INTERPRETABILITY_AUDIT.md",
+    "joseph_request": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\JOSEPH_INTERPRETABILITY_REQUEST.md",
+    "reliability_objective": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_behavior_interpretability_base_macro\\reliability_objective.json"
+  },
+  "next_step": "Review bad/noisy primitives before designing any new PPO intervention."
+}
