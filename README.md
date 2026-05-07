@@ -32,8 +32,6 @@ The best feature candidates were useful diagnostics, but none replaced `base_mac
 | G2 conservative actions | one-seed screen found no pass | Screening fail |
 | Behavior primitives | 6 primitives, several failure candidates | Active diagnostic stage |
 
-![Robustness to primitives](docs/assets/03_robustness_to_primitives.png)
-
 The failed robustness branches changed the question from global regularization to targeted failure-mode discovery.
 
 ## Repository Map
