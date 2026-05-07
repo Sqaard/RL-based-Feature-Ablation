@@ -1,4 +1,0 @@
-selection_rule,folds,selected_feature_sets,selected_test_sharpe_median,actual_test_winner_sharpe_median,selection_matches_test_winner_rate,median_test_winner_regret,selection_rule_label,rule_order
-sharpe_only,14,"base, base_macro, base_macro_exogenous_plus, base_macro_gru, base_macro_hmm",0.7279455038222391,1.3651865273602746,0.0714285714285714,0.3685929731266948,Sharpe only,0
-robust_q25,14,"base, base_macro, base_macro_gru, base_macro_hmm",0.8706796933620413,1.3651865273602746,0.2857142857142857,0.2342416856556893,Robust q25,1
-robust_q25_retention,14,"base, base_macro, base_macro_gru, base_macro_hmm",1.3651865273602746,1.3651865273602746,0.4285714285714285,0.0363309949648523,Robust q25 + retention,2

@@ -1,6 +1,0 @@
-feature_set,feature_family,is_negative_control,regime_label_exogenous,runs,folds,seeds,n_days_median,mean_daily_return_median,sharpe_median,max_drawdown_median,turnover_median,hit_rate_median,excess_return_vs_benchmark_median
-base_macro_xsec_sector_gated_context,xsec_sector_gated_context,False,bear_high_vol,18,6,3,4.0,0.0015012998042087694,,-0.014087470086335152,0.0,0.55,-0.00021458684334586543
-base_macro_xsec_sector_gated_context,xsec_sector_gated_context,False,bear_low_vol,9,3,3,1.0,0.0001515704564909829,,0.0,0.0,0.3333333333333333,0.0002298836379102775
-base_macro_xsec_sector_gated_context,xsec_sector_gated_context,False,bull_high_vol,9,3,3,1.0,0.002862414518043218,,0.0,0.0,0.6666666666666666,-0.0007593126394917577
-base_macro_xsec_sector_gated_context,xsec_sector_gated_context,False,bull_low_vol,18,6,3,3.5,0.0005195144887095086,,-0.003649189625523963,0.0,0.6,-0.0002296331220035252
-base_macro_xsec_sector_gated_context,xsec_sector_gated_context,False,unknown,42,14,3,59.0,0.0003049326874322117,0.7064145004899396,-0.04667461716793603,12.711864406779661,0.5254237288135593,-0.00016229198825868578

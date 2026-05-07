@@ -1,0 +1,25 @@
+{
+  "branch": "SSL Domain Generalization G1",
+  "status": "completed",
+  "decision": "fail",
+  "complete_variants": 10,
+  "missing_variants": 0,
+  "reference": "Latent Actions/research_outputs_phase2_base_macro_teacher",
+  "best_variant_by_gate_score": "g1h_downside_return_strong",
+  "best_variant_role": "hypothesis_generating_only",
+  "provisional_gate_pass_variants": [],
+  "negative_controls": [
+    "g1c_abs_reverse_negative_control",
+    "g1f_vol_reverse_negative_control"
+  ],
+  "best_variant_key_deltas_vs_reference": {
+    "median_test_sharpe": -0.4165,
+    "median_primary_benchmark_excess_return_pct": 0.7556,
+    "median_primary_benchmark_excess_sharpe": -0.0868,
+    "median_test_turnover": -0.8860
+  },
+  "gate_rule": "Pass requires higher median test Sharpe, higher benchmark-excess Sharpe and return, no material drawdown deterioration, effect beyond turnover reduction, cross-fold/seed support, and separation from reverse negative controls.",
+  "rationale": "No non-reverse G1 variant simultaneously improved central frozen-test and benchmark-relative OOS metrics. The best variant improved benchmark-excess return but worsened test Sharpe and benchmark-excess Sharpe.",
+  "g2_implication": "Run G2 independently against base_macro. Do not include G1 in G3 unless G2 passes and g1h is used only as an exploratory combination.",
+  "final_recommendation": "Close G1 as fail and continue with G2 conservative action regularization screening."
+}

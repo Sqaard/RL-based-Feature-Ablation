@@ -1,6 +1,0 @@
-regime_label_exogenous,total_n_days,median_n_days,max_n_days,contributing_fold_seed_runs
-bear_high_vol,69,4.0,5,18
-bear_low_vol,15,1.0,3,9
-bull_high_vol,15,1.0,3,9
-bull_low_vol,66,3.5,5,18
-unknown,2478,59.0,59,42

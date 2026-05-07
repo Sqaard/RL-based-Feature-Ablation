@@ -1,0 +1,43 @@
+experiment_name: ssl_domain_g0_base_macro_temporal_robust_selection
+status: ready_to_run
+
+launch_selection:
+  candidate_family: null
+  panel_scope: null
+
+reference_baseline:
+  config_name: custom_custom
+  algorithm: PPO
+  reward_mode: custom_reward
+  policy_mode: custom_mlp_policy
+  checkpoint_selection_rule: checkpoint_temporal_robust_score
+  configuration_selection_rule: robust_q25_retention
+  buy_cost_pct: 0.001
+  sell_cost_pct: 0.001
+  action_constraint: long_only_box_[-1,1]_scaled_by_hmax
+
+notes:
+  execution_mode: Run only base_macro with temporal-domain robust checkpoint selection.
+  dataset_requirement: Use processed_final_fixed_external_lagclean_full.csv for alignment with the latest Horizon A and Phase-2 outputs.
+  baseline_reuse_expected: false
+  phase: SSL/domain-generalization G0 control, not generic state compression.
+  pre_registered_hypothesis: If observation states overfit market eras, checkpoint selection that rewards within-validation temporal-subdomain stability should reduce fold-level blowups without relying on extra feature families.
+  kill_rules: Reject if median test Sharpe, benchmark-excess Sharpe, drawdown, or selection reliability degrade versus the frozen base_macro teacher/reference.
+
+runner_kwargs:
+  base_config_name: custom_custom
+  candidate_feature_families: []
+  feature_set_filter:
+    - base_macro
+  seeds:
+    - 42
+    - 123
+    - 999
+  total_timesteps: 200000
+  max_folds: null
+  es_mode: relaxed
+  dropout_p: 0.1
+  eval_freq: 8192
+  checkpoint_freq: 4096
+  checkpoint_selection_rule: checkpoint_temporal_robust_score
+  verbose: 0
