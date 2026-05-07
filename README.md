@@ -48,4 +48,4 @@ The failed robustness branches changed the question from global regularization t
 
 ## Bottom Line
 
-This repo does not claim a finished trading edge. It documents a disciplined path toward one: keep the strongest baseline, reject weak improvements, diagnose failure behavior, and only then design the next PPO experiment.
+This repo does not claim a finished trading edge. 
