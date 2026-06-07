@@ -1,5 +1,11 @@
 # RL for Financial Time-Series Forecasting
 
+## Project Status
+
+This project is closed as a negative-result research branch. The best stable reference remains `base_macro`; feature expansion, stress reward reweighting, action penalties, latent/action audits, and controlled hidden-state primitive interventions did not produce a reliable OOS trading improvement.
+
+The main lesson: the bottleneck is likely not one missing feature family or one SSL trick, but the instability and structure of the RL model itself. The next project is [CHRL-Constrained-Hierarchical-Reinforcement-Learning](https://github.com/Sqaard/CHRL-Constrained-Hierarchical-Reinforcement-Learning): a more stable, constrained, and interpretable successor.
+
 Goal: build a Dow 30 trading agent that is both reliable under regime shift and interpretable enough to audit.
 
 The current result is conservative: `base_macro` is still the best reference policy. Feature expansion, stress reweighting, action penalties, and controlled hidden-state primitive interventions did not produce a robust OOS improvement.
