@@ -1,0 +1,27 @@
+{
+  "decision_label": "failed_or_artifact",
+  "one_step_rows": 295261,
+  "gradient_rows": 546,
+  "rollout_candidates": 0,
+  "rollout_status": "not_run_no_stage_0_5_candidate",
+  "status": "completed",
+  "output_dir": "C:\\Users\\ivanp\\RL for Time-Series Forecasting\\GITHUB\\Behavior Interpretability Audit\\research_outputs_controlled_causal_primitive_intervention",
+  "eligible_primitives": [
+    "primitive_02",
+    "primitive_04",
+    "primitive_05"
+  ],
+  "primary_targets": [
+    "primitive_04",
+    "primitive_02",
+    "primitive_05",
+    "primitive_00"
+  ],
+  "bad_primitives": [
+    "primitive_02",
+    "primitive_04",
+    "primitive_05"
+  ],
+  "claim_scope": "full causal claim only inside frozen PPO policy + fixed historical backtest simulator",
+  "no_real_market_causality_claim": true
+}
