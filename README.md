@@ -2,9 +2,11 @@
 
 ## Project Status
 
-This project is closed as a negative-result trading-improvement branch. It was still useful as a feature-search and ablation map: it showed which market, macro, cross-sectional, robustness, and action-side ideas did not reliably improve OOS performance. The best stable reference remains `base_macro`; feature expansion, stress reward reweighting, action penalties, latent/action audits, and controlled hidden-state primitive interventions did not produce a reliable OOS trading improvement.
+**Closed as a negative-result trading-improvement branch.** The best stable reference remains **`base_macro`**. Feature expansion, stress reward reweighting, action penalties, latent/action audits, and controlled hidden-state primitive interventions did **not** produce a reliable OOS trading improvement.
 
-The main lesson: the bottleneck is likely not one missing feature family or one SSL trick, but the instability and structure of the RL model itself. The next project is [CHRL-Constrained-Hierarchical-Reinforcement-Learning](https://github.com/Sqaard/CHRL-Constrained-Hierarchical-Reinforcement-Learning): a more stable, constrained, and interpretable successor.
+**Still useful as feature search.** This branch built a feature-search and ablation map: it showed which market, macro, cross-sectional, robustness, and action-side ideas did not reliably improve OOS performance. The likely bottleneck is the **RL model structure/stability**, so the next project is [CHRL-Constrained-Hierarchical-Reinforcement-Learning](https://github.com/Sqaard/CHRL-Constrained-Hierarchical-Reinforcement-Learning): a more stable, constrained, and interpretable successor.
+
+---
 
 Goal: build a Dow 30 trading agent that is both reliable under regime shift and interpretable enough to audit.
 
